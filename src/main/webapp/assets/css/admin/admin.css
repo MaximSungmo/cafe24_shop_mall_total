@@ -1,0 +1,37 @@
+@CHARSET "UTF-8";
+
+/* reset */
+*				{ margin:0; padding:0 }
+body			{ font:0.75em "맑은 고딕", 돋움, 굴림; text-align:center }
+ul, ol			{ list-style-type: none }
+
+/* layout */
+div#container	{ text-align:left; width:750px; margin:0 auto; background-color:#EEE }
+div#content		{ float:right; width:580px; background-color:#fff; padding:10px 15px 100px 15px }
+div#navigation	{ float:left; width:140px; height:100% }
+
+/* header */
+div#header					{ height:60px; background:#515151; color: #FFF  }
+div#header	h1				{ float:left; line-height:60px; margin:0; padding-left:10px; color:#79B30B }
+div#header	ul				{ height:30px; backgdound-color:#fff } 
+div#header	li				{ float:right; margin-top:30px; }
+div#header	li a 			{ color:#fff; font-weight:bold; margin-right:10px; text-decoration:none; }
+
+
+/* navigation */
+div#navigation				{ background-color:#45ee00 }
+div#navigation ul			{ width:138px; margin-top:1px }
+div#navigation li			{ width:138px; background-color:#E9E9E9; border:1px solid #DADADA; margin-top:-1px }
+div#navigation li a			{ display:block; color:#4F4F4F; width:98px; font-weight:bold; padding:10px 20px; font-size:1.1em }
+div#navigation li.selected	{ background:#E0E0E0 }
+div#navigation li a:link	{ color:#4F4F4F; text-decoration:none; }
+div#navigation li a:hover	{ color:#4F4F4F; text-decoration:none; }
+div#navigation li a:visited	{ color:#4F4F4F; text-decoration:none; }
+div#navigation li a:active	{ color:#4F4F4F; text-decoration:none; }
+
+
+/* footer */
+div#footer		{ clear:both; height:0 }
+
+
+#site-form h2	{ height:400px }

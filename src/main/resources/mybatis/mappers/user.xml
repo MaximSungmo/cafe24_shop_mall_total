@@ -56,4 +56,12 @@
 		 where no = #{no }      	 
 		]]>
 	</update>
+	
+	
+	<select id="get_terms_of_use_template" resultType="terms_of_use_vo">
+		<![CDATA[	 
+			SELECT NO, TITLE, CONTENT, REGISTER_DT, DELETE_DT
+			FROM TERMS_OF_USE_TEMPLATE
+		]]>
+	</select>
 </mapper>

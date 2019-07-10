@@ -3,6 +3,8 @@
 <configuration>
 	<typeAliases>
 		<typeAlias alias="uservo" type="com.cafe24.mysite.vo.UserVo" />
+		<typeAlias alias="terms_of_use_vo" type="com.cafe24.mysite.vo.Terms_of_use_vo" />
+		
 		<typeAlias alias="guestbookvo" type="com.cafe24.mysite.vo.GuestbookVo" />
 		<typeAlias alias="boardvo" type="com.cafe24.mysite.vo.BoardVo" />
     </typeAliases>	

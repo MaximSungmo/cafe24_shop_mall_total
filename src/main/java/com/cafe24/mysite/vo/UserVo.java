@@ -19,6 +19,27 @@ public class UserVo {
 	private String gender;
 	private String joinDate;
 	
+
+	private String AGREEMENT_FL;
+	private Long TERMS_OF_USE_NO;
+
+	
+	public Long getTERMS_OF_USE_NO() {
+		return TERMS_OF_USE_NO;
+	}
+
+	public void setTERMS_OF_USE_NO(Long tERMS_OF_USE_NO) {
+		TERMS_OF_USE_NO = tERMS_OF_USE_NO;
+	}
+
+	public String getAGREEMENT_FL() {
+		return AGREEMENT_FL;
+	}
+
+	public void setAGREEMENT_FL(String aGREEMENT_FL) {
+		AGREEMENT_FL = aGREEMENT_FL;
+	}
+
 	public UserVo() {
 	}
 	

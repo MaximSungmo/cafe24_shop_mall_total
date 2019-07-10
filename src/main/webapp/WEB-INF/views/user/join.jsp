@@ -101,6 +101,7 @@ $(function(){
 						<label>남</label> <form:radiobutton path="gender" value="male" />
 					</fieldset>
 					
+					
 					<fieldset>
 						<legend>약관동의</legend>
 						<!-- form:checkbox path="agreeProv" value="y"/-->

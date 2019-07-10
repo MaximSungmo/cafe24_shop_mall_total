@@ -9,12 +9,17 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StopWatch;
 
 import com.cafe24.mysite.exception.UserDaoException;
+import com.cafe24.mysite.vo.Terms_of_use_vo;
 import com.cafe24.mysite.vo.UserVo;
 
 @Repository
 public class UserDao {
 	@Autowired
 	private SqlSession sqlSession;
+	
+	public Terms_of_use_vo get_template() {
+		return sqlSession.selectOne("user.get_terms_of_use_template");
+	}
 	
 	public UserVo get(String email) {
 		return sqlSession.selectOne("user.getByEmail", email);

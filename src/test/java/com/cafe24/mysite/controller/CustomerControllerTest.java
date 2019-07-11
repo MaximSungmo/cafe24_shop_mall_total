@@ -75,18 +75,8 @@ public class CustomerControllerTest {
 			.andExpect(jsonPath("$.message").value("x"));
 	}
 	
-//	
-//	
-//	@MockBean
-//	CustomerController customerController;
-
-//	//given
-////	// 모든 테스트는 사전에 setup 메소드를 실행한 뒤 진행한다. 
-//	@Before 
-//	public void setup() {
-//	mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-//	}
-//	
+	
+	
 //	@Test
 //	public void testInsertGuestbook() throws Exception {
 //

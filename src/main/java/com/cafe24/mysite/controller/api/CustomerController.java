@@ -29,4 +29,5 @@ public class CustomerController {
 		};
 		return JSONResult.success(checked_email);
 	}
+	
 }

@@ -5,7 +5,7 @@
 #guestbook h1		{
 	color: #5C5C5C;
 	margin-bottom:10px;
-	background:url('/mysite3/assets/images/guestbook.png') 0 0 no-repeat;
+	background:url('/assets/images/guestbook.png') 0 0 no-repeat;
 	background-size: 35px;
 	padding-left:40px;
 }
@@ -50,7 +50,7 @@
 #guestbook ul li	{
 	width:100%; 
 	margin-top:20px;
-	background:url('/springboot-mysite/assets/images/user.png') 0 20px no-repeat;
+	background:url('/assets/images/user.png') 0 20px no-repeat;
 	padding-left:50px;
 	position:relative;
 }
@@ -79,7 +79,7 @@
 	width:20px;
 	height:20px;
 	font-size:0;	
-	background:url('/mysite3/assets/images/delete.png') 0 0 no-repeat;
+	background:url('/assets/images/delete.png') 0 0 no-repeat;
 	left:20px;
 	top:40px;
 	outline:none;

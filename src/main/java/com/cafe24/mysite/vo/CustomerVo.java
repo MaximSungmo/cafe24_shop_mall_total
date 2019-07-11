@@ -4,7 +4,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class UserVo {
+public class CustomerVo {
 	private Long no;
 
 	@NotEmpty
@@ -40,10 +40,16 @@ public class UserVo {
 		AGREEMENT_FL = aGREEMENT_FL;
 	}
 
-	public UserVo() {
+	public CustomerVo() {
 	}
 	
-	public  UserVo(String email, String password) {
+	public  CustomerVo(Long no,String email, String password) {
+		this.no = no;
+		this.email = email;
+		this.password = password;
+	}
+	
+	public  CustomerVo(String email, String password) {
 		this.email = email;
 		this.password = password;
 	}
@@ -86,7 +92,7 @@ public class UserVo {
 	}
 	@Override
 	public String toString() {
-		return "UserVo [no=" + no + ", name=" + name + ", email=" + email + ", password=" + password + ", gender="
+		return "CustomerVo [no=" + no + ", name=" + name + ", email=" + email + ", password=" + password + ", gender="
 				+ gender + ", joinDate=" + joinDate + "]";
 	}
 }

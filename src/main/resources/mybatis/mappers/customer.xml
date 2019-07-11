@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="user">
 	
-	<insert id="insert" parameterType="uservo">
+	<insert id="insert" parameterType="customervo">
 		<![CDATA[
 			insert 
 		      into user 
@@ -15,7 +15,7 @@
 		</selectKey>
 	</insert>
 
-	<select id="getByNo" resultType="uservo" parameterType='long'>
+	<select id="getByNo" resultType="customervo" parameterType='long'>
 		<![CDATA[	 
 		select no, name, email, gender
 		  from user 
@@ -23,7 +23,7 @@
 		]]>
 	</select>
 
-	<select id="getByEmail" resultType="uservo" parameterType='string'>
+	<select id="getByEmail" resultType="customervo" parameterType='string'>
 		<![CDATA[	 
 		select no, name, email, gender
 		  from user 
@@ -31,7 +31,7 @@
 		]]>
 	</select>
 	
-	<select id="getByEmailAndPassword" resultType="uservo" parameterType='map'>
+	<select id="getByEmailAndPassword" resultType="customervo" parameterType='map'>
 		<![CDATA[	 
 		select no, name
 		  from user 
@@ -40,7 +40,7 @@
 		]]>
 	</select>
 	
-	<update id="update" parameterType="uservo">
+	<update id="update" parameterType="customervo">
 		<![CDATA[
 		update user
 		   set name = #{name },

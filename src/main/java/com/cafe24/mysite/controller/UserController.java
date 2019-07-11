@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.cafe24.mysite.repository.UserDao;
-import com.cafe24.mysite.service.UserService;
+import com.cafe24.mysite.repository.CustomerDao;
+import com.cafe24.mysite.service.CustomerService;
 import com.cafe24.mysite.vo.Terms_of_use_vo;
-import com.cafe24.mysite.vo.UserVo;
+import com.cafe24.mysite.vo.CustomerVo;
 import com.cafe24.security.Auth;
 import com.cafe24.security.AuthUser;
 
@@ -21,10 +21,10 @@ import com.cafe24.security.AuthUser;
 public class UserController {
 	
 	@Autowired
-	private UserService userService;
+	private CustomerService userService;
 	
 	@Autowired
-	private UserDao userdao;
+	private CustomerDao userdao;
 	
 	/**
 	 * 
@@ -35,7 +35,7 @@ public class UserController {
 	 */
 	@RequestMapping(value="/join", method=RequestMethod.GET)
 	public String join(
-			@ModelAttribute UserVo userVo, 
+			@ModelAttribute CustomerVo userVo, 
 			@ModelAttribute Terms_of_use_vo terms_of_use_vo,
 			Model model) {
 		
@@ -46,7 +46,7 @@ public class UserController {
 //	
 //	@RequestMapping(value="/join", method=RequestMethod.POST)
 //	public String join(
-//		@ModelAttribute @Valid UserVo userVo,
+//		@ModelAttribute @Valid CustomerVo userVo,
 //		BindingResult result,
 //		Model model) {
 //		
@@ -76,16 +76,16 @@ public class UserController {
 	@Auth
 	@RequestMapping( value="/update", method=RequestMethod.GET )
 	public String update(
-		@AuthUser UserVo authUser,
+		@AuthUser CustomerVo authUser,
 		Model model ){
-		UserVo userVo = userService.getUser( authUser.getNo() );
+		CustomerVo userVo = userService.getUser( authUser.getNo() );
 		model.addAttribute( "userVo", userVo );
 		return "user/update";
 	}
 	
 	@RequestMapping( value="/update", method=RequestMethod.POST )
-	public String update( HttpSession session, @ModelAttribute UserVo userVo ){
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
+	public String update( HttpSession session, @ModelAttribute CustomerVo userVo ){
+		CustomerVo authUser = (CustomerVo)session.getAttribute("authUser");
 		if(authUser == null) {
 			return "redirect:/";
 		}

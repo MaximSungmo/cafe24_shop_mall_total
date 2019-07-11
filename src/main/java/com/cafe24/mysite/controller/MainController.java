@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.cafe24.mysite.vo.UserVo;
+import com.cafe24.mysite.vo.CustomerVo;
 
 @Controller
 public class MainController {
@@ -22,8 +22,8 @@ public class MainController {
 	
 	@ResponseBody
 	@RequestMapping("/hello2")
-	public UserVo hello2() {
-		UserVo vo= new UserVo();
+	public CustomerVo hello2() {
+		CustomerVo vo= new CustomerVo();
 		vo.setNo(10L);
 		vo.setName("안대혁");
 		vo.setEmail("kickscar@gmail.com");

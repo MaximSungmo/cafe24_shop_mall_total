@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cafe24.mysite.service.BoardService;
 import com.cafe24.mysite.vo.BoardVo;
-import com.cafe24.mysite.vo.UserVo;
+import com.cafe24.mysite.vo.CustomerVo;
 import com.cafe24.security.Auth;
 import com.cafe24.security.AuthUser;
 import com.cafe24.web.util.WebUtil;
@@ -45,7 +45,7 @@ public class BoardController {
 	
 	@RequestMapping( "/delete/{no}" )
 	public String delete(
-		@AuthUser UserVo authUser, 
+		@AuthUser CustomerVo authUser, 
 		@PathVariable( "no" ) Long boardNo,
 		@RequestParam( value="p", required=true, defaultValue="1") Integer page,
 		@RequestParam( value="kwd", required=true, defaultValue="") String keyword ) {
@@ -55,7 +55,7 @@ public class BoardController {
 	
 	@Auth
 	@RequestMapping( value="/modify/{no}" )	
-	public String modify( @AuthUser UserVo authUser, @PathVariable( "no" ) Long no, Model model) {
+	public String modify( @AuthUser CustomerVo authUser, @PathVariable( "no" ) Long no, Model model) {
 		BoardVo boardVo = boardService.getMessage(no, authUser.getNo() );
 		model.addAttribute( "boardVo", boardVo );
 		return "board/modify";
@@ -64,7 +64,7 @@ public class BoardController {
 	@Auth
 	@RequestMapping( value="/modify", method=RequestMethod.POST )	
 	public String modify(
-		@AuthUser UserVo authUser,
+		@AuthUser CustomerVo authUser,
 		@ModelAttribute BoardVo boardVo,
 		@RequestParam( value="p", required=true, defaultValue="1") Integer page,
 		@RequestParam( value="kwd", required=true, defaultValue="") String keyword ) {
@@ -84,7 +84,7 @@ public class BoardController {
 	@Auth
 	@RequestMapping( value="/write", method=RequestMethod.POST )	
 	public String write(
-		@AuthUser UserVo authUser,
+		@AuthUser CustomerVo authUser,
 		@ModelAttribute BoardVo boardVo,
 		@RequestParam( value="p", required=true, defaultValue="1") Integer page,
 		@RequestParam( value="kwd", required=true, defaultValue="") String keyword ) {

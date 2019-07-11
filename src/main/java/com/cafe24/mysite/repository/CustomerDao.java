@@ -10,10 +10,10 @@ import org.springframework.util.StopWatch;
 
 import com.cafe24.mysite.exception.UserDaoException;
 import com.cafe24.mysite.vo.Terms_of_use_vo;
-import com.cafe24.mysite.vo.UserVo;
+import com.cafe24.mysite.vo.CustomerVo;
 
 @Repository
-public class UserDao {
+public class CustomerDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
@@ -21,31 +21,31 @@ public class UserDao {
 		return sqlSession.selectOne("user.get_terms_of_use_template");
 	}
 	
-	public UserVo get(String email) {
+	public CustomerVo get(String email) {
 		return sqlSession.selectOne("user.getByEmail", email);
 	}
 	
-	public UserVo get(Long no){
+	public CustomerVo get(Long no){
 		return sqlSession.selectOne("user.getByNo", no);
 	}
 	
-	public UserVo get(String email, String password) throws UserDaoException {
+	public CustomerVo get(String email, String password) throws UserDaoException {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("email", email);
 		map.put("password", password);
-		UserVo userVo = sqlSession.selectOne("user.getByEmailAndPassword", map);
+		CustomerVo userVo = sqlSession.selectOne("user.getByEmailAndPassword", map);
 		
 		return userVo;
 	}	
 	
-	public Boolean insert(UserVo vo) {
+	public Boolean insert(CustomerVo vo) {
 		System.out.println(vo);
 		int count = sqlSession.insert("user.insert", vo);
 		System.out.println(vo);
 		return 1 == count;
 	}
 	
-	public int update( UserVo userVo ) {
+	public int update( CustomerVo userVo ) {
 		return sqlSession.update( "user.update", userVo );
 	}	
 }

@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -24,6 +25,7 @@ import com.cafe24.security.AuthUserHandlerMethodArgumentResolver;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 
 @Configuration
+@ComponentScan(basePackages={"com.cafe24.mysite"})
 public class WebConfig implements WebMvcConfigurer{
 	//
 	// Messaage Converter
@@ -100,12 +102,18 @@ public class WebConfig implements WebMvcConfigurer{
 		.addInterceptor(authInterceptor())
 		.addPathPatterns("/**")
 		.excludePathPatterns("/user/auth")
+		.excludePathPatterns("/api/**")
 		.excludePathPatterns("/user/logout")
+		.excludePathPatterns("/swagger-resources/**")
 		.excludePathPatterns("/assets/**");
 	}
+	
+
 	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/images/**").addResourceLocations("file:/mysite-uploads/");
+		
+	
 	}
 }

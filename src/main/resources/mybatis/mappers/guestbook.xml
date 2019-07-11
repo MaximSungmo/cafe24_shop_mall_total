@@ -28,4 +28,21 @@
 		</selectKey>
 	</insert>		
 
+
+	<select id="getList2" resultType="guestbookvo" parameterType='long'>
+		<![CDATA[
+		select no, name, contents, date_format(reg_date, '%Y-%m-%d %h:%i:%s')
+		  from guestbook
+		  ]]>
+		<if test="_parameter > 0">
+			<![CDATA[
+				where no < #{_parameter}
+			]]>
+		</if>
+		<![CDATA[
+		order by no desc
+		limit 0, 5
+	 	]]>	
+	</select>
+
 </mapper>

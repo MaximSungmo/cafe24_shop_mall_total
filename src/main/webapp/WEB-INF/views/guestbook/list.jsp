@@ -9,6 +9,9 @@
 <title>mysite</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link href="${pageContext.servletContext.contextPath }/assets/css/guestbook.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/assets/css/timeline.css"
+	rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div id="container">

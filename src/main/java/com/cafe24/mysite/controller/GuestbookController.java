@@ -47,7 +47,7 @@ public class GuestbookController {
 
 	
 	@RequestMapping( "/timeline" )
-	public String timeline( Model model ){
+	public String timeline(Model model ){
 		List<GuestbookVo> list = guestbookService.getContentList();
 		model.addAttribute( "list", list );
 		return "guestbook/index-timeline";

@@ -16,6 +16,10 @@ public class GuestbookService {
 	public List<GuestbookVo> getContentList() {
 		return guestbookDao.getList();
 	}
+	public List<GuestbookVo> getContentList(Long lastNo) {
+		return guestbookDao.getList(lastNo);
+	}
+	
 	
 	public boolean deleteContent( GuestbookVo vo ){
 		return 1 == guestbookDao.delete( vo );
@@ -25,4 +29,11 @@ public class GuestbookService {
 		int count = guestbookDao.insert(vo);
 		return count == 1;
 	}
+
+	public boolean addContents(GuestbookVo vo) {
+		int count = guestbookDao.insert(vo);
+		return count == 1;
+	}
+	
+	
 }

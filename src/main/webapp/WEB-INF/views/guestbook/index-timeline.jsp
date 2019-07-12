@@ -17,8 +17,53 @@
 	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath }/assets/js/ejs/ejs.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
+
+var emptyFunction = function(){
+	
+}
+
+// jQuery PlugIn
+(function($){
+	$.fn.hello = function(){
+		console.log($(this).attr("id")+"hello");
+	}
+	$.fn.flash = function(){
+		$(this).click(function(){
+			var isBlink = false;
+			var $that = $(this);
+			setInterval(function(){
+				$that.css("background-color", isBlink ? "#f00" : "#aaa");
+				isBlink = !isBlink;
+			}, 1000)
+		})
+	}
+
+})($);
+
+/////////////////////////////////////
+
+var messageBox = function(title, message, callback){
+	$("#dialog-message").attr('title', title);
+	$("#dialog-message p").text(message);
+	$('#dialog-message').dialog({
+		modal:true,
+		buttons:{
+			"확인":function(){
+				$(this).dialog("close");
+			}
+		},
+		close: function(){
+			(callback() || function(){})();
+		}
+	});
+}
+
+
+
 	$(function() {
 		// DELETE 다이알로그
 		var dialogDelete = $("#dialog-delete-form").dialog({
@@ -131,6 +176,10 @@
 	}
 	
 	$(function(){
+		
+		//$("#btn-next").hello();
+		//$("#btn-next").flash();
+		
 		fetchList();
 		$("#btn-next").click(function(){
 			fetchList();
@@ -162,11 +211,26 @@
 				"password" : $("#input-password").val(),
 				"contents" : $("#tx-content").val(),
 			}
+			
+			if(vo.name==""){
+				messageBox("아이디 미입력","아이디입력해", function(){
+					$('#input-name').focus();
+				});
+				return;
+			}
+			if(vo.password==""){
+				messageBox("패스워드 미입력","패스워드입력해", function(){
+					$('#input-password').focus();
+				});
+				return;
+			}
+			
+			
 			//query string 만들어서 보낼 때 
 			//console.log(JSON.stringify(vo))
 			
 			$.ajax({
-				url:"${pageContext.request.contextPath}/api/guestbook/list",
+				url:"${pageContext.request.contextPath}/api/guestbook/add",
 				type:"post",
 				contentType:"application/json", //Post 방식 json
 				dataType:"json",
@@ -183,7 +247,6 @@
 					//reset form
 					//$("#add-form").get(0)
 					$("#add-form")[0].reset();
-					
 				},
 				error: function(jqXHR, status, e){
 					console.error(status + ":" + e);			
@@ -206,6 +269,7 @@
 					<textarea id="tx-content" name="contents" placeholder="내용을 입력해 주세요."></textarea>
 					<input type="submit" value="보내기" id="submit-btn" />
 				</form>
+				
 				<div id="list-guestbook">
 					<ul id="list-guestbook">
 						

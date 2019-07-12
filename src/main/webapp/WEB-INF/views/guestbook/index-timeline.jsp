@@ -27,6 +27,8 @@ var emptyFunction = function(){
 }
 
 // jQuery PlugIn
+/**
+
 (function($){
 	$.fn.hello = function(){
 		console.log($(this).attr("id")+"hello");
@@ -43,7 +45,8 @@ var emptyFunction = function(){
 	}
 
 })($);
-
+ * 
+ */
 /////////////////////////////////////
 
 var messageBox = function(title, message, callback){
@@ -62,6 +65,14 @@ var messageBox = function(title, message, callback){
 	});
 }
 
+//import ejs template
+var listItemTemplate = new EJS({
+	url: '${pageContext.request.contextPath }/assets/js/ejs-template/guestbook-list-item.ejs'
+});
+
+var listTemplate = new EJS({
+	url: '${pageContext.request.contextPath }/assets/js/ejs-template/guestbook-list.ejs'
+});
 
 
 	$(function() {
@@ -126,7 +137,9 @@ var messageBox = function(title, message, callback){
 			"<strong></strong>"+
 			"<a href='#' data-no='"+vo.no+"'>삭제</a>"+
 			"</li>";	
-			
+		
+		//var html = listItemTemplate.render(vo);			
+		
 		if(mode){
 			$("#list-guestbook").prepend(html);
 		}else{
@@ -165,9 +178,13 @@ var messageBox = function(title, message, callback){
 				}
 				
 				//rendering 
-				$.each(response.data, function(index, vo){
-					render(vo);
-				});				
+			//	$.each(response.data, function(index, vo){
+			//		render(vo);
+			//	});	
+				
+				var html = listTemplate.render(response.data);
+				$("#list-guestbook").append(html);
+				
 			},
 			error: function(jqXHR, status, e){
 				console.error(status + ":" + e);			

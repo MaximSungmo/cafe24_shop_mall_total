@@ -24,6 +24,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.cafe24.mysite.vo.CategoryVo;
 import com.cafe24.mysite.vo.CustomerVo;
 import com.google.gson.Gson;
 
@@ -42,7 +43,6 @@ public class CustomerControllerTest {
 	public void setup() throws Exception {
 		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
 	                  .alwaysDo(print())
-	                  .alwaysExpect(status().isOk())
 	                  .build();
 	}
 
@@ -62,7 +62,8 @@ public class CustomerControllerTest {
 		
 		resultActions
 		.andExpect(jsonPath("$.result").value("success"))
-		.andExpect(jsonPath("$.data").value("ksm5318@naver.com"));		
+		.andExpect(jsonPath("$.data").value("ksm5318@naver.com"))
+		.andExpect(status().isOk());		
 	}
 	
 	/**
@@ -79,10 +80,109 @@ public class CustomerControllerTest {
 
 		// ## check_email 실패 테스트
 		resultActions
+		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result").value("fail"))
 		.andExpect(jsonPath("$.message").value("x"));
 	}
 	
+	/**
+	 * join_test
+	 *  @throws Exception
+	 *  :회원가입, request body : {uservo:uservo}, 
+	 *  Mockdata:{
+	 *  }
+	 */
+	@Test
+	public void join_test() throws Exception {		
+		// ## add_category() 성공 테스트
+		//success 
+		CustomerVo vo1 = new CustomerVo(101L, "성공테스트", "EMAIL@TEST.COM", "PASSWORD1!", "010-1234-1234", "M", 1L, "Y"); 
+		ResultActions resultActions = 
+		mockMvc.perform(post("/api/customer/")
+				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo1)));				
+		resultActions
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result").value("success"))
+		.andExpect(jsonPath("$.data.no").value("101"))	
+		.andExpect(jsonPath("$.data.name").value("성공테스트"))
+		.andExpect(jsonPath("$.data.email").value("EMAIL@TEST.COM"))
+		.andExpect(jsonPath("$.data.password").value("PASSWORD1!"))
+		.andExpect(jsonPath("$.data.phone").value("010-1234-1234"))
+		.andExpect(jsonPath("$.data.gender").value("M"))
+		.andExpect(jsonPath("$.data.terms_of_use_no").value("1"))
+		.andExpect(jsonPath("$.data.agreement_fl").value("Y"));
+		
+		
+		
+		// ## add_category() 실패테스트
+		// 이름 형식 오류 
+		CustomerVo vo2 = new CustomerVo(101L, "안ㅏㅈ", "EMAIL@TEST.COM", "PASSWORD1!", "010-1234-1234", "M", 1L, "Y"); 
+		ResultActions resultActions2 = 
+		mockMvc.perform(post("/api/customer/")
+				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo2)));				
+		resultActions2
+		.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.result").value("fail"))
+		.andExpect(jsonPath("$.message").value("이름 형식이 맞지 않습니다."));
+		
+		// ## add_category() 실패테스트
+		// 이름 길이 오류 
+		CustomerVo vo3 = new CustomerVo(101L, "안", "EMAIL@TEST.COM", "PASSWORD1!", "010-1234-1234", "M", 1L, "Y"); 
+		ResultActions resultActions3 = 
+		mockMvc.perform(post("/api/customer/")
+				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo3)));				
+		resultActions3
+		.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.result").value("fail"))
+		.andExpect(jsonPath("$.message").value("이름은 2~8자리 사이로 입력해주세요."));
+		
+		
+		// ## add_category() 실패테스트
+		// 이메일 형식 오류 
+		CustomerVo vo4 = new CustomerVo(101L, "실패테스트", "EMAILTEST.COM", "PASSWORD1!", "010-1234-1234", "M", 1L, "Y"); 
+		ResultActions resultActions4 = 
+		mockMvc.perform(post("/api/customer/")
+				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo4)));				
+		resultActions4
+		.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.result").value("fail"))
+		.andExpect(jsonPath("$.message").value("이메일 형식이 올바르지 않습니다."));
+		
+		
+		// ## add_category() 실패테스트
+		// 비밀번호 형식 오류 
+		CustomerVo vo5 = new CustomerVo(101L, "실패테스트", "EMAIL@TEST.COM", "PASSWORD11", "010-1234-1234", "M", 1L, "Y"); 
+		ResultActions resultActions5 = 
+		mockMvc.perform(post("/api/customer/")
+				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo5)));				
+		resultActions5
+		.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.result").value("fail"))
+		.andExpect(jsonPath("$.message").value("비밀번호는 특수문자/문자/숫자 최소 8~16자리 이내 입력 바랍니다."));
 
+		// ## add_category() 실패테스트
+		// 비밀번호 길이 오류 
+		CustomerVo vo6 = new CustomerVo(101L, "실패테스트", "EMAIL@TEST.COM", "PASSWOR", "010-1234-1234", "M", 1L, "Y"); 
+		ResultActions resultActions6 = 
+		mockMvc.perform(post("/api/customer/")
+				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo6)));				
+		resultActions6
+		.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.result").value("fail"))
+		.andExpect(jsonPath("$.message").value("비밀번호는 특수문자/문자/숫자 최소 8~16자리 이내 입력 바랍니다."));
+		
+		// ## add_category() 실패테스트
+		// 전화번호 형식 오류 
+		CustomerVo vo7 = new CustomerVo(101L, "실패테스트", "EMAIL@TEST.COM", "PASSWORD1!", "0101234-1234", "M", 1L, "Y"); 
+		ResultActions resultActions7 = 
+		mockMvc.perform(post("/api/customer/")
+				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo7)));				
+		resultActions7
+		.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.result").value("fail"))
+		.andExpect(jsonPath("$.message").value("전화번호 형식이 올바르지 않습니다."));
+		
+		
+	}
 	
 }

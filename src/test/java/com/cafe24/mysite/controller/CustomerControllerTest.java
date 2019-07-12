@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,26 +51,26 @@ public class CustomerControllerTest {
 	/**
 	 * check_email_list_success_test
 	 * @throws Exception
-	 * :이메일 중복 확인(성공) parameter:{email:ksm5318@naver.com}, MockData:{email:ksm5318@naver.com}
+	 * :이메일 중복 확인(동일 이메일 존재하는 경우) parameter:{email:ksm5318@naver.com}, MockData:{email:ksm5318@naver.com}
 	 */
 	@Test
 	public void check_email_list_success_test() throws Exception {
 
-		// ## check_email 성공 테스트
+		// ## check_email, 동일 이메일 존재하는 경우 테스트
 		ResultActions resultActions = 
 		mockMvc.perform(get("/api/customer/checkemail?email={email}", "ksm5318@naver.com")
 				.contentType(MediaType.APPLICATION_JSON));				
 		
 		resultActions
-		.andExpect(jsonPath("$.result").value("success"))
-		.andExpect(jsonPath("$.data").value("ksm5318@naver.com"))
-		.andExpect(status().isOk());		
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result").value("fail"))
+		.andExpect(jsonPath("$.message").value("x"));
 	}
 	
 	/**
 	 * check_email_list_fail_test
 	 * @throws Exception
-	 * :이메일 중복 확인(실패), parameter:{email:ksm5318}, MockData:{email:ksm5318@naver.com}
+	 * :이메일 중복 확인(동일 이메일 존재하지 않는 경우), parameter:{email:ksm5318}, MockData:{email:ksm5318@naver.com}
 	 */
 	@Test
 	public void check_email_list_fail_test() throws Exception {
@@ -81,40 +82,39 @@ public class CustomerControllerTest {
 		// ## check_email 실패 테스트
 		resultActions
 		.andExpect(status().isOk())
-		.andExpect(jsonPath("$.result").value("fail"))
-		.andExpect(jsonPath("$.message").value("x"));
+		.andExpect(jsonPath("$.result").value("success"))
+		.andExpect(jsonPath("$.data").value(true));
 	}
 	
 	/**
-	 * join_test
+	 *  join_success_test
 	 *  @throws Exception
 	 *  :회원가입, request body : {uservo:uservo}, 
-	 *  Mockdata:{
-	 *  }
+	 *  정상적으로 가입완료 시 result : success, data : vo.getEmail(); 
 	 */
 	@Test
-	public void join_test() throws Exception {		
-		// ## add_category() 성공 테스트
+	public void join_success_test() throws Exception {		
+		// ## join_test() 성공 테스트
 		//success 
 		CustomerVo vo1 = new CustomerVo(101L, "성공테스트", "EMAIL@TEST.COM", "PASSWORD1!", "010-1234-1234", "M", 1L, "Y"); 
 		ResultActions resultActions = 
 		mockMvc.perform(post("/api/customer/")
 				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo1)));				
 		resultActions
-		.andExpect(status().isOk())
+		.andExpect(status().isOk()) 
 		.andExpect(jsonPath("$.result").value("success"))
-		.andExpect(jsonPath("$.data.no").value("101"))	
-		.andExpect(jsonPath("$.data.name").value("성공테스트"))
-		.andExpect(jsonPath("$.data.email").value("EMAIL@TEST.COM"))
-		.andExpect(jsonPath("$.data.password").value("PASSWORD1!"))
-		.andExpect(jsonPath("$.data.phone").value("010-1234-1234"))
-		.andExpect(jsonPath("$.data.gender").value("M"))
-		.andExpect(jsonPath("$.data.terms_of_use_no").value("1"))
-		.andExpect(jsonPath("$.data.agreement_fl").value("Y"));
+		.andExpect(jsonPath("$.data").value(vo1.getEmail()));
 		
-		
-		
-		// ## add_category() 실패테스트
+	}
+	
+	/**
+	 * join_validate_fail_test
+	 * :@Valid에 의한 회원가입 입력데이터 validation 
+	 * @throws Exception
+	 */
+	@Test
+	public void join_validate_fail_test() throws Exception {	
+		// ## join_test() 실패테스트
 		// 이름 형식 오류 
 		CustomerVo vo2 = new CustomerVo(101L, "안ㅏㅈ", "EMAIL@TEST.COM", "PASSWORD1!", "010-1234-1234", "M", 1L, "Y"); 
 		ResultActions resultActions2 = 
@@ -125,7 +125,7 @@ public class CustomerControllerTest {
 		.andExpect(jsonPath("$.result").value("fail"))
 		.andExpect(jsonPath("$.message").value("이름 형식이 맞지 않습니다."));
 		
-		// ## add_category() 실패테스트
+		// ## join_test() 실패테스트
 		// 이름 길이 오류 
 		CustomerVo vo3 = new CustomerVo(101L, "안", "EMAIL@TEST.COM", "PASSWORD1!", "010-1234-1234", "M", 1L, "Y"); 
 		ResultActions resultActions3 = 
@@ -137,7 +137,7 @@ public class CustomerControllerTest {
 		.andExpect(jsonPath("$.message").value("이름은 2~8자리 사이로 입력해주세요."));
 		
 		
-		// ## add_category() 실패테스트
+		// ## join_test() 실패테스트
 		// 이메일 형식 오류 
 		CustomerVo vo4 = new CustomerVo(101L, "실패테스트", "EMAILTEST.COM", "PASSWORD1!", "010-1234-1234", "M", 1L, "Y"); 
 		ResultActions resultActions4 = 
@@ -149,7 +149,7 @@ public class CustomerControllerTest {
 		.andExpect(jsonPath("$.message").value("이메일 형식이 올바르지 않습니다."));
 		
 		
-		// ## add_category() 실패테스트
+		// ## join_test() 실패테스트
 		// 비밀번호 형식 오류 
 		CustomerVo vo5 = new CustomerVo(101L, "실패테스트", "EMAIL@TEST.COM", "PASSWORD11", "010-1234-1234", "M", 1L, "Y"); 
 		ResultActions resultActions5 = 
@@ -160,7 +160,8 @@ public class CustomerControllerTest {
 		.andExpect(jsonPath("$.result").value("fail"))
 		.andExpect(jsonPath("$.message").value("비밀번호는 특수문자/문자/숫자 최소 8~16자리 이내 입력 바랍니다."));
 
-		// ## add_category() 실패테스트
+		
+		// ## join_test() 실패테스트
 		// 비밀번호 길이 오류 
 		CustomerVo vo6 = new CustomerVo(101L, "실패테스트", "EMAIL@TEST.COM", "PASSWOR", "010-1234-1234", "M", 1L, "Y"); 
 		ResultActions resultActions6 = 
@@ -171,7 +172,8 @@ public class CustomerControllerTest {
 		.andExpect(jsonPath("$.result").value("fail"))
 		.andExpect(jsonPath("$.message").value("비밀번호는 특수문자/문자/숫자 최소 8~16자리 이내 입력 바랍니다."));
 		
-		// ## add_category() 실패테스트
+		
+		// ## join_test() 실패테스트
 		// 전화번호 형식 오류 
 		CustomerVo vo7 = new CustomerVo(101L, "실패테스트", "EMAIL@TEST.COM", "PASSWORD1!", "0101234-1234", "M", 1L, "Y"); 
 		ResultActions resultActions7 = 
@@ -181,8 +183,9 @@ public class CustomerControllerTest {
 		.andExpect(status().isBadRequest())
 		.andExpect(jsonPath("$.result").value("fail"))
 		.andExpect(jsonPath("$.message").value("전화번호 형식이 올바르지 않습니다."));
-		
-		
 	}
+	
+
+	
 	
 }

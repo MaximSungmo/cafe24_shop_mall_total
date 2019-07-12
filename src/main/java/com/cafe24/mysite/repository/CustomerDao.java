@@ -17,35 +17,57 @@ public class CustomerDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public Terms_of_use_vo get_template() {
-		return sqlSession.selectOne("user.get_terms_of_use_template");
+	public CustomerVo get_cusomer_by_email(String email) {
+		CustomerVo vo = new CustomerVo(100L, "ksm5318@naver.com", "123123");
+//		sqlSession.selectOne("user.getByEmail", email);
+		return vo; 
 	}
-	
-	public CustomerVo get(String email) {
-		return sqlSession.selectOne("user.getByEmail", email);
-	}
-	
-	public CustomerVo get(Long no){
-		return sqlSession.selectOne("user.getByNo", no);
-	}
-	
-	public CustomerVo get(String email, String password) throws UserDaoException {
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("email", email);
-		map.put("password", password);
-		CustomerVo userVo = sqlSession.selectOne("user.getByEmailAndPassword", map);
-		
-		return userVo;
-	}	
 	
 	public Boolean insert(CustomerVo vo) {
-		System.out.println(vo);
-		int count = sqlSession.insert("user.insert", vo);
-		System.out.println(vo);
+		CustomerVo db_vo = new CustomerVo(101L, "성공테스트", "EMAIL@TEST.COM", "PASSWORD1!", "010-1234-1234", "M", 1L, "Y"); 
+		int count = 1;		
+//		int count = sqlSession.insert("user.insert", vo);
 		return 1 == count;
 	}
 	
-	public int update( CustomerVo userVo ) {
-		return sqlSession.update( "user.update", userVo );
+	public CustomerVo get_customer_by_no(Long no){
+		CustomerVo vo = new CustomerVo(100L, "ksm5318@naver.com", "123123");
+//		CustomerVo vo = sqlSession.selectOne("user.getByNo", no);
+		return vo;
+	}
+	
+	public int update(CustomerVo vo) {
+		int update_result = 1;
+//		int update_result = sqlSession.update("user.update", vo);
+		return update_result;
 	}	
+	
+	public int delete(CustomerVo vo) {
+		int delete_result = 1;
+//		int delete_result = sqlSession.delete("customer.delete", vo);
+		return delete_result;
+	}
+	
+	
+	
+//	public Terms_of_use_vo get_template() {
+//		return sqlSession.selectOne("user.get_terms_of_use_template");
+//	}
+	
+	
+	
+//	
+//	
+//	public CustomerVo get(String email, String password) throws UserDaoException {
+//		Map<String, String> map = new HashMap<String, String>();
+//		map.put("email", email);
+//		map.put("password", password);
+//		CustomerVo userVo = sqlSession.selectOne("user.getByEmailAndPassword", map);
+//		
+//		return userVo;
+//	}	
+//	
+//	
+//	
+
 }

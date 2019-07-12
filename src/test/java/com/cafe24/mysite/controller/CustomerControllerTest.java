@@ -47,11 +47,13 @@ public class CustomerControllerTest {
 	}
 
 	   
-    /**
-	 * check_email();
-	 */	
+	/**
+	 * check_email_list_success_test
+	 * @throws Exception
+	 * :이메일 중복 확인(성공) parameter:{email:ksm5318@naver.com}, MockData:{email:ksm5318@naver.com}
+	 */
 	@Test
-	public void testCheckEmailList_success() throws Exception {
+	public void check_email_list_success_test() throws Exception {
 
 		// ## check_email 성공 테스트
 		ResultActions resultActions = 
@@ -62,57 +64,25 @@ public class CustomerControllerTest {
 		.andExpect(jsonPath("$.result").value("success"))
 		.andExpect(jsonPath("$.data").value("ksm5318@naver.com"));		
 	}
+	
+	/**
+	 * check_email_list_fail_test
+	 * @throws Exception
+	 * :이메일 중복 확인(실패), parameter:{email:ksm5318}, MockData:{email:ksm5318@naver.com}
+	 */
 	@Test
-	public void testCheckEmailList_fail() throws Exception {
+	public void check_email_list_fail_test() throws Exception {
 
 		ResultActions resultActions =
 		mockMvc.perform(get("/api/customer/checkemail?email={email}", "ksm5318")
 				.contentType(MediaType.APPLICATION_JSON));	
 
-	// ## check_email 실패 테스트
-			resultActions
-			.andExpect(jsonPath("$.result").value("fail"))
-			.andExpect(jsonPath("$.message").value("x"));
+		// ## check_email 실패 테스트
+		resultActions
+		.andExpect(jsonPath("$.result").value("fail"))
+		.andExpect(jsonPath("$.message").value("x"));
 	}
 	
-	
-	
-//	@Test
-//	public void testInsertGuestbook() throws Exception {
-//
-//		vo가 없을 때 별도로 구현하는 작업
-//		GuestbookVo voMock = Mockito.mock(GuestbookVo.class);
-//		Mockito.when(voMock.getNo()).thenReturn(10L);
-//		Mockito.when(mailSenderMock.sendMail("")).thenReturn(true);
-//		isSuccess = mailSenderMock.sendMail("");
-//		
-//		GuestbookVo vo = new GuestbookVo();
-//		vo.setName("user1");
-//		vo.setContents("test1");
-//		
-//		
-//		ResultActions resultActions = 
-//		mockMvc.perform(post("/api/guestbook/add").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
-//		resultActions.andExpect(status().isOk())
-//		.andDo(print())
-//		.andExpect(jsonPath("$.result", is("success")))
-//		.andExpect(jsonPath("$.data.name", is(vo.getName())))
-//		.andExpect(jsonPath("$.data.contents", is(vo.getContents())));
-//	}
-//	
-//	
-//	@Test
-//	public void testDeleteGuestbook() throws Exception {
-//		Map<String, Object> map = new HashMap<String, Object>();
-//		map.put("no", 150L);
-//		map.put("password", "1234");
-//		
-//		ResultActions resultActions = 
-//		mockMvc.perform(delete("/api/guestbook/delete").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(map)));
-//		resultActions.andExpect(status().isOk())
-//		.andDo(print())
-//		.andExpect(jsonPath("$.result", is("success")));
-//	}
-//	
+
 	
 }

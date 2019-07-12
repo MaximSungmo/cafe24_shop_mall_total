@@ -48,14 +48,18 @@ public class CategoryControllerTest {
 	                  .build();
 	}
 	
-	
+	/**
+	 * get_category_list_test() 
+	 * @throws Exception
+	 * :카테고리 목록 가져오기.
+	 */
 	@Test
 	public void get_category_list_test() throws Exception {
 		List<CategoryVo> list = new ArrayList<CategoryVo>();
 		list.add(new CategoryVo(1L, "1번카테고리", null));
 		list.add(new CategoryVo(2L, "2번카테고리", 1L));
 		list.add(new CategoryVo(3L, "3번카테고리", 2L));
-		list.add(new CategoryVo(4L, "4번카테고리", 2L));	
+		list.add(new CategoryVo(4L, "4번카테고리", 2L));
 		
 		// ## get_category_list() 성공 테스트
 		ResultActions resultActions = 
@@ -78,9 +82,12 @@ public class CategoryControllerTest {
 		.andExpect(jsonPath("$.data[3].parent_no").value("2"));
 	}
 	
+	
 	/**
 	 * add_category_test();
-	 */		
+	 * @throws Exception
+	 * :카테고리 추가하기 (성공테스트, 중복값으로 인한 실패테스트)
+	 */
 	@Test
 	public void add_category_test() throws Exception {
 		CategoryVo vo = new CategoryVo(1L, "1번카테고리", null);

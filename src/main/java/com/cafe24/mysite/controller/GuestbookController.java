@@ -23,7 +23,7 @@ public class GuestbookController {
 	public String index( Model model ){
 		List<GuestbookVo> list = guestbookService.getContentList();
 		model.addAttribute( "list", list );
-		return "guestbook/list";
+		return "guestbook/list"; 
 	}
 	
 	@RequestMapping( value="/delete/{no}", method=RequestMethod.GET )

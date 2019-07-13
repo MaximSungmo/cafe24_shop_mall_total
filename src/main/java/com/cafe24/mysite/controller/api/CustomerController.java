@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.cafe24.mysite.dto.JSONResult;
 import com.cafe24.mysite.service.CustomerService;
 import com.cafe24.mysite.vo.CustomerVo;
+import com.cafe24.mysite.vo.TermsOfUseVo;
 
 @Controller("customerAPIController")
 @RequestMapping("/api/customer")
@@ -29,7 +30,7 @@ public class CustomerController {
 	@Autowired
 	private CustomerService customerService;
 	
-	/**
+	/** 
 	 * Email 중복을 검증
 	 * @param email
 	 * @return String email
@@ -68,7 +69,7 @@ public class CustomerController {
 		}		
 	}
 	
-	/*
+	/**
 	 * 수정 요청한 정보(param:vo)로 고객의 정보를 업데이트
 	 * @Auth를 통해서 고객 정보 비교가 필요함 
 	 * @param vo
@@ -96,7 +97,7 @@ public class CustomerController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(JSONResult.fail("update-fail"));
 		}
 	}
-	
+	 
 	/**
 	 * 회원정보를 받아 회원삭제-update하기(use_fl = 'N')
 	 * @param vo
@@ -110,6 +111,35 @@ public class CustomerController {
 	}
 	
 	
+	
+	
+//	/**
+//	 * 회원약관동의서 update하기
+//	 */
+//	@ResponseBody
+//	@RequestMapping(value="/terms", method = RequestMethod.POST)
+//	public JSONResult terms_of_use_add(@RequestBody TermsOfUseVo vo) {
+//		Boolean insert_result = customerService.insert_terms_of_use_template(vo);
+//		return JSONResult.success(delete_result);
+//	}	
+//	/**
+//	 * 회원약관동의서 update하기
+//	 */
+//	@ResponseBody
+//	@RequestMapping(value="/{id}", method = RequestMethod.PUT)
+//	public JSONResult terms_of_use_update(@RequestBody CustomerVo vo) {
+//		Boolean delete_result = customerService.delete(vo);
+//		return JSONResult.success(delete_result);
+//	}
+//	/**
+//	 * 회원약관동의서 update하기
+//	 */
+//	@ResponseBody
+//	@RequestMapping(value="/{id}", method = RequestMethod.PUT)
+//	public JSONResult terms_of_use_delete(@RequestBody CustomerVo vo) {
+//		Boolean delete_result = customerService.delete(vo);
+//		return JSONResult.success(delete_result);
+//	}
 	
 	
 }

@@ -1,5 +1,7 @@
 package com.cafe24.mysite.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.cafe24.mysite.service.CustomerService;
 import com.cafe24.mysite.vo.CustomerVo;
+import com.cafe24.mysite.vo.TermsOfUseVo;
 
 @Controller
 @RequestMapping("/customer")
@@ -22,10 +25,27 @@ public class CustomerController {
 	 * @param model
 	 * @return
 	 */
+//	@Auth
 	@RequestMapping(value="/update/{no}", method=RequestMethod.GET)
 	public String update(@PathVariable("no") Long no, Model model) {
 		CustomerVo vo = customerService.get_by_no(no);
 		model.addAttribute(vo);
 		return "customer/update";
 	}
+	 
+	/**
+	 * 
+	 * @return
+	 */
+//	@Auth
+//	@RequestMapping(value="/join", method = RequestMethod.GET)
+//	public String join(Model model){
+//		List<TermsOfUseVo> terms_list = customerService.get_terms_of_use_template();
+//		model.addAllAttributes(terms_list);
+//		return "customer/join";
+//	}
+	
+	
+	
+	
 }

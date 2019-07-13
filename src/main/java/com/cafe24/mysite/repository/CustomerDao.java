@@ -1,6 +1,8 @@
 package com.cafe24.mysite.repository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -9,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StopWatch;
 
 import com.cafe24.mysite.exception.UserDaoException;
-import com.cafe24.mysite.vo.Terms_of_use_vo;
+import com.cafe24.mysite.vo.TermsOfUseVo;
 import com.cafe24.mysite.vo.CustomerVo;
 
 @Repository
@@ -20,12 +22,12 @@ public class CustomerDao {
 	//Test용 데이터 생성(DB)
 	CustomerVo vo = new CustomerVo(100L, "ksm5318@naver.com", "123123");
 	CustomerVo vo1 = new CustomerVo(101L, "성공테스트", "EMAIL@TEST.COM", "PASSWORD1!", "010-1234-1234", "M", 1L, "Y");
-		
+//	TermsOfUseVo termsOfUseVo = new TermsOfUseVo(1L, "앾관동의서1","약관동의내용1","2019-07-13 00:00:00", "");
 	
 	public CustomerVo get_customer_by_email(String email) {
 //		sqlSession.selectOne("user.getByEmail", email);
 		return vo; 
-	}
+	} 
 	
 	public Boolean insert(CustomerVo vo) {
 		int count = 1;		
@@ -54,8 +56,32 @@ public class CustomerDao {
 	
 	
 	
-//	public Terms_of_use_vo get_template() {
-//		return sqlSession.selectOne("user.get_terms_of_use_template");
+	
+//	
+//	// 회원약관동의서, 회원가입요청 시 전달용
+//	public List<TermsOfUseVo> get_terms_of_use_template() {
+//		List<TermsOfUseVo> list = new ArrayList<TermsOfUseVo>();
+//		list.add(termsOfUseVo);
+//		return list;
+////		return sqlSession.selectList("user.get_terms_of_use_template"); 
+//	}
+//	public Boolean insert_terms_of_use_template() {
+//		List<TermsOfUseVo> list = new ArrayList<TermsOfUseVo>();
+//		list.add(termsOfUseVo);
+//		return null;
+////		return sqlSession.selectList("user.get_terms_of_use_template"); 
+//	}
+//	public Boolean update_terms_of_use_template() {
+//		List<TermsOfUseVo> list = new ArrayList<TermsOfUseVo>();
+//		list.add(termsOfUseVo);
+//		return null;
+////		return sqlSession.selectList("user.get_terms_of_use_template"); 
+//	}
+//	public Boolean delete_terms_of_use_template() {
+//		List<TermsOfUseVo> list = new ArrayList<TermsOfUseVo>();
+//		list.add(termsOfUseVo);
+//		return null;
+////		return sqlSession.selectList("user.get_terms_of_use_template"); 
 //	}
 	
 	

@@ -1,10 +1,14 @@
 package com.cafe24.mysite.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cafe24.mysite.repository.CustomerDao;
 import com.cafe24.mysite.vo.CustomerVo;
+import com.cafe24.mysite.vo.GuestbookVo;
+import com.cafe24.mysite.vo.TermsOfUseVo;
 
 @Service
 public class CustomerService {
@@ -23,7 +27,7 @@ public class CustomerService {
 		// DB에서 받아온 데이터와 REQUEST로 받은 데이터가 동일한 지 검증 
 		if(!email.equals(vo.getEmail())) {
 			return false;
-		}
+		} 
 		return vo != null;
 	}
 	/**
@@ -62,11 +66,9 @@ public class CustomerService {
 		return customerDao.delete(vo) == 1;
 	}
 	
-//	
-//	public CustomerVo getUser(CustomerVo userVo) {
-//		return userDao.get(userVo.getEmail(), userVo.getPassword());
+
+//	public List<TermsOfUseVo> get_terms_of_use_template() {
+//		return customerDao.get_terms_of_use_template();
 //	}
-//	
-//	
 	
 }

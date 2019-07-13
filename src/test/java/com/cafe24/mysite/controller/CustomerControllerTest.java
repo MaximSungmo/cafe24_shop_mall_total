@@ -4,6 +4,9 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -186,6 +189,68 @@ public class CustomerControllerTest {
 	}
 	
 
+	
+	/**
+	 * update_success_test
+	 * : 회원정보 업데이트- 성공테스트
+	 * @throws Exception
+	 */
+	@Test
+	public void update_success_test() throws Exception {	
+		// ## update_success_test() 업데이트 성공테스트
+		CustomerVo vo1 = new CustomerVo(101L, "성공테스트", "EMAIL@TEST.COM", "PASSWORD1!", "010-1234-1234", "M", 1L, "Y"); 
+		
+		ResultActions resultActions = 
+		mockMvc.perform(put("/api/customer/"+vo1.getNo())
+				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo1)));	
+		
+		resultActions
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result").value("success"))
+		.andExpect(jsonPath("$.data.no").value("101"))
+		.andExpect(jsonPath("$.data.name").value("성공테스트"))
+		.andExpect(jsonPath("$.data.password").value(""))
+		.andExpect(jsonPath("$.data.email").value("EMAIL@TEST.COM"));		
+	}
+	
+	/**
+	 * update_fail_test
+	 * :업데이트 실패, 이름 형식 오류 
+	 * @throws Exception
+	 */
+	@Test
+	public void update_fail_test() throws Exception {	
+		// ## update_faill_test() 이름 형식 오류로 인한  업데이트 실패테스트
+		CustomerVo vo2 = new CustomerVo(101L, "안ㅏㅈ", "EMAIL@TEST.COM", "PASSWORD1!", "010-1234-1234", "M", 1L, "Y"); 
+		ResultActions resultActions2 = 
+		mockMvc.perform(put("/api/customer/"+vo2.getNo())
+				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo2)));				
+		resultActions2
+//		.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.result").value("fail"))
+		.andExpect(jsonPath("$.message").value("이름 형식이 맞지 않습니다."));	
+	}
+	
+	/**
+	 * delete_success_test
+	 * :업데이트 실패, 이름 형식 오류 , USE_FL Y->N
+	 * @throws Exception
+	 */
+	@Test
+	public void delete_success_test() throws Exception {	
+		// ## delete_success_test() 업데이트 성공테스트
+		CustomerVo vo1 = new CustomerVo(101L, "성공테스트", "EMAIL@TEST.COM", "PASSWORD1!", "010-1234-1234", "M", 1L, "Y"); 
+		ResultActions resultActions = 
+		mockMvc.perform(delete("/api/customer/"+vo1.getNo())
+				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo1)));				
+		resultActions
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result").value("success"))
+		.andExpect(jsonPath("$.data").value(true));	
+	}
+	
+	
+	
 	
 	
 }

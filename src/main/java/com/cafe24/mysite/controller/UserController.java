@@ -39,7 +39,7 @@ public class UserController {
 			@ModelAttribute Terms_of_use_vo terms_of_use_vo,
 			Model model) {
 		
-		model.addAttribute("terms_of_use_template", userdao.get_template());		
+//		model.addAttribute("terms_of_use_template", userdao.get_template());		
 		return "user/terms_of_use_form";
 	}
 	
@@ -83,21 +83,21 @@ public class UserController {
 		return "user/update";
 	}
 	
-	@RequestMapping( value="/update", method=RequestMethod.POST )
-	public String update( HttpSession session, @ModelAttribute CustomerVo userVo ){
-		CustomerVo authUser = (CustomerVo)session.getAttribute("authUser");
-		if(authUser == null) {
-			return "redirect:/";
-		}
-		
-		userVo.setNo( authUser.getNo() );
-		userService.updateUser( userVo );
-		
-		// session의 authUser 변경
-		authUser.setName(userVo.getName());
-		
-		return "redirect:/user/update?result=success";
-	}
+//	@RequestMapping( value="/update", method=RequestMethod.POST )
+//	public String update( HttpSession session, @ModelAttribute CustomerVo userVo ){
+//		CustomerVo authUser = (CustomerVo)session.getAttribute("authUser");
+//		if(authUser == null) {
+//			return "redirect:/";
+//		}
+//		
+//		userVo.setNo( authUser.getNo() );
+//		userService.updateUser( userVo );
+//		
+//		// session의 authUser 변경
+//		authUser.setName(userVo.getName());
+//		
+//		return "redirect:/user/update?result=success";
+//	}
 
 	@RequestMapping(value="/auth", method=RequestMethod.POST)
 	public void auth(){}

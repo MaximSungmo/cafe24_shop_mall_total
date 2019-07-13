@@ -66,8 +66,8 @@ public class CustomerControllerTest {
 		
 		resultActions
 		.andExpect(status().isOk())
-		.andExpect(jsonPath("$.result").value("fail"))
-		.andExpect(jsonPath("$.message").value("x"));
+		.andExpect(jsonPath("$.result").value("success"))
+		.andExpect(jsonPath("$.data").value(true));
 	}
 	
 	/**
@@ -85,8 +85,8 @@ public class CustomerControllerTest {
 		// ## check_email 실패 테스트
 		resultActions
 		.andExpect(status().isOk())
-		.andExpect(jsonPath("$.result").value("success"))
-		.andExpect(jsonPath("$.data").value(true));
+		.andExpect(jsonPath("$.result").value("fail"))
+		.andExpect(jsonPath("$.message").value("x"));
 	}
 	
 	/**

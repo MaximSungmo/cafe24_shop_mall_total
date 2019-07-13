@@ -45,7 +45,7 @@ public class CustomerDao {
 	public int delete(CustomerVo vo) {
 		int delete_result = 1;
 		vo.setUse_fl("N");
-		//		int delete_result = sqlSession.delete("customer.delete", vo);
+		//int delete_result = sqlSession.delete("customer.delete", vo);
 		return delete_result; 
 	}
 	

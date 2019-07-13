@@ -51,7 +51,7 @@ public class CustomerService {
 	 */
 	public CustomerVo get_by_no(Long no) {
 		return customerDao.get_customer_by_no(no) ;
-	}
+	} 
 	
 	/**
 	 * 회원정보(vo)로 회원삭제-update하기(use_fl = 'N') 

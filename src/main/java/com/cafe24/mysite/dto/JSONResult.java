@@ -16,7 +16,7 @@ public class JSONResult {
 	private JSONResult(String result, String message, Object data) {
 		this.result = result;
 		this.message = message;
-		this.data = data;
+		this.data = data; 
 	}
 	
 	public String getResult() {

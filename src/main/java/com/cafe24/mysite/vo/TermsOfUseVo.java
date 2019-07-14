@@ -1,12 +1,31 @@
 package com.cafe24.mysite.vo;
 
-public class Terms_of_use_vo {
+public class TermsOfUseVo {
 
 	private Long no;
 	private String title;
 	private String content;
 	private String register_dt;
 	private String delete_dt;
+	
+	/*
+	 * 생성자 목록
+	 */
+	public TermsOfUseVo(){	
+	}
+	public TermsOfUseVo(String title, String content, String register_dt){
+		this.title=title;
+		this.content=content;
+		this.register_dt=register_dt;
+	}
+	public TermsOfUseVo(Long no, String title, String content, String register_dt, String delete_dt){
+		this.no=no;
+		this.title=title;
+		this.content=content;
+		this.register_dt=register_dt;
+		this.delete_dt=delete_dt;
+	}
+	
 	public Long getNo() {
 		return no;
 	}

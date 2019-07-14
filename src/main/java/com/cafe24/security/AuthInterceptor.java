@@ -17,7 +17,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		HttpServletResponse response,
 		Object handler)
 		throws Exception {
-		
+		 
 		//1. handler 종류 확인
 		if( handler instanceof HandlerMethod == false) {
 			return true;
@@ -56,11 +56,11 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		}
 		
 		//7. Role 가져오기
-		//Auth.Role role = auth.role();
+		Auth.Role role = auth.role();
 		
-		//8. role이 Auth.Role.USER 라면,
+		//8. role이 Auth.Role.ADMIN 라면,
 		//   인증된 모든 사용자는 접근 가능
-		// if( role == Auth.Role.USER ) {
+		// if( role == Auth.Role.ADMIN ) {
 		//	return true;
 		// }
 		

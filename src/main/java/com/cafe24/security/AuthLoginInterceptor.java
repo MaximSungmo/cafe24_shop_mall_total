@@ -30,7 +30,7 @@ public class AuthLoginInterceptor extends HandlerInterceptorAdapter {
 		userVo.setEmail(email);
 		userVo.setPassword(password);
 		
-		CustomerVo authUser = userService.getUser(userVo);
+		CustomerVo authUser = userService.getUser(userVo); 
 		if(authUser == null) {
 			response.sendRedirect(request.getContextPath() + "/user/login");
 			return false;

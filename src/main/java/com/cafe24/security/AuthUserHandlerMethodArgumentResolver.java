@@ -25,7 +25,7 @@ public class AuthUserHandlerMethodArgumentResolver implements HandlerMethodArgum
 		
 		if( supportsParameter(parameter) == false ) {
 			return WebArgumentResolver.UNRESOLVED;
-		}
+		} 
 		
 		HttpServletRequest request = 
 				webRequest.getNativeRequest(HttpServletRequest.class);

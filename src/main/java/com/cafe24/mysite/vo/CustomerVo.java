@@ -6,6 +6,8 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.cafe24.mysite.validator.ValidGender;
+
 public class CustomerVo {
 	
 	private Long no;
@@ -24,7 +26,7 @@ public class CustomerVo {
 	@Pattern(regexp="^\\d{2,3}-\\d{3,4}-\\d{4}$", message="전화번호 형식이 올바르지 않습니다.")
 	private String phone;
 	
-//	@NotEmpty
+	@ValidGender
 	private String gender;
 	private String use_fl = "Y";
 	private String auth_grade = "MEMBER";

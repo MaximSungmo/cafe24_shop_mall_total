@@ -186,6 +186,17 @@ public class CustomerControllerTest {
 		.andExpect(status().isBadRequest())
 		.andExpect(jsonPath("$.result").value("fail"))
 		.andExpect(jsonPath("$.message").value("전화번호 형식이 올바르지 않습니다."));
+		
+		// ## join_test() 실패테스트
+		// 성별 형식 오류 
+		CustomerVo vo8 = new CustomerVo(101L, "실패테스트", "EMAIL@TEST.COM", "PASSWORD1!", "010-1234-1234", "s", 1L, "Y"); 
+		ResultActions resultActions8 = 
+		mockMvc.perform(post("/api/customer/")
+				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo8)));				
+		resultActions8
+		.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.result").value("fail"))
+		.andExpect(jsonPath("$.message").value("Invalid Gender"));
 	}
 	
 
@@ -249,7 +260,53 @@ public class CustomerControllerTest {
 		.andExpect(jsonPath("$.data").value(true));	
 	}
 	
+	/**
+	 * login_success_test()
+	 * :로그인 성공
+	 * @throws Exception
+	 */
+	@Test
+	public void login_success_test() throws Exception {	
+		// ## login_success_test() 업데이트 성공테스트
+		CustomerVo vo1 = new CustomerVo("EMAIL@TEST.COM", "PASSWORD1!"); 
+		ResultActions resultActions = 
+		mockMvc.perform(post("/api/customer/login")
+				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo1)));				
+		resultActions
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result").value("success"));
+	}
 	
+	/**
+	 * login_fail_test()
+	 * :로그인 실패 
+	 * @throws Exception
+	 */
+	@Test
+	public void login_fail_test() throws Exception {	
+//		// ## login_fail_test() 업데이트 성공테스트
+//		// 패스워드 형식 오류 
+//		CustomerVo vo1 = new CustomerVo("EMAIL@TEST.COM", "PASSWORD"); 
+//		ResultActions resultActions = 
+//		mockMvc.perform(post("/api/customer/login")
+//				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo1)));				
+//		resultActions
+//		.andExpect(status().isOk())
+//		.andExpect(jsonPath("$.result").value("success"))
+//		.andExpect(jsonPath("$.data").value(true));	
+		
+		// ## login_fail_test() 업데이트 성공테스트
+		// 이메일 형식 오류 
+		CustomerVo vo2 = new CustomerVo("EMAILTEST.COM", "PASSWORD"); 
+		ResultActions resultActions2 = 
+		mockMvc.perform(post("/api/customer/login")
+				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo2)));				
+		resultActions2
+		.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.result").value("fail"))
+		.andExpect(jsonPath("$.message").value("이메일 형식이 올바르지 않습니다."));	
+
+	}
 	
 	
 	

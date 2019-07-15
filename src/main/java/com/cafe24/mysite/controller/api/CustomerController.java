@@ -1,10 +1,16 @@
 package com.cafe24.mysite.controller.api;
 
 import java.util.List;
+import java.util.Set;
 
+import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -27,6 +33,10 @@ import com.cafe24.mysite.vo.TermsOfUseVo;
 @RequestMapping("/api/customer")
 public class CustomerController {
 	
+	
+	@Autowired
+	private MessageSource messageSource;
+	
 	@Autowired
 	private CustomerService customerService;
 	
@@ -34,7 +44,7 @@ public class CustomerController {
 	 * Email 중복을 검증
 	 * @param email
 	 * @return String email
-	 */
+	 */ 
 	@ResponseBody
 	@RequestMapping(value="/checkemail", method = RequestMethod.GET)
 	public JSONResult checkEmail(@RequestParam(value="email", required=true, defaultValue="") String email) {
@@ -51,8 +61,7 @@ public class CustomerController {
 	@ResponseBody
 	@RequestMapping(value="", method = RequestMethod.POST)
 	public ResponseEntity<JSONResult> join(@RequestBody @Valid CustomerVo vo,
-			BindingResult bindResult
-			) {
+			BindingResult bindResult) {
 		// ### @Valid 통과 불가할 시 error 전달
 		if(bindResult.hasErrors()) {
 			List<ObjectError> list = bindResult.getAllErrors();
@@ -110,9 +119,29 @@ public class CustomerController {
 		return JSONResult.success(delete_result);
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="/login", method = RequestMethod.POST)
+	public ResponseEntity<JSONResult> login(@RequestBody CustomerVo vo) {
+//		CustomerVo check_email_vo = customerService.get_by_email(vo.getEmail());
+//		Boolean check_password = customerService.check_by_password(vo.getPassword());
+
+		Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+		Set<ConstraintViolation<CustomerVo>> validatorResults =
+				validator.validateProperty(vo, "email");
+		if( validatorResults.isEmpty()== false) {
+			for(ConstraintViolation<CustomerVo> validatorResult : validatorResults ) {
+//				String message = validatorResult.getMessage();
+				String message = messageSource.getMessage("Email.customerVo.email", null, LocaleContextHolder.getLocale());
+				JSONResult result = JSONResult.fail(message);
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
+			}
+		}
+		
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(null));
+	}
 	
 	
-	
+//	
 //	/**
 //	 * 회원약관동의서 update하기
 //	 */

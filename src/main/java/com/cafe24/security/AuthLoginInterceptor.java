@@ -7,8 +7,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.cafe24.mysite.service.CustomerService;
-import com.cafe24.mysite.vo.CustomerVo;
+import com.cafe24.shop.service.CustomerService;
+import com.cafe24.shop.vo.CustomerVo;
 
 public class AuthLoginInterceptor extends HandlerInterceptorAdapter {
 	

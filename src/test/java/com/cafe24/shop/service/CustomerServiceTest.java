@@ -11,9 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.cafe24.mysite.BootApp;
-import com.cafe24.mysite.service.CustomerService;
-import com.cafe24.mysite.vo.CustomerVo;
+import com.cafe24.shop.BootApp;
+import com.cafe24.shop.service.CustomerService;
+import com.cafe24.shop.vo.CustomerVo;
 
 
 // ApplicationContext 생성 
@@ -66,13 +66,13 @@ public class CustomerServiceTest {
 		assertThat(customerService.update_user(vo1), is(true));
 	}
 	
-	/**
-	 * delete(update use_fl = 'N') 성공 시 true, 실패 시 false
-	 */
-	@Test
-	public void delete_test() {
-		assertThat(customerService.delete(vo1), is(true));
-	}
+//	/**
+//	 * delete(update use_fl = 'N') 성공 시 true, 실패 시 false
+//	 */
+//	@Test
+//	public void delete_test() {
+//		assertThat(customerService.delete(vo1), is(true));
+//	}
 	
 	
 	

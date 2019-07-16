@@ -7,7 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.cafe24.mysite.vo.CustomerVo;
+import com.cafe24.shop.vo.CustomerVo;
 
 public class AuthInterceptor extends HandlerInterceptorAdapter {
 

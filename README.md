@@ -1,2 +1,2 @@
-# cafe24_shoppingmall
-cafe24_shoppingmall_구현 소스코드 
+# cafe24_Shop_API_Server
+cafe24_Shop_API_Server 구현 소스코드 

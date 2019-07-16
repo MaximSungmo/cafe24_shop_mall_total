@@ -21,7 +21,7 @@ public class BootApp {
 	@Bean
 	public Docket productApi() {
 		return new Docket(DocumentationType.SWAGGER_2).select()
-				.apis(RequestHandlerSelectors.basePackage("com.cafe24.shop.api.api"))
+				.apis(RequestHandlerSelectors.basePackage("com.cafe24.shop.controller.api"))
 				.paths(PathSelectors.any()).build();
 	}
 }

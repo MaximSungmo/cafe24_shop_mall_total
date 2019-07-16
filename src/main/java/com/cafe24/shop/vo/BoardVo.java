@@ -1,5 +1,8 @@
 package com.cafe24.shop.vo;
 
+import io.swagger.annotations.ApiModel;
+
+@ApiModel(value = "BoardVo")
 public class BoardVo {
 	private Long no;
 	private String title;

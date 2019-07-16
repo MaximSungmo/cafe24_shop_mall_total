@@ -19,12 +19,22 @@ public class CustomerDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	//Test용 데이터 생성(DB)
-	CustomerVo vo = new CustomerVo(100L, "ksm5318@naver.com", "123123");
-	CustomerVo vo1 = new CustomerVo(101L, "성공테스트", "EMAIL@TEST.COM", "PASSWORD1!", "010-1234-1234", "M", 1L, "Y");
-//	TermsOfUseVo termsOfUseVo = new TermsOfUseVo(1L, "앾관동의서1","약관동의내용1","2019-07-13 00:00:00", "");
+	public List<CustomerVo> testData(){
+	//	Test용 데이터 생성(DB)
+		CustomerVo vo = new CustomerVo(100L, "ksm5318@naver.com", "123123");
+		CustomerVo vo1 = new CustomerVo(101L, "성공테스트", "EMAIL@TEST.COM", "PASSWORD1!", "010-1234-1234", "M", 1L, "Y");
+		List<CustomerVo> list = new ArrayList<CustomerVo>();
+		list.add(vo);
+		list.add(vo1);
+		return list;
+	}
+	
+	TermsOfUseVo termsOfUseVo = new TermsOfUseVo(1L, "약관동의서1","약관동의내용1","2019-07-13 00:00:00", "");
+
 	
 	public CustomerVo get_customer_by_email(String email) {
+		List<CustomerVo> list = testData(); 
+		CustomerVo vo = list.get(0);
 //		sqlSession.selectOne("user.getByEmail", email);
 		return vo; 
 	} 
@@ -36,6 +46,8 @@ public class CustomerDao {
 	}
 	
 	public CustomerVo get_customer_by_no(Long no){
+		List<CustomerVo> list = testData(); 
+		CustomerVo vo = list.get(0);
 //		CustomerVo vo = sqlSession.selectOne("user.getByNo", no);
 		return vo;
 	}
@@ -46,43 +58,55 @@ public class CustomerDao {
 		return update_result;
 	}	
 	
-	public int delete(CustomerVo vo) {
-		int delete_result = 1;
-		vo = vo1;
+	public int delete_customer(Long no) {
+		List<CustomerVo> list = testData(); 
+		CustomerVo vo = list.get(1);
 		vo.setUse_fl("N");
-		//int delete_result = sqlSession.delete("customer.delete", vo);
+		int delete_result = 1;
+		//int delete_result = sqlSession.update("customer.delete", no);
 		return delete_result; 
 	}
 	
 	
 	
 	
-//	
-//	// 회원약관동의서, 회원가입요청 시 전달용
-//	public List<TermsOfUseVo> get_terms_of_use_template() {
-//		List<TermsOfUseVo> list = new ArrayList<TermsOfUseVo>();
-//		list.add(termsOfUseVo);
-//		return list;
-////		return sqlSession.selectList("user.get_terms_of_use_template"); 
-//	}
-//	public Boolean insert_terms_of_use_template() {
-//		List<TermsOfUseVo> list = new ArrayList<TermsOfUseVo>();
-//		list.add(termsOfUseVo);
-//		return null;
-////		return sqlSession.selectList("user.get_terms_of_use_template"); 
-//	}
-//	public Boolean update_terms_of_use_template() {
-//		List<TermsOfUseVo> list = new ArrayList<TermsOfUseVo>();
-//		list.add(termsOfUseVo);
-//		return null;
-////		return sqlSession.selectList("user.get_terms_of_use_template"); 
-//	}
-//	public Boolean delete_terms_of_use_template() {
-//		List<TermsOfUseVo> list = new ArrayList<TermsOfUseVo>();
-//		list.add(termsOfUseVo);
-//		return null;
-////		return sqlSession.selectList("user.get_terms_of_use_template"); 
-//	}
+	
+	// 회원약관동의서, 회원가입요청 시 전달용
+	public List<TermsOfUseVo> get_terms_of_use_template() {
+		List<TermsOfUseVo> list = new ArrayList<TermsOfUseVo>();
+		list.add(termsOfUseVo);
+		return list;
+//		return sqlSession.selectList("user.get_terms_of_use_template"); 
+	}
+	public Boolean insert_terms_of_use_template() {
+		List<TermsOfUseVo> list = new ArrayList<TermsOfUseVo>();
+		list.add(termsOfUseVo);
+		return null;
+//		return sqlSession.selectList("user.get_terms_of_use_template"); 
+	}
+	public Boolean update_terms_of_use_template() {
+		List<TermsOfUseVo> list = new ArrayList<TermsOfUseVo>();
+		list.add(termsOfUseVo);
+		return null;
+//		return sqlSession.selectList("user.get_terms_of_use_template"); 
+	}
+	public Boolean delete_terms_of_use_template() {
+		List<TermsOfUseVo> list = new ArrayList<TermsOfUseVo>();
+		list.add(termsOfUseVo);
+		return null;
+//		return sqlSession.selectList("user.get_terms_of_use_template"); 
+	}
+
+	public CustomerVo get_by_email(String email) {
+		List<CustomerVo> list = testData(); 
+		CustomerVo vo = list.get(0);
+		return vo;
+	}
+
+	public Boolean check_by_password(String password) {
+		// TODO Auto-generated method stub
+		return password=="1";
+	}
 	
 	
 	

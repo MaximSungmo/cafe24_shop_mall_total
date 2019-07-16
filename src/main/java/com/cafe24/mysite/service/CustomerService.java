@@ -62,13 +62,19 @@ public class CustomerService {
 	 * @param vo
 	 * @return true, false
 	 */
-	public Boolean delete(CustomerVo vo) {
-		return customerDao.delete(vo) == 1;
+	public Boolean delete_customer(Long no) {
+		return customerDao.delete_customer(no)==1;
 	}
 	
 
-//	public List<TermsOfUseVo> get_terms_of_use_template() {
-//		return customerDao.get_terms_of_use_template();
-//	}
+	public List<TermsOfUseVo> get_terms_of_use_template() {
+		return customerDao.get_terms_of_use_template();
+	}
+	public CustomerVo get_by_email(String email) {
+		return customerDao.get_by_email(email);
+	}
+	public Boolean check_by_password(String password) {
+		return customerDao.check_by_password(password);
+	}
 	
 }

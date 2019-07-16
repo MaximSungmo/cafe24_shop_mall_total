@@ -17,13 +17,11 @@ public class ProductService {
 	@Autowired
 	private ProductDao productDao;
 	
-	public List<GuestbookVo> get(Optional<Long> no, String kwd) {
-		System.out.println(no+":"+ kwd);
+	public List<ProductVo> get(Long no, String kwd) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("category_no", no);
 		map.put("kwd", kwd);
-		productDao.get_product_list(map);
-		return null;
+		return productDao.get_product_list(map);
 	}
 
 	public Boolean add_product(ProductVo vo) {
@@ -31,12 +29,12 @@ public class ProductService {
 
 	}
 
-	public Boolean update_product(ProductVo vo) {
-		return productDao.update_product(vo)==1;
+	public Long update_product(ProductVo vo) {
+		return productDao.update_product(vo);
 	}
 
-	public Boolean delete_product(ProductVo vo) {
-		return productDao.delete_product(vo)==1;
+	public Long delete_product(Long no) {
+		return productDao.delete_product(no);
 	}
 
 }

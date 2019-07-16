@@ -32,29 +32,28 @@ public class ProductDao {
 		list.add(vo2);
 		list.add(vo3);
 		list.add(vo4);
+		System.out.println((Long) map.get("category_no")+":numbernumbernumbernumber");
 		
 		Long no=(Long) map.get("category_no");
 		String kwd = (String) map.get("kwd");
-		if(no==null) {
-			no=1L;
-		}
-		if(kwd==null) {
-			kwd="";
-		}
 		
-		System.out.println(no+":!!!!!!!!!!!!!:"+kwd);
-		List<ProductVo> filtered_list = new ArrayList<ProductVo>();
-		// 조건에 따라 필터링 된 테스트 데이터 만들기
-//		for(int i=0; i<list.size(); i++) {
-//			
-//			if(list.get(i).equals(kwd)) {
-//				if(list.get(i).equals(kwd)){
-//					
-//				};
-//			}
-//			
-//		}		
-		return list;
+		if("".equals(kwd)) {
+			return list;
+		}else {
+			List<ProductVo> filtered_list = new ArrayList<ProductVo>();
+			// 조건에 따라 필터링 된 테스트 데이터 만들기
+			for(int i=0; i<list.size(); i++) {
+				if(list.get(i).getName().matches(".*"+(String)map.get("kwd")+".*")) {
+					filtered_list.add(list.get(i));
+				}
+//				if(list.get(i).equals(kwd)) {
+//					if(list.get(i).equals(kwd)){
+//						
+//					};
+//				}
+			}		
+			return filtered_list;
+		}		
 	} 
 	
 	public List<ProductVo> get_product_list(Map<String, Object> map){
@@ -65,22 +64,27 @@ public class ProductDao {
 	
 	public Boolean add_product(ProductVo vo) {
 //		return input_test_data(vo);
-		return null;
+		int input_result = 1;
 //		return sqlSession.insert("product.add_product", vo)==1;
+		return input_result == 1;
 		
 	}
 	
 	
 	
-	public int delete_product(ProductVo vo) {
+	public Long delete_product(Long no) {
 //		return sqlSession.delete("product.delete_product", vo);
-		return 1;
+		
+		Long delete_result = no;
+		return delete_result;
 
 	}
 	
-	public int update_product(ProductVo vo) {
+	public Long update_product(ProductVo vo) {
+		
+		Long update_result = vo.getNo();;
 //		return sqlSession.update("product.update_product", vo);
-		return 1;
+		return update_result;
 
 	}
 	

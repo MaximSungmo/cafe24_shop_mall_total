@@ -113,9 +113,9 @@ public class CustomerController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value="/{id}", method = RequestMethod.DELETE)
-	public JSONResult withdraw(@RequestBody CustomerVo vo) {
-		Boolean delete_result = customerService.delete(vo);
+	@RequestMapping(value="/{no}", method = RequestMethod.DELETE)
+	public JSONResult withdraw(@PathVariable Long no) {
+		Boolean delete_result = customerService.delete_customer(no);
 		return JSONResult.success(delete_result);
 	}
 	

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cafe24.mysite.service.ProductService;
 import com.cafe24.mysite.vo.GuestbookVo;
+import com.cafe24.mysite.vo.ProductVo;
 
 @Controller
 @RequestMapping( "/product" )
@@ -21,20 +22,23 @@ public class ProductController {
 	private ProductService productService;
 	
 	/**
-	 *  CategoryNo를 전달받음, 검색어 있을 시 kwd
+	 * Get categoryNo to get product_list, when search keyword exist include the select condition  
 	 * @param no
 	 * @param kwd
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping(value={"","/{no}"}, method = RequestMethod.GET)
-	public String index(@PathVariable Optional<Long> no, 
+	public String index(
+			@PathVariable Optional<Long> no, 
 			@RequestParam String kwd,
 			Model model ){
-		List<GuestbookVo> product_list = productService.get(no, kwd);
+		Long category_no = no.isPresent() ? no.get() : 1L;
+		List<ProductVo> product_list = productService.get(category_no, kwd);
 		model.addAttribute( "product_list", product_list );
 		return "product/list"; 
 	}
+	
 	
 	
 	

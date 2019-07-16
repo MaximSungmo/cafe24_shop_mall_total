@@ -1,9 +1,17 @@
 package com.cafe24.shop.vo;
 
+import javax.validation.constraints.NotNull;
+
+import io.swagger.annotations.ApiModel;
+
+@ApiModel(value = "CategoryVo")
 public class CategoryVo {
 
 	private Long no;
+	
+	@NotNull
 	private String name;
+	
 	private Long parent_no;
 	
 	public CategoryVo(Long no, String name, Long parent_no) {

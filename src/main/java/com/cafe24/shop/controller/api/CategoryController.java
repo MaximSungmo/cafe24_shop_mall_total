@@ -3,22 +3,27 @@ package com.cafe24.shop.controller.api;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cafe24.shop.dto.JSONResult;
 import com.cafe24.shop.vo.CategoryVo;
-import com.cafe24.shop.vo.CustomerVo;
-import com.cafe24.shop.vo.GuestbookVo;
+
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
 @Controller("categoryAPIController")
 @RequestMapping("/api/category")
 public class CategoryController {
 	
+	
+	@ApiOperation(value = "카테고리 조회")
 	@ResponseBody
 	@RequestMapping(value="", method = RequestMethod.GET)
 	public JSONResult get_category_list() {
@@ -33,11 +38,13 @@ public class CategoryController {
 		return JSONResult.success(list);
 	}
 	
-	
+	@ApiOperation(value = "카테고리 추가")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "CategoryVo", value = "CategoryVo", dataType = "CategoryVo"),
+    })
 	@ResponseBody
 	@RequestMapping(value="", method = RequestMethod.POST)
-	public JSONResult add_category(@RequestBody CategoryVo vo) {
-//		CategoryVo list = categoryService.get_category_list(vo);
+	public JSONResult add_category(@RequestBody @Valid CategoryVo vo) {
 		if(vo.getNo()==1L) {
 			return JSONResult.fail("중복값");
 		}

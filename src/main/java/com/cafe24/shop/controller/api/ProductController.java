@@ -21,7 +21,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cafe24.shop.dto.JSONResult;
 import com.cafe24.shop.service.ProductService;
+import com.cafe24.shop.vo.ProductDetailVo;
 import com.cafe24.shop.vo.ProductVo;
+
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
 @Controller("productAPIController")
 @RequestMapping("/api/product")
@@ -29,12 +34,18 @@ public class ProductController {
 
 	@Autowired
 	private ProductService productService;
+	
 
-	// 상품조회, 상품상세조회, 상품등록, 상품수정, 상품삭제
-
+	@ApiOperation(value = "상품 조회")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "product_no", value = "product_no", dataType = "long", paramType = "path"),
+        @ApiImplicitParam(name = "kwd", value = "kwd", dataType = "string", paramType = "query"),
+    })
 	@ResponseBody
-	@RequestMapping(value = { "", "/{no}" }, method = RequestMethod.GET)
-	public ResponseEntity<JSONResult> index(@PathVariable Optional<Long> no, @RequestParam String kwd, Model model) {
+	@RequestMapping(value = {"","/{no}" }, method = RequestMethod.GET)
+	public ResponseEntity<JSONResult> get_product_list(@PathVariable Optional<Long> no, 
+			@RequestParam(value = "kwd", required = false, defaultValue = "") String kwd, 
+			Model model) {
 		List<ProductVo> product_list;
 		Long category_no = no.isPresent() ? no.get() : 1L;
 		product_list = productService.get(category_no, kwd);
@@ -47,6 +58,10 @@ public class ProductController {
 	 * @param ProductVo
 	 * @return ResponseEntity.body(JSONResult.success(vo));
 	 */
+	@ApiOperation(value = "상품 생성")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "ProductVo", value = "ProductVo", dataType = "ProductVo", paramType = "body"),
+    })
 	@ResponseBody
 	@RequestMapping(value = { "" }, method = RequestMethod.POST)
 	public ResponseEntity<JSONResult> add_product(@RequestBody ProductVo vo) {
@@ -66,6 +81,10 @@ public class ProductController {
 	 * @param bindResult
 	 * @return
 	 */
+	@ApiOperation(value = "상품 업데이트")
+    @ApiImplicitParams({
+    	@ApiImplicitParam(name = "ProductVo", value = "ProductVo", dataType = "ProductVo", paramType = "body"),
+    })
 	@ResponseBody
 	@RequestMapping(value = { "" }, method = RequestMethod.PUT)
 	public ResponseEntity<JSONResult> update_product(@RequestBody @Valid ProductVo vo,
@@ -81,6 +100,10 @@ public class ProductController {
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(update_result));
 	}
 
+	@ApiOperation(value = "상품 삭제")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "product_no", value = "product_no", dataType = "long", paramType = "path"),
+    })
 	@ResponseBody
 	@RequestMapping(value = { "/{no}" }, method = RequestMethod.DELETE)
 	public ResponseEntity<JSONResult> delete_product(@PathVariable Long no) {
@@ -92,4 +115,60 @@ public class ProductController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(JSONResult.fail("Server Error"));
 		}
 	}
+	
+	
+	@ApiOperation(value = "상품 상세정보 생성")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "product_no", value = "product_no", dataType = "long", paramType = "path"),
+        @ApiImplicitParam(name = "ProductDetailVo", value = "ProductDetailVo", dataType = "ProductDetailVo", paramType = "body"),
+    })
+	@ResponseBody
+	@RequestMapping(value = { "/{product_no}/detail" }, method = RequestMethod.POST)
+	public ResponseEntity<JSONResult> add_product_detail(
+			@PathVariable Long product_no,
+			@RequestBody ProductDetailVo vo) {
+		vo.setNo(product_no);
+		Long insert_product_detail_no=productService.add_product_detail(vo);
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(insert_product_detail_no));
+	}
+	
+	@ApiOperation(value = "상품 상세정보 조회")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "product_no", value = "product_no", dataType = "long", paramType = "path"),
+    })
+	@ResponseBody
+	@RequestMapping(value = { "/{product_no}/detail" }, method = RequestMethod.GET)
+	public ResponseEntity<JSONResult> get_product_detail_list(@PathVariable Long product_no) {
+		List<ProductDetailVo> get_product_detail_list = productService.get_product_detail_list(product_no);
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(get_product_detail_list));
+	}
+	
+	@ApiOperation(value = "상품 상세정보 업데이트")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "product_no", value = "product_no", dataType = "long", paramType = "path"),
+        @ApiImplicitParam(name = "product_detail_no", value = "product_detail_no", dataType = "long", paramType = "path"),
+    })
+	@ResponseBody
+	@RequestMapping(value = { "/{product_no}/detail/{product_detail_no}" }, method = RequestMethod.PUT)
+	public ResponseEntity<JSONResult> update_product_detail(
+			@PathVariable(value="product_no") Long product_no,
+			@PathVariable(value="product_no") Long product_detail_no) {
+		Long updated_product_detail_no = productService.update_product_detail(product_detail_no);
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(updated_product_detail_no));
+	}
+	
+	@ApiOperation(value = "상품 상세정보 삭제")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "ProductDetailVo", value = "ProductDetailVo", dataType = "ProductDetailVo", paramType = "body"),
+    })
+	@ResponseBody
+	@RequestMapping(value = { "/{product_no}/detail/{product_detail_no}" }, method = RequestMethod.DELETE)
+	public ResponseEntity<JSONResult> updat1e_product_detail(
+			@PathVariable(value="product_no") Long product_no,
+			@PathVariable(value="product_no") Long product_detail_no) {
+		Long deleted_product_detail_no = productService.delete_product_detail(product_no, product_detail_no);
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(deleted_product_detail_no));
+	}
+	
+	
 }

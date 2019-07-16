@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.cafe24.shop.vo.ProductDetailVo;
 import com.cafe24.shop.vo.ProductVo;
 
 @Repository
@@ -46,15 +47,24 @@ public class ProductDao {
 				if(list.get(i).getName().matches(".*"+(String)map.get("kwd")+".*")) {
 					filtered_list.add(list.get(i));
 				}
-//				if(list.get(i).equals(kwd)) {
-//					if(list.get(i).equals(kwd)){
-//						
-//					};
-//				}
 			}		
 			return filtered_list;
 		}		
 	} 
+	
+	public List<ProductDetailVo> get_product_detail_test_data(Long no) {
+		ProductDetailVo vo = new ProductDetailVo(1L, 1L, "사이즈270-2", "STOCK", 40L, 1L);
+		ProductDetailVo vo2 = new ProductDetailVo(2L, 2L, "사이즈270-2", "STOCK", 40L, 1L);
+		ProductDetailVo vo3 = new ProductDetailVo(3L, 3L, "사이즈270-3", "STOCK", 40L, 1L);
+		List<ProductDetailVo> list = new ArrayList<ProductDetailVo>();
+		if(no==1L) {list.add(vo);}
+		else if(no==2L){list.add(vo2);}
+		else if(no==3L){list.add(vo3);}
+		return list;		
+	}
+
+	
+	
 	
 	public List<ProductVo> get_product_list(Map<String, Object> map){
 		List<ProductVo> product_list = get_test_data(map);
@@ -74,10 +84,8 @@ public class ProductDao {
 	
 	public Long delete_product(Long no) {
 //		return sqlSession.delete("product.delete_product", vo);
-		
 		Long delete_result = no;
 		return delete_result;
-
 	}
 	
 	public Long update_product(ProductVo vo) {
@@ -87,14 +95,32 @@ public class ProductDao {
 		return update_result;
 
 	}
-	
-	// 회원약관동의서, 회원가입요청 시 전달용
-//		public List<TermsOfUseVo> get_terms_of_use_template() {
-//			List<TermsOfUseVo> list = new ArrayList<TermsOfUseVo>();
-//			list.add(termsOfUseVo);
-//			return list;
-////			return sqlSession.selectList("user.get_terms_of_use_template"); 
-//		}
+
+	public Long add_product_detail(ProductDetailVo vo) {
+		//인서트 후 pk돌려받기 
+//		return sqlSession.insert("product.add_product_detail", vo);
+		
+		Long insert_product_detail_no = vo.getNo();
+		return insert_product_detail_no;
+	}
+
+	public List<ProductDetailVo> get_product_detail_list(Long no) {
+		List<ProductDetailVo> product_detail_list = get_product_detail_test_data(no);
+//		List<ProductDetailVo> product_list = sqlSession.selectList("product.get_product_detail_list", no);
+		return product_detail_list;
+	}
+
+	public Long update_product_detail(Long product_detail_no) {
+		Long updated_product_detail_no = product_detail_no;
+//		Long updated_product_detail_no = sqlSession.update("product.update_product_detail", product_detail_no);
+		return updated_product_detail_no;
+	}
+
+	public Long delete_product_detail(Map<String, Long> map) {
+//		return sqlSession.delete("product.delete_product", vo);
+		Long deleted_product_detail_no = map.get("product_detail_no");
+		return deleted_product_detail_no;
+	}
 
 }
 

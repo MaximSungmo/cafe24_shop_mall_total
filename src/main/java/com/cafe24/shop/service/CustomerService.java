@@ -66,13 +66,21 @@ public class CustomerService {
 		return customerDao.delete_customer(no)==1;
 	}
 	
-
-	public List<TermsOfUseVo> get_terms_of_use_template() {
-		return customerDao.get_terms_of_use_template();
-	}
-
+	/**
+	 * 회원 로그인정보 확인
+	 * @param vo
+	 * @return Long
+	 */
 	public Long get_login_id(CustomerVo vo) {
 		return customerDao.get_login_id(vo);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

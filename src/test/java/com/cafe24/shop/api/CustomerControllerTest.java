@@ -30,6 +30,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.cafe24.shop.vo.CategoryVo;
 import com.cafe24.shop.vo.CustomerVo;
+import com.cafe24.shop.vo.TermsOfUseVo;
 import com.google.gson.Gson;
 
 @RunWith(SpringRunner.class)
@@ -284,16 +285,16 @@ public class CustomerControllerTest {
 	 */
 	@Test
 	public void login_fail_test() throws Exception {	
-//		// ## login_fail_test() 업데이트 성공테스트
-//		// 패스워드 형식 오류 
-//		CustomerVo vo1 = new CustomerVo("EMAIL@TEST.COM", "PASSWORD"); 
-//		ResultActions resultActions = 
-//		mockMvc.perform(post("/api/customer/login")
-//				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo1)));				
-//		resultActions
-//		.andExpect(status().isOk())
-//		.andExpect(jsonPath("$.result").value("success"))
-//		.andExpect(jsonPath("$.data").value(true));	
+		// ## login_fail_test() 업데이트 성공테스트
+		// 패스워드 형식 오류 
+		CustomerVo vo1 = new CustomerVo("EMAIL@TEST.COM", "PASSWORD"); 
+		ResultActions resultActions = 
+		mockMvc.perform(post("/api/customer/login")
+				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo1)));				
+		resultActions
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result").value("success"))
+		.andExpect(jsonPath("$.data").value(vo1.getNo()));	
 		
 		// ## login_fail_test() 업데이트 성공테스트
 		// 이메일 형식 오류 
@@ -305,8 +306,9 @@ public class CustomerControllerTest {
 		.andExpect(status().isBadRequest())
 		.andExpect(jsonPath("$.result").value("fail"))
 		.andExpect(jsonPath("$.message").value("이메일 형식이 올바르지 않습니다."));	
-
 	}
+	
+	
 	
 	
 	

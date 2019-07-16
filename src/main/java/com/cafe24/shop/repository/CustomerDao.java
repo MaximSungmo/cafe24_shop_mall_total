@@ -25,7 +25,6 @@ public class CustomerDao {
 		return list;
 	}
 	
-	TermsOfUseVo termsOfUseVo = new TermsOfUseVo(1L, "약관동의서1","약관동의내용1","2019-07-13 00:00:00", "");
 
 	
 	public CustomerVo get_customer_by_email(String email) {
@@ -63,59 +62,11 @@ public class CustomerDao {
 		return delete_result; 
 	}
 	
-	
-	
-	
-	
-	// 회원약관동의서, 회원가입요청 시 전달용
-	public List<TermsOfUseVo> get_terms_of_use_template() {
-		List<TermsOfUseVo> list = new ArrayList<TermsOfUseVo>();
-		list.add(termsOfUseVo);
-		return list;
-//		return sqlSession.selectList("user.get_terms_of_use_template"); 
-	}
-	public Boolean insert_terms_of_use_template() {
-		List<TermsOfUseVo> list = new ArrayList<TermsOfUseVo>();
-		list.add(termsOfUseVo);
-		return null;
-//		return sqlSession.selectList("user.get_terms_of_use_template"); 
-	}
-	public Boolean update_terms_of_use_template() {
-		List<TermsOfUseVo> list = new ArrayList<TermsOfUseVo>();
-		list.add(termsOfUseVo);
-		return null;
-//		return sqlSession.selectList("user.get_terms_of_use_template"); 
-	}
-	public Boolean delete_terms_of_use_template() {
-		List<TermsOfUseVo> list = new ArrayList<TermsOfUseVo>();
-		list.add(termsOfUseVo);
-		return null;
-//		return sqlSession.selectList("user.get_terms_of_use_template"); 
-	}
-
 
 	public Long get_login_id(CustomerVo vo) {
 		Long get_login_id = vo.getNo();
 //		return sqlSession.selectOne("customer.get_by_email", email); 
 		return get_login_id;
 	}
-
-
-	
-	
-	
-//	
-//	
-//	public CustomerVo get(String email, String password) throws UserDaoException {
-//		Map<String, String> map = new HashMap<String, String>();
-//		map.put("email", email);
-//		map.put("password", password);
-//		CustomerVo userVo = sqlSession.selectOne("user.getByEmailAndPassword", map);
-//		
-//		return userVo;
-//	}	
-//	
-//	
-//	
 
 }

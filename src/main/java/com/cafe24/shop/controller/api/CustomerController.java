@@ -29,6 +29,10 @@ import com.cafe24.shop.service.CustomerService;
 import com.cafe24.shop.vo.CustomerVo;
 import com.cafe24.shop.vo.TermsOfUseVo;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 @Controller("customerAPIController")
 @RequestMapping("/api/customer")
 public class CustomerController {
@@ -45,6 +49,10 @@ public class CustomerController {
 	 * @param email
 	 * @return String email
 	 */ 
+	@ApiOperation(value = "중복 이메일 확인")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "email", value = "email", dataType = "string", paramType = "path"),
+    })
 	@ResponseBody
 	@RequestMapping(value="/checkemail", method = RequestMethod.GET)
 	public JSONResult checkEmail(@RequestParam(value="email", required=true, defaultValue="") String email) {
@@ -58,6 +66,10 @@ public class CustomerController {
 	 * @param vo
 	 * @return 
 	 */
+	@ApiOperation(value = "회원가입")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "CustomerVo", value = "CustomerVo", dataType = "CustomerVo", paramType = "body"),
+    })
 	@ResponseBody
 	@RequestMapping(value="", method = RequestMethod.POST)
 	public ResponseEntity<JSONResult> join(@RequestBody @Valid CustomerVo vo,
@@ -85,7 +97,10 @@ public class CustomerController {
 	 * @param bindResult
 	 * @return
 	 */
-//	@Auth
+	@ApiOperation(value = "회원정보 업데이트")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "CustomerVo", value = "CustomerVo", dataType = "CustomerVo", paramType = "body"),
+    })
 	@ResponseBody
 	@RequestMapping(value="/{no}", method = RequestMethod.PUT)
 	public ResponseEntity<JSONResult> update(@RequestBody @Valid CustomerVo vo,
@@ -112,6 +127,10 @@ public class CustomerController {
 	 * @param vo
 	 * @return
 	 */
+	@ApiOperation(value = "회원정보 삭제")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "customer_no", value = "customer_no", dataType = "string", paramType = "path"),
+    })
 	@ResponseBody
 	@RequestMapping(value="/{no}", method = RequestMethod.DELETE)
 	public JSONResult withdraw(@PathVariable Long no) {
@@ -119,9 +138,14 @@ public class CustomerController {
 		return JSONResult.success(delete_result);
 	}
 	
+	@ApiOperation(value = "로그인 요청")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "CustomerVo", value = "CustomerVo", dataType = "CustomerVo", paramType = "body"),
+    })
 	@ResponseBody
 	@RequestMapping(value="/login", method = RequestMethod.POST)
 	public ResponseEntity<JSONResult> login(@RequestBody CustomerVo vo) {
+		Long login_no = customerService.get_login_id(vo);
 //		CustomerVo check_email_vo = customerService.get_by_email(vo.getEmail());
 //		Boolean check_password = customerService.check_by_password(vo.getPassword());
 
@@ -137,38 +161,14 @@ public class CustomerController {
 			}
 		}
 		
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(null));
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(login_no));
 	}
 	
 	
-//	
-//	/**
-//	 * 회원약관동의서 update하기
-//	 */
-//	@ResponseBody
-//	@RequestMapping(value="/terms", method = RequestMethod.POST)
-//	public JSONResult terms_of_use_add(@RequestBody TermsOfUseVo vo) {
-//		Boolean insert_result = customerService.insert_terms_of_use_template(vo);
-//		return JSONResult.success(delete_result);
-//	}	
-//	/**
-//	 * 회원약관동의서 update하기
-//	 */
-//	@ResponseBody
-//	@RequestMapping(value="/{id}", method = RequestMethod.PUT)
-//	public JSONResult terms_of_use_update(@RequestBody CustomerVo vo) {
-//		Boolean delete_result = customerService.delete(vo);
-//		return JSONResult.success(delete_result);
-//	}
-//	/**
-//	 * 회원약관동의서 update하기
-//	 */
-//	@ResponseBody
-//	@RequestMapping(value="/{id}", method = RequestMethod.PUT)
-//	public JSONResult terms_of_use_delete(@RequestBody CustomerVo vo) {
-//		Boolean delete_result = customerService.delete(vo);
-//		return JSONResult.success(delete_result);
-//	}
+	
+	
+
+	
 	
 	
 }

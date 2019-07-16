@@ -8,6 +8,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import com.cafe24.shop.validator.ValidGender;
 
+import io.swagger.annotations.ApiModel;
+@ApiModel(value = "CustomerVo")
 public class CustomerVo {
 	
 	private Long no;

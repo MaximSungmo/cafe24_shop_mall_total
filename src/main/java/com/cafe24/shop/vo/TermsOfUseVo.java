@@ -1,10 +1,15 @@
 package com.cafe24.shop.vo;
 
+import io.swagger.annotations.ApiModel;
+
+@ApiModel(value = "TermsOfUseVo")
 public class TermsOfUseVo {
 
 	private Long no;
 	private String title;
 	private String content;
+	private String use_fl;
+	private String necessary_fl;
 	private String register_dt;
 	private String delete_dt;
 	
@@ -25,7 +30,15 @@ public class TermsOfUseVo {
 		this.register_dt=register_dt;
 		this.delete_dt=delete_dt;
 	}
-	
+	public TermsOfUseVo(Long no, String title, String content, String use_fl, String necessary_fl, String register_dt, String delete_dt){
+		this.no=no;
+		this.title=title;
+		this.content=content;
+		this.use_fl=use_fl;
+		this.necessary_fl=necessary_fl;
+		this.register_dt=register_dt;
+		this.delete_dt=delete_dt;
+	}
 	public Long getNo() {
 		return no;
 	}
@@ -44,6 +57,18 @@ public class TermsOfUseVo {
 	public void setContent(String content) {
 		this.content = content;
 	}
+	public String getUse_fl() {
+		return use_fl;
+	}
+	public void setUse_fl(String use_fl) {
+		this.use_fl = use_fl;
+	}
+	public String getNecessary_fl() {
+		return necessary_fl;
+	}
+	public void setNecessary_fl(String necessary_fl) {
+		this.necessary_fl = necessary_fl;
+	}
 	public String getRegister_dt() {
 		return register_dt;
 	}
@@ -58,8 +83,10 @@ public class TermsOfUseVo {
 	}
 	@Override
 	public String toString() {
-		return "Terms_of_use [no=" + no + ", title=" + title + ", content=" + content + ", register_dt=" + register_dt
-				+ ", delete_dt=" + delete_dt + "]";
+		return "TermsOfUseVo [no=" + no + ", title=" + title + ", content=" + content + ", use_fl=" + use_fl
+				+ ", necessary_fl=" + necessary_fl + ", register_dt=" + register_dt + ", delete_dt=" + delete_dt + "]";
 	}
+	
+	
 	
 }

@@ -40,15 +40,18 @@ public class ProductController {
     @ApiImplicitParams({
         @ApiImplicitParam(name = "product_no", value = "product_no", dataType = "long", paramType = "path"),
         @ApiImplicitParam(name = "kwd", value = "kwd", dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "get_count", value = "get_count", dataType = "long", paramType = "query"),
     })
 	@ResponseBody
 	@RequestMapping(value = {"","/{no}" }, method = RequestMethod.GET)
-	public ResponseEntity<JSONResult> get_product_list(@PathVariable Optional<Long> no, 
-			@RequestParam(value = "kwd", required = false, defaultValue = "") String kwd, 
+	public ResponseEntity<JSONResult> get_product_list(
+			@PathVariable Optional<Long> no, 
+			@RequestParam(value = "kwd", required = false, defaultValue = "") String kwd,
+			@RequestParam(value="get_count", required=false, defaultValue= "30") Long get_count, 
 			Model model) {
 		List<ProductVo> product_list;
 		Long category_no = no.isPresent() ? no.get() : 1L;
-		product_list = productService.get(category_no, kwd);
+		product_list = productService.get(category_no, kwd, get_count);
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(product_list));
 	}
 

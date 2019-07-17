@@ -21,10 +21,11 @@ public class ProductService {
 	/*
 	 * 상품 정보, product
 	 */
-	public List<ProductVo> get(Long no, String kwd) {
+	public List<ProductVo> get(Long no, String kwd, Long get_count) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("category_no", no);
 		map.put("kwd", kwd);
+		map.put("get_count", get_count);
 		return productDao.get_product_list(map);
 	}
 

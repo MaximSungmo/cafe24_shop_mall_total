@@ -5,13 +5,20 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cafe24.shop.dto.JSONResult;
+import com.cafe24.shop.service.CategoryService;
 import com.cafe24.shop.vo.CategoryVo;
 
 import io.swagger.annotations.ApiImplicitParam;
@@ -23,20 +30,9 @@ import io.swagger.annotations.ApiOperation;
 public class CategoryController {
 	
 	
-	@ApiOperation(value = "카테고리 조회")
-	@ResponseBody
-	@RequestMapping(value="", method = RequestMethod.GET)
-	public JSONResult get_category_list() {
-//		CategoryVo list = categoryService.get_category_list();
-
-		List<CategoryVo> list = new ArrayList<CategoryVo>();
-		list.add(new CategoryVo(1L, "1번카테고리", null));
-		list.add(new CategoryVo(2L, "2번카테고리", 1L));
-		list.add(new CategoryVo(3L, "3번카테고리", 2L));
-		list.add(new CategoryVo(4L, "4번카테고리", 2L));		
-		
-		return JSONResult.success(list);
-	}
+	@Autowired
+	CategoryService categoryService;
+	
 	
 	@ApiOperation(value = "카테고리 추가")
     @ApiImplicitParams({
@@ -44,12 +40,61 @@ public class CategoryController {
     })
 	@ResponseBody
 	@RequestMapping(value="", method = RequestMethod.POST)
-	public JSONResult add_category(@RequestBody @Valid CategoryVo vo) {
-		if(vo.getNo()==1L) {
-			return JSONResult.fail("중복값");
+	public ResponseEntity<JSONResult> add_category(@RequestBody @Valid CategoryVo vo, BindingResult bindResult) {	
+		if(bindResult.hasErrors()) {
+			List<ObjectError> list = bindResult.getAllErrors();
+			for(ObjectError error : list) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(error.getDefaultMessage()));
+			}
 		}
+		CategoryVo inserted_category_vo = categoryService.insert_category(vo);
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(inserted_category_vo));
+	}
+	
+	@ApiOperation(value = "카테고리 조회")
+	@ResponseBody
+	@RequestMapping(value="", method = RequestMethod.GET)
+	public ResponseEntity<JSONResult> get_category_list() {
+		List<CategoryVo> list = categoryService.get_category_list();
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(list));
+	}	
+	
+	@ApiOperation(value = "카테고리 업데이트")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "CategoryVo", value = "CategoryVo", dataType = "CategoryVo"),
+    })
+	@ResponseBody
+	@RequestMapping(value="", method = RequestMethod.PUT)
+	public ResponseEntity<JSONResult> update_category(@RequestBody @Valid CategoryVo vo, BindingResult bindResult) {
 		
-		return JSONResult.success(vo);
+		if(bindResult.hasErrors()) {
+			List<ObjectError> list = bindResult.getAllErrors();
+			for(ObjectError error : list) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(error.getDefaultMessage()));
+			}
+		}
+		Long updated_category_vo = categoryService.update_category(vo);
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(updated_category_vo));
+	}
+	
+	
+	//카테고리는 기본적으로 default 카테고리가 하나 생성된 후 삭제될 수 없도록 삭제 버튼을 막아 놓는다.
+	//따라서 모든 카테고리가 삭제되는 경우에는 default 카테고리로 이동이 된다.
+	
+	@ApiOperation(value = "카테고리 삭제")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "category_no", value = "category_no", dataType = "long", paramType = "path"),
+    })
+	@ResponseBody
+	@RequestMapping(value = { "/{category_no}" }, method = RequestMethod.DELETE)
+	public ResponseEntity<JSONResult> delete_category(@PathVariable Long category_no) {
+//		 데이터가 정상적으로 DB에서 삭제가 되면 true 값을 반환한다. 
+		Long deleted_category_no = categoryService.delete_category(category_no);
+		if (deleted_category_no==category_no) {
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(deleted_category_no));
+		} else {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(JSONResult.fail("Server Error"));
+		}
 	}
 	
 

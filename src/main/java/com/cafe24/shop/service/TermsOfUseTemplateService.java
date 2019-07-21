@@ -16,21 +16,19 @@ public class TermsOfUseTemplateService {
 	/*
 	 *  회원 약관 동의서 관리 
 	 */
-	public Long insert_terms_of_use_template(TermsOfUseVo vo) {
-		Long template_no = termsOfUseVoDao.insert_terms_of_use_template(vo);
-		return template_no;
+	public Boolean insert_terms_of_use_template(TermsOfUseVo vo) {
+		return termsOfUseVoDao.insert_terms_of_use_template(vo) == 1;
 	}
 	
 	public List<TermsOfUseVo> get_terms_of_use_template_list() {
 		return termsOfUseVoDao.get_terms_of_use_template_list();
 	}
 	
-	public Long update_terms_of_use_template(TermsOfUseVo vo) {
-		Long updated_template_no = termsOfUseVoDao.update_terms_of_use_template(vo);
-		return updated_template_no;
+	public Boolean update_terms_of_use_template(TermsOfUseVo vo) {
+		return termsOfUseVoDao.update_terms_of_use_template(vo) == 1;
 	}
-	public Long delete_terms_of_use_template(Long no) {
-		Long delete_template_no = termsOfUseVoDao.delete_terms_of_use_template(no);
-		return delete_template_no;
+	
+	public Boolean delete_terms_of_use_template(Long no) {
+		return termsOfUseVoDao.delete_terms_of_use_template(no) == 1;
 	}
 }

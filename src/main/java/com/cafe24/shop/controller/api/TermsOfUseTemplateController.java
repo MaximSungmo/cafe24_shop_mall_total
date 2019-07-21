@@ -37,8 +37,8 @@ public class TermsOfUseTemplateController {
 	@ResponseBody
 	@RequestMapping(value="", method = RequestMethod.POST)
 	public ResponseEntity<JSONResult> add_terms_of_use_template(@RequestBody TermsOfUseVo vo) {
-		Long insert_result = termsOfUseVoService.insert_terms_of_use_template(vo);
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(insert_result));
+		termsOfUseVoService.insert_terms_of_use_template(vo);
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(vo));
 		
 	}	
 	
@@ -57,8 +57,8 @@ public class TermsOfUseTemplateController {
 	@ResponseBody
 	@RequestMapping(value="", method = RequestMethod.PUT)
 	public ResponseEntity<JSONResult> update_terms_of_use(@RequestBody TermsOfUseVo vo) {
-		Long updated_terms_of_use_no = termsOfUseVoService.update_terms_of_use_template(vo);
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(updated_terms_of_use_no));
+		termsOfUseVoService.update_terms_of_use_template(vo);
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(vo));
 	}
 	
 	@ApiOperation(value = "회원약관동의서 삭제")
@@ -68,7 +68,7 @@ public class TermsOfUseTemplateController {
 	@ResponseBody
 	@RequestMapping(value="/{no}", method = RequestMethod.DELETE)
 	public ResponseEntity<JSONResult> delete_terms_of_use(@PathVariable Long no) {
-		Long deleted_terms_of_use_no = termsOfUseVoService.delete_terms_of_use_template(no);
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(deleted_terms_of_use_no));
+		termsOfUseVoService.delete_terms_of_use_template(no);
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(no));
 	}
 }

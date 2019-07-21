@@ -10,6 +10,9 @@
     </typeAliases>	
 	<mappers>
 		<mapper resource="mybatis/mappers/customer.xml" />
+		<mapper resource="mybatis/mappers/termsofuse.xml" />
+		
+		
 		<mapper resource="mybatis/mappers/guestbook.xml" />
 		<mapper resource="mybatis/mappers/board.xml" />
 	</mappers>

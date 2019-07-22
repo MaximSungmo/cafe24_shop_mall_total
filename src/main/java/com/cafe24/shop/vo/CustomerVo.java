@@ -31,7 +31,7 @@ public class CustomerVo {
 	@ValidGender
 	private String gender;
 	private String use_fl = "Y";
-	private String auth_grade = "MEMBER";
+	private String auth_grade = "ROLE_USER";
 	private String recommender_id;
 	private Long terms_of_use_no;
 	private String agreement_fl;

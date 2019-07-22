@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cafe24.shop.repository.CustomerDao;
 import com.cafe24.shop.vo.CustomerVo;
@@ -24,10 +25,6 @@ public class CustomerService {
 	 */
 	public Boolean exist_email(String email) {
 		CustomerVo vo = customerDao.get_customer_by_email(email);
-		// DB에서 받아온 데이터와 REQUEST로 받은 데이터가 동일한 지 검증 
-		if(!email.equals(vo.getEmail())) {
-			return false;
-		} 
 		return vo != null;
 	}
 	/**
@@ -35,7 +32,9 @@ public class CustomerService {
 	 * @param userVo
 	 * @return true, false
 	 */
+	@Transactional
 	public Boolean join(CustomerVo vo) {
+		customerDao.insert_checked_terms_of_use(vo);
 		return customerDao.insert(vo);
 	}
 	
@@ -44,8 +43,8 @@ public class CustomerService {
 	 * @param userVo
 	 * @return true, false
 	 */
-	public Boolean update_user(CustomerVo vo) {
-		return customerDao.update(vo) == 1;
+	public Boolean update_customer(CustomerVo vo) {
+		return customerDao.update_customer(vo) == 1;
 	}
 	
 	/**
@@ -71,8 +70,8 @@ public class CustomerService {
 	 * @param vo
 	 * @return Long
 	 */
-	public Long get_login_id(CustomerVo vo) {
-		return customerDao.get_login_id(vo);
+	public CustomerVo login(CustomerVo vo) {
+		return customerDao.login(vo);
 	}
 	
 	

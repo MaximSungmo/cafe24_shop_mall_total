@@ -57,8 +57,11 @@ public class CustomerController {
 	@RequestMapping(value="/checkemail", method = RequestMethod.GET)
 	public JSONResult checkEmail(@RequestParam(value="email", required=true, defaultValue="") String email) {
 		boolean checked_email = customerService.exist_email(email);
-		if(checked_email) return JSONResult.success(checked_email);
-		return JSONResult.fail("x");
+		if(checked_email) { 
+			return JSONResult.success(checked_email);
+		}else {
+			return JSONResult.fail("Available_email");
+		}
 	}
 	
 	/**
@@ -72,8 +75,8 @@ public class CustomerController {
     })
 	@ResponseBody
 	@RequestMapping(value="", method = RequestMethod.POST)
-	public ResponseEntity<JSONResult> join(@RequestBody @Valid CustomerVo vo,
-			BindingResult bindResult) {
+	public ResponseEntity<JSONResult> join(
+			@RequestBody @Valid CustomerVo vo, BindingResult bindResult) {
 		// ### @Valid 통과 불가할 시 error 전달
 		if(bindResult.hasErrors()) {
 			List<ObjectError> list = bindResult.getAllErrors();
@@ -81,10 +84,11 @@ public class CustomerController {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(error.getDefaultMessage()));
 			}
 		}
+		System.out.println(vo);
 		// 데이터가 정상적으로 DB에 입력이 되면 true 값을 반환한다. 
 		Boolean insert_result = customerService.join(vo);
 		if(insert_result) {
-			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(vo.getEmail()));
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(insert_result));
 		}else {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(JSONResult.fail("Server Error"));
 		}		
@@ -112,7 +116,7 @@ public class CustomerController {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(error.getDefaultMessage()));
 			}
 		}
-		Boolean update_result = customerService.update_user(vo);
+		Boolean update_result = customerService.update_customer(vo);
 		//ResponseBody로 진행 전 비밀번호 표시하지 않기 위하여 공백처리 
 		vo.setPassword("");
 		if(update_result) {
@@ -138,6 +142,7 @@ public class CustomerController {
 		return JSONResult.success(delete_result);
 	}
 	
+	
 	@ApiOperation(value = "로그인 요청")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "CustomerVo", value = "CustomerVo", dataType = "CustomerVo", paramType = "body"),
@@ -145,10 +150,8 @@ public class CustomerController {
 	@ResponseBody
 	@RequestMapping(value="/login", method = RequestMethod.POST)
 	public ResponseEntity<JSONResult> login(@RequestBody CustomerVo vo) {
-		Long login_no = customerService.get_login_id(vo);
-//		CustomerVo check_email_vo = customerService.get_by_email(vo.getEmail());
-//		Boolean check_password = customerService.check_by_password(vo.getPassword());
-
+		CustomerVo login_vo = customerService.login(vo);
+		
 		Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 		Set<ConstraintViolation<CustomerVo>> validatorResults =
 				validator.validateProperty(vo, "email");
@@ -161,7 +164,7 @@ public class CustomerController {
 			}
 		}
 		
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(login_no));
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(login_vo));
 	}
 	
 	

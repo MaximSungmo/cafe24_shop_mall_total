@@ -1,6 +1,5 @@
 package com.cafe24.shop.repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -18,8 +17,6 @@ public class TermsOfUseTemplateDao {
 	/*
 	 * 회원약관 관리
 	 */
-
-
 	public Integer insert_terms_of_use_template(TermsOfUseVo vo) {
 		return sqlSession.insert("termsofuse.insert", vo);
 	}

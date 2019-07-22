@@ -1,12 +1,9 @@
 package com.cafe24.shop.api;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -14,53 +11,75 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.web.ResourceProperties.Content;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.cafe24.shop.vo.CategoryVo;
-import com.cafe24.shop.vo.CustomerVo;
 import com.google.gson.Gson;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
+@Transactional
 public class CategoryControllerTest {
+	
+
+	@Autowired
+	SqlSession sqlSession;
+	/*
+	 * 임시 테스트 데이터
+	 */
+	List<CategoryVo> list = new ArrayList<CategoryVo>();
+	CategoryVo vo1 = new CategoryVo(null, "1번카테고리", null);
+	CategoryVo vo2 = new CategoryVo(null, "2번카테고리", null);
+	CategoryVo vo3 = new CategoryVo(null, "3번카테고리", null);
+	CategoryVo vo4 = new CategoryVo(null, "4번카테고리", null);
+	public List<CategoryVo> testData(){
+		sqlSession.delete("category.deleteAll");
+		
+		//	Test용 데이터 생성(DB)
+		list.add(vo1);		
+		list.add(vo2);
+		list.add(vo3);
+		list.add(vo4);
+		
+		sqlSession.insert("category.insert", list.get(0));
+		vo2.setParent_no(list.get(0).getNo());
+		sqlSession.insert("category.insert", list.get(1));
+		vo3.setParent_no(list.get(1).getNo());
+		sqlSession.insert("category.insert", list.get(2));
+		vo4.setParent_no(list.get(1).getNo());
+		sqlSession.insert("category.insert", list.get(3));	
+		return list;
+	}
+	
+	
 	@Autowired
 	private MockMvc mockMvc;
 	@Autowired
 	private WebApplicationContext webApplicationContext;
+	
+	
 	@Before
 	public void setup() throws Exception {
 		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
 	                  .alwaysDo(print())
-	                  .alwaysExpect(status().isOk())
 	                  .build();
-	}
-	
-	/*
-	 * 임시 테스트 데이터
-	 */
-	public List<CategoryVo> testData(){
-		//	Test용 데이터 생성(DB)
-		List<CategoryVo> list = new ArrayList<CategoryVo>();
-		list.add(new CategoryVo(1L, "1번카테고리", null));
-		list.add(new CategoryVo(2L, "2번카테고리", 1L));
-		list.add(new CategoryVo(3L, "3번카테고리", 2L));
-		list.add(new CategoryVo(4L, "4번카테고리", 2L));	
-		return list;
+		list=testData();
+		System.out.println(list);
 	}
 	
 	/**
@@ -70,7 +89,7 @@ public class CategoryControllerTest {
 	 */
 	@Test
 	public void add_category_success_test() throws Exception {
-		CategoryVo vo = new CategoryVo(1L, "1번카테고리", null);
+		CategoryVo vo = new CategoryVo(null, "1번카테고리", null);
 	
 		// ## add_category() 성공 테스트
 		ResultActions resultActions = 
@@ -78,20 +97,24 @@ public class CategoryControllerTest {
 				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));				
 	
 		resultActions
+		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result").value("success"))
-		.andExpect(jsonPath("$.data.no").value(vo.getNo()))	
-		.andExpect(jsonPath("$.data.name").value(vo.getName()));	
+		.andExpect(jsonPath("$.data").value(true));	
 	}
-//	public void add_category_fail_test() throws Exception {
-//		CategoryVo vo = new CategoryVo(1L, "1번카테고리", null);
-//	// ## add_category() 실패 테스트
-//			ResultActions resultActions3 =
-//			mockMvc.perform(post("/api/category")
-//					.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));	
-//			resultActions3
-//			.andExpect(jsonPath("$.result").value("fail"))
-//			.andExpect(jsonPath("$.message").value("중복값"));	
-//	}
+	
+	@Test
+	public void add_category_fail_test() throws Exception {
+		CategoryVo vo = new CategoryVo(null, "오류 카테고리", 999999L);
+		
+		// ## add_category() 실패 테스트 - 상위카테고리 키 FK 참조 오류
+		ResultActions resultActions =
+			mockMvc.perform(post("/api/category")
+					.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));	
+			resultActions
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.result").value("fail"))
+			.andExpect(jsonPath("$.message").value("상위 카테고리 정보 오류가 발생하였습니다."));			
+	}
 	
 	/**
 	 * get_category_list_test() 
@@ -100,8 +123,6 @@ public class CategoryControllerTest {
 	 */
 	@Test
 	public void get_category_list_test() throws Exception {
-		List<CategoryVo> list = testData();
-		
 		// ## get_category_list() 성공 테스트
 		ResultActions resultActions = 
 		mockMvc.perform(get("/api/category")
@@ -128,9 +149,7 @@ public class CategoryControllerTest {
 	 * :카테고리 업데이트.
 	 */
 	@Test
-	public void update_category_success_test() throws Exception {
-		List<CategoryVo> list = testData();
-		
+	public void update_category_success_test() throws Exception {		
 		// ## get_category_list() 성공 테스트
 		ResultActions resultActions = 
 		mockMvc.perform(put("/api/category")
@@ -138,8 +157,28 @@ public class CategoryControllerTest {
 	
 		resultActions
 		.andExpect(jsonPath("$.result").value("success"))
-		.andExpect(jsonPath("$.data").value(list.get(0).getNo()));
-
+		.andExpect(jsonPath("$.data.no").value(list.get(0).getNo()))
+		.andExpect(jsonPath("$.data.name").value(list.get(0).getName()))
+		.andExpect(jsonPath("$.data.parent_no").value(list.get(0).getParent_no()));
+	}
+	
+	/**
+	 * update_category_success_test() 
+	 * @throws Exception
+	 * :카테고리 업데이트.
+	 */
+	@Test
+	public void update_category_fail_test() throws Exception {		
+		list.get(0).setParent_no(999999L);
+		// ## get_category_list() 성공 테스트
+		ResultActions resultActions = 
+		mockMvc.perform(put("/api/category")
+				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(list.get(0))));				
+	
+		resultActions
+		.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.result").value("fail"))
+		.andExpect(jsonPath("$.message").value("상위 카테고리 정보 오류가 발생하였습니다."));	
 	}
 	
 	/**
@@ -149,17 +188,15 @@ public class CategoryControllerTest {
 	 */
 	@Test
 	public void delete_category_success_test() throws Exception {
-		List<CategoryVo> list = testData();
 		Long delete_category_no = list.get(0).getNo();
 		// ## get_category_list() 성공 테스트
 		ResultActions resultActions = 
 		mockMvc.perform(delete("/api/category/"+delete_category_no)
-				.contentType(MediaType.APPLICATION_JSON));				
+				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(list.get(0))));				
 	
 		resultActions
 		.andExpect(jsonPath("$.result").value("success"))
-		.andExpect(jsonPath("$.data").value(delete_category_no));
-
+		.andExpect(jsonPath("$.data").value(true));
 	}
 	
 	

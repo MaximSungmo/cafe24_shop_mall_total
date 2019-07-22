@@ -1,6 +1,5 @@
 package com.cafe24.shop.controller.api;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cafe24.shop.dto.JSONResult;
@@ -47,8 +47,14 @@ public class CategoryController {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(error.getDefaultMessage()));
 			}
 		}
-		CategoryVo inserted_category_vo = categoryService.insert_category(vo);
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(inserted_category_vo));
+		// parent_no에 입력된 카테고리 번호는 기존에 존재하는 카테고리 번호가 맞는 지 확인 (번호가 있는 경우(true)에만 insert 작업 진행 
+		Boolean check_available_parent_no = categoryService.get_category_by_no(vo.getParent_no());
+		if(vo.getParent_no()==null || check_available_parent_no) {
+			Boolean insert_result = categoryService.insert_category(vo);
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(insert_result));			
+		}else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("상위 카테고리 정보 오류가 발생하였습니다."));
+		}
 	}
 	
 	@ApiOperation(value = "카테고리 조회")
@@ -73,8 +79,13 @@ public class CategoryController {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(error.getDefaultMessage()));
 			}
 		}
-		Long updated_category_vo = categoryService.update_category(vo);
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(updated_category_vo));
+		Boolean check_available_parent_no = categoryService.get_category_by_no(vo.getParent_no());
+		if(vo.getParent_no()==null || check_available_parent_no) {
+			categoryService.update_category(vo);
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(vo));
+		}else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("상위 카테고리 정보 오류가 발생하였습니다."));
+		}
 	}
 	
 	
@@ -87,11 +98,11 @@ public class CategoryController {
     })
 	@ResponseBody
 	@RequestMapping(value = { "/{category_no}" }, method = RequestMethod.DELETE)
-	public ResponseEntity<JSONResult> delete_category(@PathVariable Long category_no) {
+	public ResponseEntity<JSONResult> delete_category(@RequestBody CategoryVo vo) {
 //		 데이터가 정상적으로 DB에서 삭제가 되면 true 값을 반환한다. 
-		Long deleted_category_no = categoryService.delete_category(category_no);
-		if (deleted_category_no==category_no) {
-			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(deleted_category_no));
+		Boolean delete_result = categoryService.delete_category(vo);
+		if (delete_result) {
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(delete_result));
 		} else {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(JSONResult.fail("Server Error"));
 		}

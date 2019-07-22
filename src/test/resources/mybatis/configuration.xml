@@ -4,6 +4,7 @@
 	<typeAliases>
 		<typeAlias alias="customervo" type="com.cafe24.shop.vo.CustomerVo" />
 		<typeAlias alias="termsofusevo" type="com.cafe24.shop.vo.TermsOfUseVo" />
+		<typeAlias alias="categoryvo" type="com.cafe24.shop.vo.CategoryVo" />
 		
 		<typeAlias alias="guestbookvo" type="com.cafe24.shop.vo.GuestbookVo" />
 		<typeAlias alias="boardvo" type="com.cafe24.shop.vo.BoardVo" />
@@ -11,6 +12,7 @@
 	<mappers>
 		<mapper resource="mybatis/mappers/customer.xml" />
 		<mapper resource="mybatis/mappers/termsofuse.xml" />
+		<mapper resource="mybatis/mappers/category.xml" />
 		
 		
 		<mapper resource="mybatis/mappers/guestbook.xml" />

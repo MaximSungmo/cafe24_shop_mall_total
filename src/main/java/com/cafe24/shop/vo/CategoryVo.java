@@ -13,7 +13,9 @@ public class CategoryVo {
 	private String name;
 	
 	private Long parent_no;
-	
+	public CategoryVo() {
+		
+	}
 	public CategoryVo(Long no, String name, Long parent_no) {
 		this.no = no;
 		this.name = name;

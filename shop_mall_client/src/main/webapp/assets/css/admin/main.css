@@ -1,0 +1,12 @@
+@CHARSET "UTF-8";
+@import "admin.css";
+
+#site-form label,
+#site-form input, 
+#site-form img					{ display:block }
+
+#site-form label				{ font-weight: bold; font-size:21px; margin:10px 0 5px 0 }
+#site-form img					{ width:300px; margin:0 0 10px 0 }
+#site-form input[type="text"]	{ border: 1px solid #ccc; width:320px; border-radius: 5px; box-shadow: 0px; font-size: 16px; padding: 10px; outline: 0; }
+#site-form textarea				{ border: 1px solid #ccc; width:320px; border-radius: 5px; font-size: 16px; padding: 10px; outline: 0; height:100px; resize: none; }
+#site-form input[type="submit"]	{ font-weight:bold; font-size: 24px; width:80px; margin-top:20px }

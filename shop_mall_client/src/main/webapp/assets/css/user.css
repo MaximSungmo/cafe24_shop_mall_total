@@ -1,0 +1,30 @@
+@CHARSET "UTF-8";
+@import "mysite.css";
+
+#user		{ margin:20px auto;	width:540px; }
+#join-form	{
+	width:250px;
+	padding:10px;
+	border:1px solid #666;
+	border-radius: 10px;
+	margin:50px auto;
+}
+
+label.block-label					{ display:block }
+label.block-label, fieldset			{ margin:5px 0 3px 0 }
+label.block-label, fieldset legend	{ margin-bottom:3px }
+
+fieldset				{ border:none }
+input[type="submit"]	{ display:block; width:80px; margin:20px auto }
+
+#login-form	{
+	width:180px;
+	padding:10px;
+	border:1px solid #666;
+	border-radius: 10px;
+	margin:50px auto;
+}
+
+#user p		{ text-align:center; padding:10px}
+
+#user p.jr-success	{ height:200px }

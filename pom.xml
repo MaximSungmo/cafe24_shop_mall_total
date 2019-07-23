@@ -5,4 +5,7 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  </project>
+  <modules>
+  	<module>shop_mall_client</module>
+  </modules>
+</project>

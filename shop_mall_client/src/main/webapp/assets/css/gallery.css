@@ -1,0 +1,17 @@
+@CHARSET "UTF-8";
+@import "mysite.css";
+
+#gallery			{ margin:20px auto;	width:540px; }
+#gallery ul			{ width: 100%; }
+
+
+/* 이미지 업로드 팝업 레이어 */ 
+#dialog-upload-form 					{ text-align: left; }
+#dialog-upload-form p					{ padding:20px 0 5px 0; font-weight: bold; font-size:1.1em }
+#dialog-upload-form label, 
+#dialog-upload-form input				{ display:block; }
+#dialog-upload-form label				{ font-weight:bold; margin-top:10px; }
+#dialog-upload-form input				{ outline:none; margin-top:5px; }
+#dialog-upload-form input[type='text']	{ padding: 5px; border:2px solid #A9A9A9; width:260px; }
+
+

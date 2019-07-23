@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<charset>UTF-8</charset>
+			<Pattern>
+				%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n
+			</Pattern>
+		</encoder>
+	</appender>
+
+	<appender name="fileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>/mysite-log/exception.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>
+				%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n
+			</Pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<FileNamePattern>/mysite-log/exception.%i.log.zip</FileNamePattern>
+			<MinIndex>1</MinIndex>
+			<MaxIndex>10</MaxIndex>
+		</rollingPolicy>
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>50KB</MaxFileSize>
+		</triggeringPolicy>
+	</appender>
+
+	<logger name="com.cafe24.mysite.exception"  level="info" additivity="false">
+            <appender-ref ref="consoleAppender" />
+            <appender-ref ref="fileAppender" />
+    </logger>
+	
+	<root level="info">
+		<appender-ref ref="consoleAppender" />
+	</root>
+
+</configuration>

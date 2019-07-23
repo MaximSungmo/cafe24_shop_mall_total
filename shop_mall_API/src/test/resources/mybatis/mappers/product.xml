@@ -19,7 +19,7 @@
 		]]>
 	</delete>
 
-	<!-- 실제 서비스 코드 -->
+	<!-- 실제 서비스 코드 (PRODUCT) 시작 -->
 	<insert id="insert_product" parameterType="productvo">
 		<![CDATA[
 			insert into PRODUCT 
@@ -30,15 +30,7 @@
 		</selectKey>
 	</insert>
 	
-	<insert id="insert_product_detail" parameterType="productdetailvo">
-		<![CDATA[
-			insert into PRODUCT_DETAIL 
-		    values(null, #{product_no}, #{product_option}, #{stock_cd}, #{stock_cnt}, #{warehouse_no});	
-		]]>
-		<selectKey keyProperty="no" resultType="long" order="AFTER">
-			select last_insert_id()
-		</selectKey>
-	</insert>
+	
 	
 	<insert id="insert_product_image" parameterType="productimagevo">
 		<![CDATA[
@@ -76,6 +68,7 @@
 			</if>
 		</if>
 		<![CDATA[
+			order by no asc
 			limit #{get_count} offset #{last_product_no}
 		]]>	
 	</select>
@@ -96,5 +89,29 @@
 			where no = #{no};
 		]]>
 	</update>
+	<!-- 실제 서비스 코드 (PRODUCT) 끝 -->
+	
+	<!-- 실제 서비스 코드 (PRODUCT_DETAIL) 시작 -->
+	<insert id="insert_product_detail" parameterType="productdetailvo">
+		<![CDATA[
+			insert into PRODUCT_DETAIL 
+		    values(null, #{product_no}, #{product_option}, #{stock_cd}, #{stock_cnt}, #{warehouse_no});	
+		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+	</insert>
+	
+	<select id="get_product_detail_list" parameterType="long" resultType="productdetailvo">
+		<![CDATA[
+			select no, product_no, product_option, stock_cd, stock_cnt, warehouse_no
+			from PRODUCT_DETAIL
+			where product_no = #{product_no}	
+			order by no asc		 
+		]]>			
+	</select>
+	
+	<!-- 실제 서비스 코드 (PRODUCT_DETAIL) 끝 -->
+	
 	
 </mapper>

@@ -151,7 +151,7 @@ public class ProductController {
 	public ResponseEntity<JSONResult> add_product_detail(
 			@PathVariable Long product_no,
 			@RequestBody ProductDetailVo vo) {
-		vo.setNo(product_no);
+		vo.setProduct_no(product_no);
 		Boolean insert_product_detail_no=productService.add_product_detail(vo);
 		if(insert_product_detail_no) {
 			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(vo));
@@ -168,7 +168,7 @@ public class ProductController {
 	@RequestMapping(value = { "/{product_no}/detail" }, method = RequestMethod.GET)
 	public ResponseEntity<JSONResult> get_product_detail_list(@PathVariable Long product_no) {
 		List<ProductDetailVo> get_product_detail_list = productService.get_product_detail_list(product_no);
-		if(get_product_detail_list!=null) {
+		if(!get_product_detail_list.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(get_product_detail_list));
 		}else {
 			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("조건에 맞는 정보가 없습니다."));

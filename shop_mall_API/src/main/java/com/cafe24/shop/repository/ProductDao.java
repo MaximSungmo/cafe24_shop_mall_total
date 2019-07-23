@@ -34,7 +34,7 @@ public class ProductDao {
 	}
 
 	public Integer add_product_detail(ProductDetailVo vo) {
-		return sqlSession.insert("product.add_product_detail", vo);
+		return sqlSession.insert("product.insert_product_detail", vo);
 	}
 
 	public List<ProductDetailVo> get_product_detail_list(Long no) {

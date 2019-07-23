@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.hamcrest.core.Is;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -86,7 +87,7 @@ public class ProductControllerTest {
 		detail_list.add(detail_vo2);
 		detail_list.add(detail_vo3);
 		for(int i=0; i<detail_list.size(); i++) {
-//			sqlSession.insert("product.insert_productDetail", detail_list.get(0));
+			sqlSession.insert("product.insert_product_detail", detail_list.get(i));
 		}
 		return detail_list;
 	}
@@ -250,34 +251,36 @@ public class ProductControllerTest {
 	/*
 	 * 상품 상세정보, product_detail
 	 */
-	@Ignore
 	@Test
 	public void add_product_detail_success_test() throws Exception {
 //		ProductDetailVo detail_vo = new ProductDetailVo(1L, 1L, "사이즈270-1", "STOCK", 40L, 1L);
-
+		
 		ResultActions resultActions = mockMvc
-		.perform(post("/api/product/1/detail")
+		.perform(post("/api/product/"+detail_list.get(0).getProduct_no()+"/detail")
 		.contentType(MediaType.APPLICATION_JSON)
 		.content(new Gson().toJson(detail_list.get(0))));
+		
 		resultActions
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result").value("success"))
-		.andExpect(jsonPath("$.data").value(1));
+		.andExpect(jsonPath("$.data.product_no").value(detail_list.get(0).getProduct_no()))
+		.andExpect(jsonPath("$.data.product_option").value(detail_list.get(0).getProduct_option()));
 	}
-	@Ignore
+
 	@Test
 	public void get_product_detail_list_success_test() throws Exception {
 		// ## get_product_list() 성공 테스트
 		ResultActions resultActions = mockMvc
-		.perform(get("/api/product/2/detail").contentType(MediaType.APPLICATION_JSON));
-		resultActions.andExpect(status()
-		.isOk()).andExpect(jsonPath("$.result").value("success"))
+		.perform(get("/api/product/"+detail_list.get(0).getProduct_no()+"/detail").contentType(MediaType.APPLICATION_JSON));
+		resultActions
+		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result").value("success"))
-		.andExpect(jsonPath("$.data[0].no").value(2))
-		.andExpect(jsonPath("$.data[0].product_no").value(2))
-		.andExpect(jsonPath("$.data[0].product_option").value("사이즈270-2"));
+		.andExpect(jsonPath("$.data[0].no").value(detail_list.get(0).getNo()))
+		.andExpect(jsonPath("$.data[0].product_no").value(detail_list.get(0).getProduct_no()))
+		.andExpect(jsonPath("$.data[0].product_option").value(detail_list.get(0).getProduct_option()));
 	}
-	@Ignore
+	
+	
 	@Test
 	public void update_product_detail_success_test() throws Exception {
 		ResultActions resultActions = mockMvc
@@ -288,9 +291,8 @@ public class ProductControllerTest {
 		.isOk()).andExpect(jsonPath("$.result").value("success"))
 		.andExpect(jsonPath("$.result").value("success"))
 		.andExpect(jsonPath("$.data").value(3));
-		
 	}
-	@Ignore
+
 	@Test
 	public void delete_product_detail_success_test() throws Exception {
 

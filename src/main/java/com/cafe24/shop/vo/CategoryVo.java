@@ -11,8 +11,10 @@ public class CategoryVo {
 	
 	@NotNull
 	private String name;
-	
 	private Long parent_no;
+	/*
+	 * 생성자 목록
+	 */
 	public CategoryVo() {
 		
 	}

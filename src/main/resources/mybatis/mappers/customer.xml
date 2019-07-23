@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="user">
+<mapper namespace="customer">
 	
+	<!-- Join 기능 시 입력 -->
 	<insert id="insert" parameterType="customervo">
 		<![CDATA[
-			insert 
-		      into user 
-		    values(null, #{name }, #{email }, #{password }, #{gender }, now())	
+			insert into CUSTOMER 
+		    values(null, #{name }, #{email }, #{password }, #{phone}, #{gender }, #{use_fl}, #{auth_grade}, #{recommender_id})	
 		]]>
 		<selectKey keyProperty="no" resultType="long" order="AFTER">
 			<![CDATA[
@@ -14,7 +14,56 @@
 			]]>
 		</selectKey>
 	</insert>
-
+	<insert id="insert_checked_terms_of_use">
+		<![CDATA[
+			insert into CUSTOMER_AND_TERMS_OF_USE
+			values(#{no}, #{terms_of_use_no}, #{agreement_fl}, now())
+		]]>
+	</insert>
+	
+	
+	<delete id="deleteAll">
+		<![CDATA[
+			delete from customer;
+		]]>
+	</delete>
+	
+	<select id="getByEmail" resultType="customervo" parameterType='string'>
+		<![CDATA[	 
+			select email 
+			from CUSTOMER 
+			where email = #{email }
+		]]>
+	</select>
+	
+	<select id="getByEmailAndPassword" resultType="customervo" parameterType='customervo'>
+		<![CDATA[	 
+			select 	no, name, email, phone, gender, use_fl, auth_grade	
+			from CUSTOMER 
+			where email=#{email } and password=#{password }
+		]]>
+	</select>
+	
+	
+	<update id="delete_customer" parameterType='long'>
+		<![CDATA[
+			update CUSTOMER
+			set use_fl = "N"
+			where no = #{no};
+		]]>
+	</update>
+	
+	<update id="update" parameterType='customervo'>
+		<![CDATA[
+			update CUSTOMER
+			set name = #{name}, phone = #{phone}, gender = #{gender} 
+			where no = #{no};
+		]]>
+	</update>
+	
+	
+	
+<!-- 
 	<select id="getByNo" resultType="customervo" parameterType='long'>
 		<![CDATA[	 
 		select no, name, email, gender
@@ -23,22 +72,9 @@
 		]]>
 	</select>
 
-	<select id="getByEmail" resultType="customervo" parameterType='string'>
-		<![CDATA[	 
-		select no, name, email, gender
-		  from user 
-		 where email = #{value }
-		]]>
-	</select>
 	
-	<select id="getByEmailAndPassword" resultType="customervo" parameterType='map'>
-		<![CDATA[	 
-		select no, name
-		  from user 
-		 where email=#{email } 
-		   and password=#{password }
-		]]>
-	</select>
+	
+	
 	
 	<update id="update" parameterType="customervo">
 		<![CDATA[
@@ -57,7 +93,7 @@
 		]]>
 	</update>
 	
-	<!-- 
+
 	<select id="get_terms_of_use_template" resultType="terms_of_use_vo">
 		<![CDATA[	 
 			SELECT NO, TITLE, CONTENT, REGISTER_DT, DELETE_DT
@@ -65,4 +101,5 @@
 		]]>
 	</select>
 	 -->
+	  
 </mapper>

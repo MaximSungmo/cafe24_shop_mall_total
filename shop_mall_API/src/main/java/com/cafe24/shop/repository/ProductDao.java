@@ -1,6 +1,5 @@
 package com.cafe24.shop.repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +17,7 @@ public class ProductDao {
 	SqlSession sqlSession;
 	
 	public Boolean add_product(ProductVo vo) {
-		return sqlSession.insert("product.add_product", vo)==1;		
+		return sqlSession.insert("product.insert_product", vo)==1;		
 	}
 	
 	public List<ProductVo> get_product_list(Map<String, Object> map){
@@ -26,30 +25,30 @@ public class ProductDao {
 		return product_list;
 	}
 		
-	public Long delete_product(Long no) {
-		return sqlSession.delete("product.delete_product", vo);
+	public Integer delete_product(Long no) {
+		return sqlSession.delete("product.delete_product", no);
 	}
 	
-	public Long update_product(ProductVo vo) {	
+	public Integer update_product(ProductVo vo) {	
 		return sqlSession.update("product.update_product", vo);
 	}
 
-	public Long add_product_detail(ProductDetailVo vo) {
+	public Integer add_product_detail(ProductDetailVo vo) {
 		return sqlSession.insert("product.add_product_detail", vo);
 	}
 
 	public List<ProductDetailVo> get_product_detail_list(Long no) {
 		List<ProductDetailVo> product_list = sqlSession.selectList("product.get_product_detail_list", no);
-		return product_detail_list;
+		return product_list;
 	}
 
-	public Long update_product_detail(Long product_detail_no) {
-		Long updated_product_detail_no = sqlSession.update("product.update_product_detail", product_detail_no);
+	public Integer update_product_detail(Long product_detail_no) {
+		Integer updated_product_detail_no = sqlSession.update("product.update_product_detail", product_detail_no);
 		return updated_product_detail_no;
 	}
 
-	public Long delete_product_detail(Map<String, Long> map) {
-		return sqlSession.delete("product.delete_product", vo);
+	public Integer delete_product_detail(Map<String, Long> map) {
+		return sqlSession.delete("product.delete_product", map);
 	}
 
 }

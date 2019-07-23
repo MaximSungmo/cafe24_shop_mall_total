@@ -51,5 +51,50 @@
 	</insert>
 	
 	
+	<select id="get_product_list" parameterType="map" resultType="productvo">
+		<![CDATA[
+			select no, name, description, status, use_fl, like_cnt, register_dt, category_no, brand_no 
+			from PRODUCT		 
+		]]>	
+		
+		<if test='category_no!=0'>
+			<![CDATA[
+				where category_no=#{category_no}
+			]]>	
+			<if test="kwd!=''">
+				<![CDATA[
+					and name like CONCAT('%',#{kwd},'%')
+				]]>
+			</if>
+		</if>
+		
+		<if test='category_no==0'>
+			<if test="kwd!=''">
+				<![CDATA[
+					where name like CONCAT('%',#{kwd},'%')
+				]]>
+			</if>
+		</if>
+		<![CDATA[
+			limit #{get_count} offset #{last_product_no}
+		]]>	
+	</select>
+	
+	
+	<update id="update_product" parameterType="productvo">
+		<![CDATA[
+			update PRODUCT
+			set name=#{name}, description=#{description}, status=#{status}, register_dt=now(), category_no=#{category_no}, brand_no=#{brand_no}
+			where no = #{no};
+		]]>
+	</update>
+	
+	<update id="delete_product" parameterType="long">
+		<![CDATA[
+			update PRODUCT
+			set use_fl= "N"
+			where no = #{no};
+		]]>
+	</update>
 	
 </mapper>

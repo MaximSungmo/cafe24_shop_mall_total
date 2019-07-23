@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cafe24.shop.dto.JSONResult;
+import com.cafe24.shop.service.CategoryService;
 import com.cafe24.shop.service.ProductService;
 import com.cafe24.shop.vo.ProductDetailVo;
 import com.cafe24.shop.vo.ProductVo;
@@ -34,24 +35,28 @@ public class ProductController {
 
 	@Autowired
 	private ProductService productService;
-	
+
+	@Autowired
+	private CategoryService categoryService;
 
 	@ApiOperation(value = "상품 조회")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "product_no", value = "product_no", dataType = "long", paramType = "path"),
         @ApiImplicitParam(name = "kwd", value = "kwd", dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "get_count", value = "get_count", dataType = "long", paramType = "query"),
+        @ApiImplicitParam(name = "last_product_no", value = "last_product_no", dataType = "long", paramType = "query"),
     })
 	@ResponseBody
 	@RequestMapping(value = {"","/{no}" }, method = RequestMethod.GET)
 	public ResponseEntity<JSONResult> get_product_list(
 			@PathVariable Optional<Long> no, 
 			@RequestParam(value = "kwd", required = false, defaultValue = "") String kwd,
-			@RequestParam(value="get_count", required=false, defaultValue= "30") Long get_count, 
+			@RequestParam(value="get_count", required=false, defaultValue= "30") Long get_count,
+			@RequestParam(value="last_product_no", required=false, defaultValue= "0") Long last_product_no, 
 			Model model) {
 		List<ProductVo> product_list;
-		Long category_no = no.isPresent() ? no.get() : 1L;
-		product_list = productService.get(category_no, kwd, get_count);
+		Long category_no = no.isPresent() ? no.get() : 0;
+		product_list = productService.get(category_no, kwd, get_count, last_product_no);
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(product_list));
 	}
 
@@ -99,8 +104,12 @@ public class ProductController {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(error.getDefaultMessage()));
 			}
 		}
-		Long update_result = productService.update_product(vo);
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(update_result));
+		Boolean update_result = productService.update_product(vo);
+		if(update_result) {
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(vo));
+		}else {
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("정상적으로 정보가 등록되지 않았습니다."));
+		}
 	}
 
 	@ApiOperation(value = "상품 삭제")
@@ -111,9 +120,9 @@ public class ProductController {
 	@RequestMapping(value = { "/{no}" }, method = RequestMethod.DELETE)
 	public ResponseEntity<JSONResult> delete_product(@PathVariable Long no) {
 //		 데이터가 정상적으로 DB에서 삭제가 되면 true 값을 반환한다. 
-		Long insert_result = productService.delete_product(no);
-		if (insert_result==no) {
-			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(insert_result));
+		Boolean insert_result = productService.delete_product(no);
+		if (insert_result) {
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(no));
 		} else {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(JSONResult.fail("Server Error"));
 		}
@@ -131,7 +140,7 @@ public class ProductController {
 			@PathVariable Long product_no,
 			@RequestBody ProductDetailVo vo) {
 		vo.setNo(product_no);
-		Long insert_product_detail_no=productService.add_product_detail(vo);
+		Boolean insert_product_detail_no=productService.add_product_detail(vo);
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(insert_product_detail_no));
 	}
 	
@@ -156,7 +165,7 @@ public class ProductController {
 	public ResponseEntity<JSONResult> update_product_detail(
 			@PathVariable(value="product_no") Long product_no,
 			@PathVariable(value="product_no") Long product_detail_no) {
-		Long updated_product_detail_no = productService.update_product_detail(product_detail_no);
+		Boolean updated_product_detail_no = productService.update_product_detail(product_detail_no);
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(updated_product_detail_no));
 	}
 	
@@ -169,7 +178,7 @@ public class ProductController {
 	public ResponseEntity<JSONResult> updat1e_product_detail(
 			@PathVariable(value="product_no") Long product_no,
 			@PathVariable(value="product_no") Long product_detail_no) {
-		Long deleted_product_detail_no = productService.delete_product_detail(product_no, product_detail_no);
+		Boolean deleted_product_detail_no = productService.delete_product_detail(product_no, product_detail_no);
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(deleted_product_detail_no));
 	}
 	

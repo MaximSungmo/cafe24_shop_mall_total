@@ -54,10 +54,14 @@ public class ProductController {
 			@RequestParam(value="get_count", required=false, defaultValue= "30") Long get_count,
 			@RequestParam(value="last_product_no", required=false, defaultValue= "0") Long last_product_no, 
 			Model model) {
-		List<ProductVo> product_list;
+		
 		Long category_no = no.isPresent() ? no.get() : 0;
-		product_list = productService.get(category_no, kwd, get_count, last_product_no);
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(product_list));
+		List<ProductVo> product_list = productService.get(category_no, kwd, get_count, last_product_no);
+		if(!product_list.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(product_list));
+		}else {
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("조건에 맞는 정보가 없습니다."));
+		}
 	}
 
 	/**
@@ -72,13 +76,21 @@ public class ProductController {
     })
 	@ResponseBody
 	@RequestMapping(value = { "" }, method = RequestMethod.POST)
-	public ResponseEntity<JSONResult> add_product(@RequestBody ProductVo vo) {
+	public ResponseEntity<JSONResult> add_product(@RequestBody @Valid ProductVo vo,
+			BindingResult bindResult) {
+		
+		if (bindResult.hasErrors()) {
+			List<ObjectError> list = bindResult.getAllErrors();
+			for (ObjectError error : list) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(error.getDefaultMessage()));
+			}
+		}
 //		 데이터가 정상적으로 DB에 입력이 되면 true 값을 반환한다. 
 		Boolean insert_result = productService.add_product(vo);
 		if (insert_result) {
 			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(vo));
 		} else {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(JSONResult.fail("Server Error"));
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("정상적으로 정보가 등록되지 않았습니다."));
 		}
 	}
 
@@ -108,7 +120,7 @@ public class ProductController {
 		if(update_result) {
 			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(vo));
 		}else {
-			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("정상적으로 정보가 등록되지 않았습니다."));
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("정상적으로 정보가 업데이트되지 않았습니다."));
 		}
 	}
 
@@ -124,7 +136,7 @@ public class ProductController {
 		if (insert_result) {
 			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(no));
 		} else {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(JSONResult.fail("Server Error"));
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("정상적으로 정보가 삭제되지 않았습니다."));
 		}
 	}
 	
@@ -141,7 +153,11 @@ public class ProductController {
 			@RequestBody ProductDetailVo vo) {
 		vo.setNo(product_no);
 		Boolean insert_product_detail_no=productService.add_product_detail(vo);
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(insert_product_detail_no));
+		if(insert_product_detail_no) {
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(vo));
+		}else {
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("정상적으로 정보가 등록되지 않았습니다."));
+		}
 	}
 	
 	@ApiOperation(value = "상품 상세정보 조회")
@@ -152,7 +168,11 @@ public class ProductController {
 	@RequestMapping(value = { "/{product_no}/detail" }, method = RequestMethod.GET)
 	public ResponseEntity<JSONResult> get_product_detail_list(@PathVariable Long product_no) {
 		List<ProductDetailVo> get_product_detail_list = productService.get_product_detail_list(product_no);
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(get_product_detail_list));
+		if(get_product_detail_list!=null) {
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(get_product_detail_list));
+		}else {
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("조건에 맞는 정보가 없습니다."));
+		}
 	}
 	
 	@ApiOperation(value = "상품 상세정보 업데이트")

@@ -1,12 +1,16 @@
 package com.cafe24.shop.vo;
 
+import javax.validation.constraints.NotNull;
+
 import io.swagger.annotations.ApiModel;
 
 @ApiModel(value = "ProductVo")
 public class ProductVo {
 
 	// 상품(product)테이블 정보
+	
 	private Long no;
+	@NotNull
 	private String name;
 	private String description;
 	private String status;

@@ -57,8 +57,6 @@ public class ProductControllerTest {
 
 		sqlSession.insert("category.insert", category_vo1);
 		sqlSession.insert("category.insert", category_vo2);
-		System.out.println("+getNo1 11111111111111"+category_vo1.getNo());
-		System.out.println("+getN2 2222222222222222"+category_vo2.getNo());
 
 		ProductVo vo1 = new ProductVo(null, "상품1", "상품1상세내용", "상태1", "Y", 1L, null, category_vo1.getNo(), null);
 		ProductVo vo2 = new ProductVo(null, "상품2", "상품2상세내용", "상태2", "Y", 1L, null, category_vo1.getNo(), null);
@@ -71,7 +69,6 @@ public class ProductControllerTest {
 		
 		for(int i=0; i<product_list.size(); i++) {
 			sqlSession.insert("product.insert_product", product_list.get(i));
-			System.out.println("product_vo"+product_list.get(i));
 		}
 		return product_list;
 	}
@@ -156,6 +153,18 @@ public class ProductControllerTest {
 		.andExpect(jsonPath("$.data[0].category_no").value(product_list.get(2).getCategory_no()));
 	}
 	
+	
+	@Test
+	public void get_product_list_fail_test() throws Exception {
+		// ## get_product_list() 성공 테스트
+		ResultActions resultActions = mockMvc
+		.perform(get("/api/product/"+ category_vo1.getNo() +"?kwd=xxx").contentType(MediaType.APPLICATION_JSON));
+		resultActions
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result").value("fail"))
+		.andExpect(jsonPath("$.message").value("조건에 맞는 정보가 없습니다."));
+	}
+	
 	@Test
 	public void add_product_success_test() throws Exception {
 		ProductVo vo = new ProductVo(null, "상품4", "상품4상세내용", "상태4", "N", 1L, null, category_vo2.getNo(), null);
@@ -170,6 +179,20 @@ public class ProductControllerTest {
 		.andExpect(jsonPath("$.data.name").value(vo.getName()))
 		.andExpect(jsonPath("$.data.description").value(vo.getDescription()))
 		.andExpect(jsonPath("$.data.category_no").value(vo.getCategory_no()));
+	}
+	
+	@Test
+	public void add_product_vaild_fail_test() throws Exception {
+		//name is null
+		ProductVo vo = new ProductVo(null, null, "상품4상세내용", "상태4", "N", 1L, null, category_vo2.getNo(), null);
+		ResultActions resultActions = mockMvc
+		.perform(post("/api/product")
+		.contentType(MediaType.APPLICATION_JSON)
+		.content(new Gson().toJson(vo)));
+
+		resultActions
+		.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.result").value("fail"));
 	}
 		
 
@@ -192,7 +215,24 @@ public class ProductControllerTest {
 		.andExpect(jsonPath("$.data.description").value(product_list.get(3).getDescription()))
 		.andExpect(jsonPath("$.data.category_no").value(product_list.get(3).getCategory_no()));
 	}
+	
+	@Test
+	public void update_product_vaild_fail_test() throws Exception {
+		product_list.get(3).setName(null);
+		product_list.get(3).setDescription("변경된카테고리 설명");
+		
+		
+		ResultActions resultActions = mockMvc
+		.perform(put("/api/product")
+		.contentType(MediaType.APPLICATION_JSON)
+		.content(new Gson().toJson(product_list.get(3))));
 
+		resultActions
+		.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.result").value("fail"));
+	}
+
+	
 	@Test
 	public void delete_product_success_test() throws Exception {
 

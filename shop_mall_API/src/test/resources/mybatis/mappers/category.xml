@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="category">
+	
+	<delete id="deleteAll">
+		<![CDATA[
+			delete from CATEGORY where no > 0
+		]]>
+	</delete>
+	
+	<insert id="insert" parameterType="categoryvo">
+		<![CDATA[
+			insert into CATEGORY 
+		    values(null, #{name}, #{parent_no})	
+		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER">
+			<![CDATA[
+			select last_insert_id()
+			]]>
+		</selectKey>
+	</insert>
+	
+	<select id="get_category_by_no" parameterType='long' resultType='categoryvo'>
+		<![CDATA[
+			select no, name from CATEGORY where no=#{no}	
+		]]>
+	</select>
+	
+	<select id="get_category_list" resultType='categoryvo'>
+		<![CDATA[
+			select no, name, parent_no 
+			from CATEGORY
+		]]>
+	</select>
+	
+	<update id="update_category" parameterType="categoryvo">
+		<![CDATA[
+			update CATEGORY 
+			set name=#{name}, parent_no=#{parent_no}
+			where no=#{no} 
+		]]>
+	</update>
+	<update id="update_by_parent_no" parameterType="long">
+		<![CDATA[
+			update CATEGORY 
+			set parent_no=#{update_by_parent_no}
+		]]>
+	</update>
+	
+	<delete id="delete_category" parameterType="long">
+		<![CDATA[
+			delete from CATEGORY where no=#{no} 
+		]]>
+	</delete>
+	
+</mapper>

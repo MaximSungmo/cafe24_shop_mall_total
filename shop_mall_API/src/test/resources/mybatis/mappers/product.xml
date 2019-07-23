@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="product">
+	
+	<!-- 테스트 데이터 삭제용 코드 -->
+	<delete id="delete_product_all">
+		<![CDATA[
+			delete from PRODUCT where no >0
+		]]>
+	</delete>
+	<delete id="delete_product_detail_all">
+		<![CDATA[
+			delete from PRODUCT_DETAIL where no >0
+		]]>
+	</delete>
+	<delete id="delete_product_image_all">
+		<![CDATA[
+			delete from PRODUCT_IMAGE where no >0
+		]]>
+	</delete>
+
+	<!-- 실제 서비스 코드 -->
+	<insert id="insert_product" parameterType="productvo">
+		<![CDATA[
+			insert into PRODUCT 
+		    values(null, #{name}, #{description}, #{status}, #{use_fl}, #{like_cnt}, now(), #{category_no}, #{brand_no});	
+		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+	</insert>
+	
+	<insert id="insert_product_detail" parameterType="productdetailvo">
+		<![CDATA[
+			insert into PRODUCT_DETAIL 
+		    values(null, #{product_no}, #{product_option}, #{stock_cd}, #{stock_cnt}, #{warehouse_no});	
+		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+	</insert>
+	
+	<insert id="insert_product_image" parameterType="productimagevo">
+		<![CDATA[
+			insert into PRODUCT_IMAGE 
+		    values(null, #{product_no}, #{url}, now(), #{use_fl}, #{product_image_category_no});	
+		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+	</insert>
+	
+	
+	
+</mapper>

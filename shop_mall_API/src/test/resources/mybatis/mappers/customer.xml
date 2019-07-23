@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="customer">
+	
+	<!-- Join 기능 시 입력 -->
+	<insert id="insert" parameterType="customervo">
+		<![CDATA[
+			insert into CUSTOMER 
+		    values(null, #{name }, #{email }, #{password }, #{phone}, #{gender }, #{use_fl}, #{auth_grade}, #{recommender_id})	
+		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER">
+			<![CDATA[
+			select last_insert_id()
+			]]>
+		</selectKey>
+	</insert>
+	<insert id="insert_checked_terms_of_use">
+		<![CDATA[
+			insert into CUSTOMER_AND_TERMS_OF_USE
+			values(#{no}, #{terms_of_use_no}, #{agreement_fl}, now())
+		]]>
+	</insert>
+	
+	
+	<delete id="deleteAll">
+		<![CDATA[
+			delete from customer;
+		]]>
+	</delete>
+	
+	<select id="getByEmail" resultType="customervo" parameterType='string'>
+		<![CDATA[	 
+			select email 
+			from CUSTOMER 
+			where email = #{email }
+		]]>
+	</select>
+	
+	<select id="getByEmailAndPassword" resultType="customervo" parameterType='customervo'>
+		<![CDATA[	 
+			select 	no, name, email, phone, gender, use_fl, auth_grade	
+			from CUSTOMER 
+			where email=#{email } and password=#{password }
+		]]>
+	</select>
+	
+	
+	<update id="delete_customer" parameterType='long'>
+		<![CDATA[
+			update CUSTOMER
+			set use_fl = "N"
+			where no = #{no};
+		]]>
+	</update>
+	
+	<update id="update" parameterType='customervo'>
+		<![CDATA[
+			update CUSTOMER
+			set name = #{name}, phone = #{phone}, gender = #{gender} 
+			where no = #{no};
+		]]>
+	</update>
+	
+	
+	
+<!-- 
+	<select id="getByNo" resultType="customervo" parameterType='long'>
+		<![CDATA[	 
+		select no, name, email, gender
+		  from user 
+		 where no = #{value }
+		]]>
+	</select>
+
+	
+	
+	
+	
+	<update id="update" parameterType="customervo">
+		<![CDATA[
+		update user
+		   set name = #{name },
+		]]>
+		<if test="password != ''">
+			<![CDATA[
+			password=#{password },
+			]]>
+		</if>		   
+		<![CDATA[
+		       gender = #{gender }
+		       
+		 where no = #{no }      	 
+		]]>
+	</update>
+	
+
+	<select id="get_terms_of_use_template" resultType="terms_of_use_vo">
+		<![CDATA[	 
+			SELECT NO, TITLE, CONTENT, REGISTER_DT, DELETE_DT
+			FROM TERMS_OF_USE_TEMPLATE
+		]]>
+	</select>
+	 -->
+	  
+</mapper>

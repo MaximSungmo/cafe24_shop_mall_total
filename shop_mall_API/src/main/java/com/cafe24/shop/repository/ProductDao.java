@@ -33,8 +33,8 @@ public class ProductDao {
 		return sqlSession.update("product.update_product", vo);
 	}
 
-	public Integer add_product_detail(ProductDetailVo vo) {
-		return sqlSession.insert("product.insert_product_detail", vo);
+	public Integer add_product_detail(List<ProductDetailVo> list) {
+		return sqlSession.insert("product.insert_product_detail", list);
 	}
 
 	public List<ProductDetailVo> get_product_detail_list(Long no) {
@@ -51,4 +51,14 @@ public class ProductDao {
 		return sqlSession.delete("product.delete_product", map);
 	}
 
+	
+	public List<ProductVo> test(){
+		List<ProductVo> list = sqlSession.selectList("product.selectTest");
+		return list;
+	}
+
+	public List<ProductVo> get_product_list_by_result_map() {
+		List<ProductVo> list_by_result_map = sqlSession.selectList("get_product_list_by_result_map");
+		return list_by_result_map;
+	}
 }

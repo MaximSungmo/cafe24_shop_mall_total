@@ -45,9 +45,8 @@ public class ProductService {
 	/*
 	 * 상품 상세정보, product_detail 
 	 */
-	public Boolean add_product_detail(ProductDetailVo vo) {
-		return productDao.add_product_detail(vo)==1;
-
+	public Integer add_product_detail(List<ProductDetailVo> vo_list) {
+		return productDao.add_product_detail(vo_list);
 	}
 
 	public List<ProductDetailVo> get_product_detail_list(Long product_no) {
@@ -63,6 +62,10 @@ public class ProductService {
 		map.put("product_no", product_no);
 		map.put("product_detail_no", product_detail_no);
 		return productDao.delete_product_detail(map)==1;
+	}
+
+	public List<ProductVo> get_product_list_by_result_map() {
+		return productDao.get_product_list_by_result_map();
 	}
 
 }

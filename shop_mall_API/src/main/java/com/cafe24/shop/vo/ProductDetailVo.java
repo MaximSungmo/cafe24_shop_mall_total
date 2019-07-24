@@ -8,6 +8,7 @@ public class ProductDetailVo {
 	private Long no;
 	private Long product_no;
 	private String product_option;
+	private Long price;
 	//'STOCK', 'NO_STOCK'
 	private String stock_cd;
 	private Long stock_cnt;
@@ -29,6 +30,17 @@ public class ProductDetailVo {
 		this.stock_cnt=stock_cnt;
 		this.warehouse_no=warehose_no;
 	}
+	public ProductDetailVo(Long no, Long product_no, String product_option, 
+			Long price, String stock_cd, Long stock_cnt, Long warehose_no) {
+		this.no=no;
+		this.product_no=product_no;
+		this.product_option=product_option;
+		this.price=price;
+		this.stock_cd=stock_cd;
+		this.stock_cnt=stock_cnt;
+		this.warehouse_no=warehose_no;
+	}
+	
 	
 	
 	public Long getNo() {
@@ -66,6 +78,18 @@ public class ProductDetailVo {
 	}
 	public void setWarehouse_no(Long warehouse_no) {
 		this.warehouse_no = warehouse_no;
+	}
+	public Long getPrice() {
+		return price;
+	}
+	public void setPrice(Long price) {
+		this.price = price;
+	}
+	@Override
+	public String toString() {
+		return "ProductDetailVo [no=" + no + ", product_no=" + product_no + ", product_option=" + product_option
+				+ ", price=" + price + ", stock_cd=" + stock_cd + ", stock_cnt=" + stock_cnt + ", warehouse_no="
+				+ warehouse_no + "]";
 	}
 	
 	

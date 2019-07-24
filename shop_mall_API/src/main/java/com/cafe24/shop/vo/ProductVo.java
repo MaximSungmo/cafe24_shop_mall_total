@@ -1,5 +1,7 @@
 package com.cafe24.shop.vo;
 
+import java.util.List;
+
 import javax.validation.constraints.NotNull;
 
 import io.swagger.annotations.ApiModel;
@@ -19,6 +21,16 @@ public class ProductVo {
 	private String register_dt;
 	private Long category_no;
 	private Long brand_no;
+	private CategoryVo categoryvo;
+	private ProductDetailVo productdetailvo;
+	public ProductDetailVo getProductdetailvo() {
+		return productdetailvo;
+	}
+	public void setProductdetailvo(ProductDetailVo productdetailvo) {
+		this.productdetailvo = productdetailvo;
+	}
+	private List<ProductDetailVo> product_detail_list;
+	private List<ProductImageVo> product_image_list;
 
 	
 	/**
@@ -115,10 +127,30 @@ public class ProductVo {
 	public void setBrand_no(Long brand_no) {
 		this.brand_no = brand_no;
 	}
+	public CategoryVo getCategoryvo() {
+		return categoryvo;
+	}
+	public void setCategoryvo(CategoryVo categoryvo) {
+		this.categoryvo = categoryvo;
+	}
+	public List<ProductDetailVo> getProduct_detail_list() {
+		return product_detail_list;
+	}
+	public void setProduct_detail_list(List<ProductDetailVo> product_detail_list) {
+		this.product_detail_list = product_detail_list;
+	}
+	public List<ProductImageVo> getProduct_image_list() {
+		return product_image_list;
+	}
+	public void setProduct_image_list(List<ProductImageVo> product_image_list) {
+		this.product_image_list = product_image_list;
+	}
 	@Override
 	public String toString() {
 		return "ProductVo [no=" + no + ", name=" + name + ", description=" + description + ", status=" + status
 				+ ", use_fl=" + use_fl + ", like_cnt=" + like_cnt + ", register_dt=" + register_dt + ", category_no="
-				+ category_no + ", brand_no=" + brand_no + "]";
+				+ category_no + ", brand_no=" + brand_no + ", categoryvo=" + categoryvo + ", product_detail_list="
+				+ product_detail_list + ", product_image_list=" + product_image_list + "]";
 	}
+	
 }

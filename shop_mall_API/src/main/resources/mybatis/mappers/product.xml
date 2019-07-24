@@ -2,6 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="product">
 	
+	<resultMap type="productvo" id="product_category_ResultMap"> 
+		<id property="no" column="no" /> 
+		<result property="p.name" column="name" /> 
+		<association property="categoryvo" resultMap="category" /> 
+	</resultMap> 
+	
+	<resultMap type="com.cafe24.shop.vo.CategoryVo" id="category"> 
+		<id property="category_no" column="no" /> 
+		<result property="c.name" column="c.name" /> 
+		<result property="parent_no" column="parent_no" /> 
+	</resultMap> 
+	
+	<select id="selectTest" resultMap="product_category_ResultMap"> 
+		select p.no, p.name, c.no, c.name, c.parent_no from PRODUCT p, CATEGORY c where p.category_no=c.no;
+	</select>
+
+	
+	
 	<!-- 테스트 데이터 삭제용 코드 -->
 	<delete id="delete_product_all">
 		<![CDATA[

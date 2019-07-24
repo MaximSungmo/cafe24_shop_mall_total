@@ -2,6 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="product">
 	
+	<!-- 
+	<resultMap type="productvo" id="product_category_ResultMap"> 
+		<id property="no" column="no" /> 
+		<result property="name" column="name" /> 
+		<association property="categoryvo" resultMap="category" /> 
+	</resultMap> 
+	
+	<resultMap type="com.cafe24.shop.vo.CategoryVo" id="category"> 
+		<id property="no" column="c_no" /> 
+		<result property="name" column="c_name" /> 
+		<result property="parent_no" column="c_parent_no" /> 
+	</resultMap> 
+	
+	<select id="selectTest" resultMap="product_category_ResultMap"> 
+		select p.no, p.name, c.no as c_no, c.name as c_name, c.parent_no as c_parent_no from PRODUCT p, CATEGORY c where p.category_no=c.no
+	</select>
+	-->
+	
 	<!-- 테스트 데이터 삭제용 코드 -->
 	<delete id="delete_product_all">
 		<![CDATA[
@@ -29,8 +47,6 @@
 			select last_insert_id()
 		</selectKey>
 	</insert>
-	
-	
 	
 	<insert id="insert_product_image" parameterType="productimagevo">
 		<![CDATA[
@@ -91,7 +107,28 @@
 	</update>
 	<!-- 실제 서비스 코드 (PRODUCT) 끝 -->
 	
+	
 	<!-- 실제 서비스 코드 (PRODUCT_DETAIL) 시작 -->
+	<insert id="insert_product_detail" parameterType="java.util.List">
+		<![CDATA[
+			insert into PRODUCT_DETAIL 
+		    values
+		]]>
+		<foreach item="item" index="index" collection="list" separator=", " >
+		<![CDATA[  
+		    (
+			    null, 
+			    #{item.product_no},
+			    #{item.product_option}, 
+			    #{item.price}, 
+			    #{item.stock_cd}, 
+			    #{item.stock_cnt}, 
+			    #{item.warehouse_no} 
+		    )
+		]]>
+		</foreach>
+	</insert>
+	<!-- 
 	<insert id="insert_product_detail" parameterType="productdetailvo">
 		<![CDATA[
 			insert into PRODUCT_DETAIL 
@@ -101,7 +138,7 @@
 			select last_insert_id()
 		</selectKey>
 	</insert>
-	
+	 -->
 	<select id="get_product_detail_list" parameterType="long" resultType="productdetailvo">
 		<![CDATA[
 			select no, product_no, product_option, stock_cd, stock_cnt, warehouse_no
@@ -110,6 +147,74 @@
 			order by no asc		 
 		]]>			
 	</select>
+	
+	<!-- 상품 - 상품디테일 - 상품 이미지 모두 가져오기 -->
+	<resultMap type="productvo" id="product_result_map"> 
+		<id property="no" column="no" /> 
+		<result property="name" column="name" />
+		<result property="description" column="description" />
+		<result property="status" column="status" />
+		<result property="use_fl" column="use_fl" />
+		<result property="like_cnt" column="like_cnt" />
+		<result property="register_dt" column="register_dt" />
+		<result property="category_no" column="category_no" />
+		<result property="brand_no" column="brand_no" />
+			
+		<collection property="product_detail_list" column="no" 
+			javaType="java.util.ArrayList" ofType="product_detail_result_map" 
+			select="get_product_detail_list1"/>
+		
+		<collection property="product_image_list" column="no" 
+			javaType="java.util.ArrayList" ofType="product_image_result_map" 
+			select="get_product_image_list"/>
+		
+	</resultMap> 
+	
+	<resultMap type="com.cafe24.shop.vo.ProductDetailVo" id="product_detail_result_map"> 
+		<id property="no" column="no" /> 
+		<result property="product_no" column="product_no" /> 
+		<result property="product_option" column="product_option" /> 
+		<result property="stock_cd" column="stock_cd" /> 
+		<result property="stock_cnt" column="stock_cnt" /> 
+		<result property="warehouse_no" column="warehouse_no" /> 
+	</resultMap> 
+	
+	<resultMap type="com.cafe24.shop.vo.ProductImageVo" id="product_image_result_map"> 
+		<id property="no" column="no" /> 
+		<result property="product_no" column="no" /> 
+		<result property="url" column="url" /> 
+		<result property="register_dt" column="register_dt" /> 
+		<result property="use_fl" column="use_fl" /> 
+		<result property="product_image_category_no" column="product_image_category_no" /> 
+	</resultMap> 
+
+	<select id="get_product_list_by_result_map" resultMap="product_result_map"> 
+		<![CDATA[
+			SELECT p.no, p.NAME, p.DESCRIPTION, p.STATUS, p.USE_FL, p.LIKE_CNT, p.REGISTER_DT, p.CATEGORY_NO, p.BRAND_NO 
+			FROM PRODUCT p
+			LEFT JOIN PRODUCT_DETAIL pd on(p.no=pd.PRODUCT_NO)
+			LEFT JOIN PRODUCT_IMAGE pi on(pd.PRODUCT_NO=pi.PRODUCT_NO);
+		]]>
+	</select>
+	
+	<select id="get_product_detail_list1" resultMap="product_detail_result_map"> 
+		<![CDATA[
+			SELECT pd.no, pd.PRODUCT_NO, pd.PRODUCT_OPTION, pd.PRICE, pd.STOCK_CD, pd.STOCK_CNT, pd.WAREHOUSE_NO
+			FROM PRODUCT_DETAIL pd
+			WHERE pd.PRODUCT_NO=#{no};
+		]]>
+	</select>
+	
+	<select id="get_product_image_list" resultMap="product_image_result_map"> 
+		<![CDATA[
+			SELECT pi.no, pi.PRODUCT_NO, pi.URL, pi.REGISTER_DT, pi.USE_FL, pi.PRODUCT_IMAGE_CATEGORY_NO
+			FROM PRODUCT_IMAGE pi
+			WHERE pi.PRODUCT_NO=#{no};
+		]]>
+	</select>
+	
+	
+	
 	
 	<!-- 실제 서비스 코드 (PRODUCT_DETAIL) 끝 -->
 	

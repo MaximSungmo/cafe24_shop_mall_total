@@ -1,5 +1,7 @@
 package com.cafe24.shop.vo;
 
+import java.util.List;
+
 import javax.validation.constraints.NotNull;
 
 import io.swagger.annotations.ApiModel;
@@ -12,6 +14,15 @@ public class CategoryVo {
 	@NotNull
 	private String name;
 	private Long parent_no;
+	private List<ProductVo> product_list;
+	
+	
+	public List<ProductVo> getProduct_list() {
+		return product_list;
+	}
+	public void setProduct_list(List<ProductVo> product_list) {
+		this.product_list = product_list;
+	}
 	/*
 	 * 생성자 목록
 	 */
@@ -44,7 +55,8 @@ public class CategoryVo {
 	}
 	@Override
 	public String toString() {
-		return "CategoryVo [no=" + no + ", name=" + name + ", parent_no=" + parent_no + "]";
+		return "CategoryVo [no=" + no + ", name=" + name + ", parent_no=" + parent_no + ", product_list=" + product_list
+				+ "]";
 	}
 	
 	

@@ -80,15 +80,13 @@ public class ProductControllerTest {
 		Long product_vo2_no = product_list.get(2).getNo();
 		Long product_vo3_no = product_list.get(3).getNo();
 
-		ProductDetailVo detail_vo1 = new ProductDetailVo(null, product_vo1_no, "사이즈270-1", "STOCK", 40L, null);
-		ProductDetailVo detail_vo2 = new ProductDetailVo(null, product_vo2_no, "사이즈270-2", "STOCK", 40L, null);
-		ProductDetailVo detail_vo3 = new ProductDetailVo(null, product_vo3_no, "사이즈270-3", "STOCK", 40L, null);
+		ProductDetailVo detail_vo1 = new ProductDetailVo(null, product_vo1_no, "사이즈270-1", 100L, "STOCK", 40L, null);
+		ProductDetailVo detail_vo2 = new ProductDetailVo(null, product_vo2_no, "사이즈270-2", 200L, "STOCK", 40L, null);
+		ProductDetailVo detail_vo3 = new ProductDetailVo(null, product_vo3_no, "사이즈270-3", 300L, "STOCK", 40L, null);
 		detail_list.add(detail_vo1);
 		detail_list.add(detail_vo2);
 		detail_list.add(detail_vo3);
-		for(int i=0; i<detail_list.size(); i++) {
-			sqlSession.insert("product.insert_product_detail", detail_list.get(i));
-		}
+		sqlSession.insert("product.insert_product_detail", detail_list);
 		return detail_list;
 	}
 		
@@ -111,6 +109,7 @@ public class ProductControllerTest {
 	 * 
 	 * @throws Exception :상품 목록 가져오기.(param: category_no, kwd)
 	 */
+	@Ignore
 	@Test
 	public void get_product_list_success_test() throws Exception {
 		// ## get_product_list() 성공 테스트
@@ -154,7 +153,7 @@ public class ProductControllerTest {
 		.andExpect(jsonPath("$.data[0].category_no").value(product_list.get(2).getCategory_no()));
 	}
 	
-	
+	@Ignore
 	@Test
 	public void get_product_list_fail_test() throws Exception {
 		// ## get_product_list() 성공 테스트
@@ -164,8 +163,10 @@ public class ProductControllerTest {
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result").value("fail"))
 		.andExpect(jsonPath("$.message").value("조건에 맞는 정보가 없습니다."));
+		
+		
 	}
-	
+	@Ignore
 	@Test
 	public void add_product_success_test() throws Exception {
 		ProductVo vo = new ProductVo(null, "상품4", "상품4상세내용", "상태4", "N", 1L, null, category_vo2.getNo(), null);
@@ -181,7 +182,7 @@ public class ProductControllerTest {
 		.andExpect(jsonPath("$.data.description").value(vo.getDescription()))
 		.andExpect(jsonPath("$.data.category_no").value(vo.getCategory_no()));
 	}
-	
+	@Ignore
 	@Test
 	public void add_product_vaild_fail_test() throws Exception {
 		//name is null
@@ -196,7 +197,7 @@ public class ProductControllerTest {
 		.andExpect(jsonPath("$.result").value("fail"));
 	}
 		
-
+	@Ignore
 	@Test
 	public void update_product_success_test() throws Exception {
 		product_list.get(3).setName("변경된카테고리 이름");
@@ -216,7 +217,7 @@ public class ProductControllerTest {
 		.andExpect(jsonPath("$.data.description").value(product_list.get(3).getDescription()))
 		.andExpect(jsonPath("$.data.category_no").value(product_list.get(3).getCategory_no()));
 	}
-	
+	@Ignore
 	@Test
 	public void update_product_vaild_fail_test() throws Exception {
 		product_list.get(3).setName(null);
@@ -233,7 +234,7 @@ public class ProductControllerTest {
 		.andExpect(jsonPath("$.result").value("fail"));
 	}
 
-	
+	@Ignore
 	@Test
 	public void delete_product_success_test() throws Exception {
 
@@ -253,20 +254,21 @@ public class ProductControllerTest {
 	 */
 	@Test
 	public void add_product_detail_success_test() throws Exception {
-//		ProductDetailVo detail_vo = new ProductDetailVo(1L, 1L, "사이즈270-1", "STOCK", 40L, 1L);
+		
+		
 		
 		ResultActions resultActions = mockMvc
 		.perform(post("/api/product/"+detail_list.get(0).getProduct_no()+"/detail")
 		.contentType(MediaType.APPLICATION_JSON)
-		.content(new Gson().toJson(detail_list.get(0))));
+		.content(new Gson().toJson(detail_list)));
 		
 		resultActions
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result").value("success"))
-		.andExpect(jsonPath("$.data.product_no").value(detail_list.get(0).getProduct_no()))
-		.andExpect(jsonPath("$.data.product_option").value(detail_list.get(0).getProduct_option()));
+		.andExpect(jsonPath("$.data[0].product_no").value(detail_list.get(0).getProduct_no()))
+		.andExpect(jsonPath("$.data[0].product_option").value(detail_list.get(0).getProduct_option()));
 	}
-
+	@Ignore
 	@Test
 	public void get_product_detail_list_success_test() throws Exception {
 		// ## get_product_list() 성공 테스트
@@ -280,7 +282,7 @@ public class ProductControllerTest {
 		.andExpect(jsonPath("$.data[0].product_option").value(detail_list.get(0).getProduct_option()));
 	}
 	
-	
+	@Ignore
 	@Test
 	public void update_product_detail_success_test() throws Exception {
 		ResultActions resultActions = mockMvc
@@ -292,7 +294,7 @@ public class ProductControllerTest {
 		.andExpect(jsonPath("$.result").value("success"))
 		.andExpect(jsonPath("$.data").value(3));
 	}
-
+	@Ignore
 	@Test
 	public void delete_product_detail_success_test() throws Exception {
 
@@ -304,5 +306,17 @@ public class ProductControllerTest {
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result").value("success"))
 		.andExpect(jsonPath("$.data").value(3));
+	}
+	@Ignore
+	@Test
+	public void get_product_list_by_result_map_success_test() throws Exception {
+
+		ResultActions resultActions = mockMvc
+		.perform(get("/api/product/all/item")
+		.contentType(MediaType.APPLICATION_JSON));
+
+		resultActions
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result").value("success"));
 	}
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cafe24.shop.repository.CartDao;
+import com.cafe24.shop.vo.CartVo;
 import com.cafe24.shop.vo.ProductDetailVo;
 @Service
 public class CartService {
@@ -37,10 +38,17 @@ public class CartService {
 //		return productDao.delete_product_detail(map);
 //	}
 
-	public Long add_cart(Long customer_no, Long product_no) {
+	public Integer add_cart(Long customer_no, Long product_no, Long count) {
 		Map<String, Long> map = new HashMap<String, Long>();
 		map.put("customer_no", customer_no);
 		map.put("product_no", product_no);
+		map.put("count", count);
 		return cartDao.add_cart(map);
 	}
+
+	public Integer add_cart_list(Long customer_no, List<CartVo> cartvo_list) {
+		return cartDao.add_cart_list(customer_no, cartvo_list);
+	}
+
+	
 }

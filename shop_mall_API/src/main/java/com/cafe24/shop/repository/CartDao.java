@@ -27,10 +27,8 @@ public class CartDao {
 		return list;		
 	}
 	
-	public Long add_cart(Map<String, Long> map) {
-		Long inserted_cart_no = 1L;
-//		Long inserted_cart_no =sqlSession.insert("cart.add_cart", map);
-		return inserted_cart_no;
+	public Integer add_cart(Map<String, Long> map) {
+		return sqlSession.insert("cart.add_cart", map);
 	}
 	
 }

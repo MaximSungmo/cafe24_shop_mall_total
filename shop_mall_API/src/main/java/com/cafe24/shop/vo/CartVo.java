@@ -4,11 +4,16 @@ public class CartVo {
 
 	private Long no;
 	private Long customer_no;
+	private CustomerVo customerVo;
+	
 	private Long product_detail_no;
+	private ProductDetailVo productDetailVo;
+	
 	private Long count;
 	private String register_dt;
 	private String delete_dt;
 	private String ordered_cart;
+	
 	
 	/*
 	 * 생성자목록 
@@ -32,7 +37,6 @@ public class CartVo {
 		this.delete_dt=delete_dt;
 		this.ordered_cart=ordered_cart;
 	}
-
 	
 	
 	
@@ -80,11 +84,28 @@ public class CartVo {
 		this.ordered_cart = ordered_cart;
 	}
 
+	public CustomerVo getCustomerVo() {
+		return customerVo;
+	}
+
+	public void setCustomerVo(CustomerVo customerVo) {
+		this.customerVo = customerVo;
+	}
+
+	public ProductDetailVo getProductDetailVo() {
+		return productDetailVo;
+	}
+
+	public void setProductDetailVo(ProductDetailVo productDetailVo) {
+		this.productDetailVo = productDetailVo;
+	}
+
 	@Override
 	public String toString() {
-		return "CartVo [no=" + no + ", customer_no=" + customer_no + ", product_detail_no=" + product_detail_no
-				+ ", count=" + count + ", register_dt=" + register_dt + ", delete_dt=" + delete_dt + ", ordered_cart="
-				+ ordered_cart + "]";
+		return "CartVo [no=" + no + ", customer_no=" + customer_no + ", customerVo=" + customerVo
+				+ ", product_detail_no=" + product_detail_no + ", productDetailVo=" + productDetailVo + ", count="
+				+ count + ", register_dt=" + register_dt + ", delete_dt=" + delete_dt + ", ordered_cart=" + ordered_cart
+				+ "]";
 	}
 	
 	

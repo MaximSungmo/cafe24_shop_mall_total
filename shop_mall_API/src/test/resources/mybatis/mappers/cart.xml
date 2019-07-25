@@ -1,0 +1,45 @@
+xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cart">
+
+
+	<insert id="insert_cart" parameterType="map">
+		<![CDATA[
+		INSERT INTO CART
+		VALUES
+		(
+			null
+			, #{customer_no}
+			, #{product_detail_no}
+			, #{count}
+			, now()	
+			, null
+			, ordered_cart = "N"
+		)		
+		]]>		
+	</insert>
+		
+
+	<update id="insert_cart_list" parameterType="boardVo">
+		<![CDATA[
+			INSERT INTO CART
+			VALUES
+		]]>
+		<foreach item="item" index="index" collection="list" separator=", " >
+		<![CDATA[  
+		    (
+				null
+				, #{item.customer_no}
+				, #{item.product_detail_no}
+				, #{item.count}
+				, now()	
+				, null
+				, ordered_cart = "N"
+			)		
+		]]>
+		</foreach>
+		<selectKey keyProperty="no" resultType="long" order="AFTER">
+				select last_insert_id()
+		</selectKey>
+	</update>
+	

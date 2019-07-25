@@ -26,12 +26,7 @@ public class ProductVo {
 	
 	private List<ProductDetailVo> product_detail_list;
 	private List<ProductImageVo> product_image_list;
-	public ProductDetailVo getProductdetailvo() {
-		return productdetailvo;
-	}
-	public void setProductdetailvo(ProductDetailVo productdetailvo) {
-		this.productdetailvo = productdetailvo;
-	}
+	
 	
 	/**
 	 * 생성자 목록
@@ -145,12 +140,19 @@ public class ProductVo {
 	public void setProduct_image_list(List<ProductImageVo> product_image_list) {
 		this.product_image_list = product_image_list;
 	}
+	public ProductDetailVo getProductdetailvo() {
+		return productdetailvo;
+	}
+	public void setProductdetailvo(ProductDetailVo productdetailvo) {
+		this.productdetailvo = productdetailvo;
+	}
 	@Override
 	public String toString() {
 		return "ProductVo [no=" + no + ", name=" + name + ", description=" + description + ", status=" + status
 				+ ", use_fl=" + use_fl + ", like_cnt=" + like_cnt + ", register_dt=" + register_dt + ", category_no="
-				+ category_no + ", brand_no=" + brand_no + ", categoryvo=" + categoryvo + ", product_detail_list="
-				+ product_detail_list + ", product_image_list=" + product_image_list + "]";
+				+ category_no + ", brand_no=" + brand_no + ", categoryvo=" + categoryvo + ", productdetailvo="
+				+ productdetailvo + ", product_detail_list=" + product_detail_list + ", product_image_list="
+				+ product_image_list + "]";
 	}
 	
 }

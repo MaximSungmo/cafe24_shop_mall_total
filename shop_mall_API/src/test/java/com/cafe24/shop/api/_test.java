@@ -24,7 +24,7 @@ import com.cafe24.shop.vo.CategoryVo;
 import com.cafe24.shop.vo.ProductDetailVo;
 import com.cafe24.shop.vo.ProductVo;
 
-
+@Ignore
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc

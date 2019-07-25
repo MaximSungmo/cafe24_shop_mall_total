@@ -65,15 +65,16 @@ public class ProductController {
 		}
 	}
 	
-	@ApiOperation(value = "상품 상세 조회")
+	@ApiOperation(value = "상품 상세 조회/화면에 모든 정보 가져오기")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "product_no", value = "product_no", dataType = "long", paramType = "path"),
     })
 	@ResponseBody
-	@RequestMapping(value = {"/all/item"}, method = RequestMethod.GET)
-	public ResponseEntity<JSONResult> get_product_list_by_result_map() {
-		
-		List<ProductVo> product_list = productService.get_product_list_by_result_map();
+	@RequestMapping(value = {"/all/{no}"}, method = RequestMethod.GET)
+	public ResponseEntity<JSONResult> get_product_list_by_result_map(
+			@PathVariable(value="no") Optional<Long> no) {
+		Long category_no = no.isPresent() ? no.get() : 0;
+		List<ProductVo> product_list = productService.get_product_list_by_result_map(category_no);
 		if(!product_list.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(product_list));
 		}else {
@@ -182,48 +183,69 @@ public class ProductController {
 			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("정상적으로 정보가 등록되지 않았습니다."));
 		}
 	}
-//	
-//	@ApiOperation(value = "상품 상세정보 조회")
-//    @ApiImplicitParams({
-//        @ApiImplicitParam(name = "product_no", value = "product_no", dataType = "long", paramType = "path"),
-//    })
-//	@ResponseBody
-//	@RequestMapping(value = { "/{product_no}/detail" }, method = RequestMethod.GET)
-//	public ResponseEntity<JSONResult> get_product_detail_list(@PathVariable Long product_no) {
-//		List<ProductDetailVo> get_product_detail_list = productService.get_product_detail_list(product_no);
-//		if(!get_product_detail_list.isEmpty()) {
-//			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(get_product_detail_list));
-//		}else {
-//			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("조건에 맞는 정보가 없습니다."));
-//		}
-//	}
-//	
-//	@ApiOperation(value = "상품 상세정보 업데이트")
-//    @ApiImplicitParams({
-//        @ApiImplicitParam(name = "product_no", value = "product_no", dataType = "long", paramType = "path"),
-//        @ApiImplicitParam(name = "product_detail_no", value = "product_detail_no", dataType = "long", paramType = "path"),
-//    })
-//	@ResponseBody
-//	@RequestMapping(value = { "/{product_no}/detail/{product_detail_no}" }, method = RequestMethod.PUT)
-//	public ResponseEntity<JSONResult> update_product_detail(
-//			@PathVariable(value="product_no") Long product_no,
-//			@PathVariable(value="product_no") Long product_detail_no) {
-//		Boolean updated_product_detail_no = productService.update_product_detail(product_detail_no);
-//		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(updated_product_detail_no));
-//	}
-//	
-//	@ApiOperation(value = "상품 상세정보 삭제")
-//    @ApiImplicitParams({
-//        @ApiImplicitParam(name = "ProductDetailVo", value = "ProductDetailVo", dataType = "ProductDetailVo", paramType = "body"),
-//    })
-//	@ResponseBody
-//	@RequestMapping(value = { "/{product_no}/detail/{product_detail_no}" }, method = RequestMethod.DELETE)
-//	public ResponseEntity<JSONResult> updat1e_product_detail(
-//			@PathVariable(value="product_no") Long product_no,
-//			@PathVariable(value="product_no") Long product_detail_no) {
-//		Boolean deleted_product_detail_no = productService.delete_product_detail(product_no, product_detail_no);
-//		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(deleted_product_detail_no));
-//	}
+	
+	@ApiOperation(value = "상품 상세정보 조회")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "product_no", value = "product_no", dataType = "long", paramType = "path"),
+    })
+	@ResponseBody
+	@RequestMapping(value = { "/{product_no}/detail" }, method = RequestMethod.GET)
+	public ResponseEntity<JSONResult> get_product_detail_list(@PathVariable Long product_no) {
+		List<ProductDetailVo> get_product_detail_list = productService.get_product_detail_list(product_no);
+		if(!get_product_detail_list.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(get_product_detail_list));
+		}else {
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("조건에 맞는 정보가 없습니다."));
+		}
+	}
+	
+	@ApiOperation(value = "상품 상세정보 업데이트")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "product_no", value = "product_no", dataType = "long", paramType = "path"),
+        @ApiImplicitParam(name = "product_detail_list", value = "product_detail_list", dataType = "list", paramType = "body"),
+    })
+	@Transactional
+	@ResponseBody
+	@RequestMapping(value = { "/{product_no}/detail" }, method = RequestMethod.PUT)
+	public ResponseEntity<JSONResult> update_product_detail(
+			@PathVariable(value="product_no") Long product_no,
+			@RequestBody List<ProductDetailVo> product_detail_list) {
+		productService.update_product_detail(product_detail_list);
+		
+		if(!product_detail_list.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(product_detail_list));
+		}else {
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("정상적으로 정보가 업데이트되지 않았습니다."));
+		}
+	}
+	
+	@ApiOperation(value = "상품 상세정보 삭제")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "product_detail_no", value = "product_detail_no", dataType = "long", paramType = "path"),
+    })
+	@ResponseBody
+	@RequestMapping(value = { "/{product_no}/detail/{product_detail_no}" }, method = RequestMethod.DELETE)
+	public ResponseEntity<JSONResult> delete_product_detail(
+			@PathVariable(value="product_no") Long product_no,
+			@PathVariable(value="product_no") Long product_detail_no) {
+		
+		productService.delete_product_detail(product_no, product_detail_no);
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(product_detail_no));
+	}
+	
+	
+	@ApiOperation(value = "상품 상세정보 리스트 삭제")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "product_detail_list", value = "product_detail_list", dataType = "List", paramType = "body"),
+    })
+	@ResponseBody
+	@RequestMapping(value = { "/{product_no}/detail" }, method = RequestMethod.DELETE)
+	public ResponseEntity<JSONResult> delete_product_detail_list(
+			@PathVariable(value="product_no") Long product_no,
+			@RequestBody List<ProductDetailVo> product_detail_list) {
+		productService.delete_product_detail_list(product_detail_list);	
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(product_detail_list));
+	}
 	
 	
 }

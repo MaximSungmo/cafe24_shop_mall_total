@@ -10,10 +10,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
-import org.hamcrest.core.Is;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -128,7 +129,7 @@ public class ProductControllerTest {
 		resultActions2
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result").value("success"))
-		.andExpect(jsonPath("$.data", hasSize(4)))
+//		.andExpect(jsonPath("$.data", hasSize(4)))
 		.andExpect(jsonPath("$.data[0].no").value(product_list.get(0).getNo()))
 		.andExpect(jsonPath("$.data[0].name").value(product_list.get(0).getName()))
 		.andExpect(jsonPath("$.data[0].description").value(product_list.get(0).getDescription()))
@@ -153,7 +154,6 @@ public class ProductControllerTest {
 		.andExpect(jsonPath("$.data[0].category_no").value(product_list.get(2).getCategory_no()));
 	}
 	
-	@Ignore
 	@Test
 	public void get_product_list_fail_test() throws Exception {
 		// ## get_product_list() 성공 테스트
@@ -166,7 +166,7 @@ public class ProductControllerTest {
 		
 		
 	}
-	@Ignore
+
 	@Test
 	public void add_product_success_test() throws Exception {
 		ProductVo vo = new ProductVo(null, "상품4", "상품4상세내용", "상태4", "N", 1L, null, category_vo2.getNo(), null);
@@ -182,7 +182,7 @@ public class ProductControllerTest {
 		.andExpect(jsonPath("$.data.description").value(vo.getDescription()))
 		.andExpect(jsonPath("$.data.category_no").value(vo.getCategory_no()));
 	}
-	@Ignore
+
 	@Test
 	public void add_product_vaild_fail_test() throws Exception {
 		//name is null
@@ -197,7 +197,6 @@ public class ProductControllerTest {
 		.andExpect(jsonPath("$.result").value("fail"));
 	}
 		
-	@Ignore
 	@Test
 	public void update_product_success_test() throws Exception {
 		product_list.get(3).setName("변경된카테고리 이름");
@@ -217,7 +216,7 @@ public class ProductControllerTest {
 		.andExpect(jsonPath("$.data.description").value(product_list.get(3).getDescription()))
 		.andExpect(jsonPath("$.data.category_no").value(product_list.get(3).getCategory_no()));
 	}
-	@Ignore
+
 	@Test
 	public void update_product_vaild_fail_test() throws Exception {
 		product_list.get(3).setName(null);
@@ -234,7 +233,6 @@ public class ProductControllerTest {
 		.andExpect(jsonPath("$.result").value("fail"));
 	}
 
-	@Ignore
 	@Test
 	public void delete_product_success_test() throws Exception {
 
@@ -255,8 +253,6 @@ public class ProductControllerTest {
 	@Test
 	public void add_product_detail_success_test() throws Exception {
 		
-		
-		
 		ResultActions resultActions = mockMvc
 		.perform(post("/api/product/"+detail_list.get(0).getProduct_no()+"/detail")
 		.contentType(MediaType.APPLICATION_JSON)
@@ -268,55 +264,95 @@ public class ProductControllerTest {
 		.andExpect(jsonPath("$.data[0].product_no").value(detail_list.get(0).getProduct_no()))
 		.andExpect(jsonPath("$.data[0].product_option").value(detail_list.get(0).getProduct_option()));
 	}
-	@Ignore
+	
 	@Test
 	public void get_product_detail_list_success_test() throws Exception {
 		// ## get_product_list() 성공 테스트
+
 		ResultActions resultActions = mockMvc
 		.perform(get("/api/product/"+detail_list.get(0).getProduct_no()+"/detail").contentType(MediaType.APPLICATION_JSON));
 		resultActions
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result").value("success"))
-		.andExpect(jsonPath("$.data[0].no").value(detail_list.get(0).getNo()))
+//		.andExpect(jsonPath("$.data[0].no").value(detail_list.get(0).getNo()))
 		.andExpect(jsonPath("$.data[0].product_no").value(detail_list.get(0).getProduct_no()))
 		.andExpect(jsonPath("$.data[0].product_option").value(detail_list.get(0).getProduct_option()));
 	}
 	
-	@Ignore
+	
 	@Test
 	public void update_product_detail_success_test() throws Exception {
+		detail_list.get(0).setPrice(500L);
+		detail_list.get(1).setPrice(500L);
+		detail_list.get(2).setPrice(500L);
+		
+		detail_list.get(0).setProduct_option("오래오래오");
+		detail_list.get(0).setProduct_option("육육육");
+		detail_list.get(0).setProduct_option("아아아");
+		
 		ResultActions resultActions = mockMvc
-		.perform(put("/api/product/3/detail/3")
+		.perform(put("/api/product/"+detail_list.get(0).getProduct_no()+"/detail")
 		.contentType(MediaType.APPLICATION_JSON)
-		.content(new Gson().toJson(product_list.get(3))));
+		.content(new Gson().toJson(detail_list)));
+		
 		resultActions.andExpect(status()
 		.isOk()).andExpect(jsonPath("$.result").value("success"))
-		.andExpect(jsonPath("$.result").value("success"))
-		.andExpect(jsonPath("$.data").value(3));
+		.andExpect(jsonPath("$.result").value("success"));
+//		.andExpect(jsonPath("$.data[0].no").value(3));
 	}
-	@Ignore
+	
 	@Test
 	public void delete_product_detail_success_test() throws Exception {
 
 		ResultActions resultActions = mockMvc
-		.perform(delete("/api/product/3/detail/3")
-		.contentType(MediaType.APPLICATION_JSON));
-
-		resultActions
-		.andExpect(status().isOk())
-		.andExpect(jsonPath("$.result").value("success"))
-		.andExpect(jsonPath("$.data").value(3));
-	}
-	@Ignore
-	@Test
-	public void get_product_list_by_result_map_success_test() throws Exception {
-
-		ResultActions resultActions = mockMvc
-		.perform(get("/api/product/all/item")
+		.perform(delete("/api/product/"
+				+detail_list.get(0).getProduct_no()
+				+"/detail/"+detail_list.get(0).getNo())
 		.contentType(MediaType.APPLICATION_JSON));
 
 		resultActions
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result").value("success"));
 	}
+
+	@Test
+	public void delete_product_detail_list_success_test() throws Exception {
+
+		ResultActions resultActions = mockMvc
+		.perform(delete("/api/product/"+detail_list.get(0).getProduct_no()+"/detail")
+		.contentType(MediaType.APPLICATION_JSON)
+		.content(new Gson().toJson(detail_list)));
+
+		resultActions
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result").value("success"))
+		.andExpect(jsonPath("$.data[0].product_no").value(detail_list.get(0).getProduct_no()))
+		.andExpect(jsonPath("$.data[0].product_option").value(detail_list.get(0).getProduct_option()))
+		.andExpect(jsonPath("$.data[1].product_no").value(detail_list.get(1).getProduct_no()))
+		.andExpect(jsonPath("$.data[1].product_option").value(detail_list.get(1).getProduct_option()));
+	}
+	
+	@Test
+	public void get_product_list_by_result_map_success_test() throws Exception {
+
+		ResultActions resultActions = mockMvc
+		.perform(get("/api/product/all/"+category_vo1.getNo())
+		.contentType(MediaType.APPLICATION_JSON));
+
+		resultActions
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result").value("success"))
+		.andExpect(jsonPath("$.data[0].no").value(product_list.get(0).getNo()))
+		.andExpect(jsonPath("$.data[0].name").value(product_list.get(0).getName()))
+		.andExpect(jsonPath("$.data[0].category_no").value(product_list.get(0).getCategory_no()))
+		.andExpect(jsonPath("$.data[0].use_fl").value(product_list.get(0).getUse_fl()))
+		.andExpect(jsonPath("$.data[1].no").value(product_list.get(1).getNo()))
+		.andExpect(jsonPath("$.data[1].name").value(product_list.get(1).getName()))
+		.andExpect(jsonPath("$.data[1].category_no").value(product_list.get(1).getCategory_no()))
+		.andExpect(jsonPath("$.data[1].use_fl").value(product_list.get(1).getUse_fl()));
+	}
+	
+	
+	
+	
 }

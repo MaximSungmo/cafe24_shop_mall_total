@@ -41,7 +41,9 @@ public class ProductService {
 		return productDao.delete_product(no)==1;
 	}
 
-	
+	public List<ProductVo> get_product_list_by_result_map(Long category_no) {
+		return productDao.get_product_list_by_result_map(category_no);
+	}
 	/*
 	 * 상품 상세정보, product_detail 
 	 */
@@ -53,8 +55,8 @@ public class ProductService {
 		return productDao.get_product_detail_list(product_no);
 	}
 
-	public Boolean update_product_detail(Long product_detail_no) {
-		return productDao.update_product_detail(product_detail_no)==1;
+	public Integer update_product_detail(List<ProductDetailVo> product_detail_list) {
+		return productDao.update_product_detail(product_detail_list);
 	}
 
 	public Boolean delete_product_detail(Long product_no, Long product_detail_no) {
@@ -63,9 +65,10 @@ public class ProductService {
 		map.put("product_detail_no", product_detail_no);
 		return productDao.delete_product_detail(map)==1;
 	}
+	
 
-	public List<ProductVo> get_product_list_by_result_map() {
-		return productDao.get_product_list_by_result_map();
+	public Integer delete_product_detail_list(List<ProductDetailVo> product_detail_list) {
+		return productDao.delete_product_detail_list(product_detail_list);
 	}
 
 }

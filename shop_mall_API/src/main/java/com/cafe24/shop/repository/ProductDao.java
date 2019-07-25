@@ -42,23 +42,23 @@ public class ProductDao {
 		return product_list;
 	}
 
-	public Integer update_product_detail(Long product_detail_no) {
-		Integer updated_product_detail_no = sqlSession.update("product.update_product_detail", product_detail_no);
-		return updated_product_detail_no;
+	public Integer update_product_detail(List<ProductDetailVo> product_detail_list) {
+		return sqlSession.update("product.update_product_detail_list", product_detail_list);
 	}
 
 	public Integer delete_product_detail(Map<String, Long> map) {
-		return sqlSession.delete("product.delete_product", map);
+		return sqlSession.delete("product.delete_product_detail", map);
+	}
+	
+	public Integer delete_product_detail_list(List<ProductDetailVo> product_detail_list) {
+		return sqlSession.delete("product.delete_product_detail_list",product_detail_list);
+	}
+	
+
+	public List<ProductVo> get_product_list_by_result_map(Long category_no) {
+		List<ProductVo> list_by_result_map = sqlSession.selectList("get_product_list_by_result_map", category_no);
+		return list_by_result_map;
 	}
 
 	
-	public List<ProductVo> test(){
-		List<ProductVo> list = sqlSession.selectList("product.selectTest");
-		return list;
-	}
-
-	public List<ProductVo> get_product_list_by_result_map() {
-		List<ProductVo> list_by_result_map = sqlSession.selectList("get_product_list_by_result_map");
-		return list_by_result_map;
-	}
 }

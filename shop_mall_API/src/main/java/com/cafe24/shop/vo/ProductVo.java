@@ -23,15 +23,15 @@ public class ProductVo {
 	private Long brand_no;
 	private CategoryVo categoryvo;
 	private ProductDetailVo productdetailvo;
+	
+	private List<ProductDetailVo> product_detail_list;
+	private List<ProductImageVo> product_image_list;
 	public ProductDetailVo getProductdetailvo() {
 		return productdetailvo;
 	}
 	public void setProductdetailvo(ProductDetailVo productdetailvo) {
 		this.productdetailvo = productdetailvo;
 	}
-	private List<ProductDetailVo> product_detail_list;
-	private List<ProductImageVo> product_image_list;
-
 	
 	/**
 	 * 생성자 목록

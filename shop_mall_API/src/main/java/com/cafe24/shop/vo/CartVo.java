@@ -1,5 +1,8 @@
 package com.cafe24.shop.vo;
 
+import io.swagger.annotations.ApiModel;
+
+@ApiModel(value = "CartVo")
 public class CartVo {
 
 	private Long no;
@@ -38,9 +41,21 @@ public class CartVo {
 		this.ordered_cart=ordered_cart;
 	}
 	
-	
-	
-	
+
+	public CartVo(Long no, Long customer_no, CustomerVo customerVo, Long product_detail_no,
+			ProductDetailVo productDetailVo, Long count, String register_dt, String delete_dt, String ordered_cart) {
+		super();
+		this.no = no;
+		this.customer_no = customer_no;
+		this.customerVo = customerVo;
+		this.product_detail_no = product_detail_no;
+		this.productDetailVo = productDetailVo;
+		this.count = count;
+		this.register_dt = register_dt;
+		this.delete_dt = delete_dt;
+		this.ordered_cart = ordered_cart;
+	}
+
 	public Long getNo() {
 		return no;
 	}

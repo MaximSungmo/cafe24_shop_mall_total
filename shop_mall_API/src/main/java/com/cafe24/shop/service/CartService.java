@@ -38,16 +38,26 @@ public class CartService {
 //		return productDao.delete_product_detail(map);
 //	}
 
-	public Integer add_cart(Long customer_no, Long product_no, Long count) {
+	public Integer add_cart(Long customer_no, Long product_detail_no, Long count) {
 		Map<String, Long> map = new HashMap<String, Long>();
 		map.put("customer_no", customer_no);
-		map.put("product_no", product_no);
+		map.put("product_detail_no", product_detail_no);
 		map.put("count", count);
 		return cartDao.add_cart(map);
 	}
 
-	public Integer add_cart_list(Long customer_no, List<CartVo> cartvo_list) {
-		return cartDao.add_cart_list(customer_no, cartvo_list);
+	public Integer add_cart_list(List<CartVo> cartvo_list) {
+		return cartDao.add_cart_list(cartvo_list);
+		
+	}
+
+	public List<CartVo> get_cart_list(Long customer_no) {
+		return cartDao.get_cart_list(customer_no);
+	}
+
+	public Integer update_cart_list(List<CartVo> cartvo_list) {
+		
+		return cartDao.update_cart_list(cartvo_list);
 	}
 
 	

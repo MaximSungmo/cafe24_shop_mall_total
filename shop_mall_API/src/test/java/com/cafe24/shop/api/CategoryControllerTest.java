@@ -48,7 +48,7 @@ public class CategoryControllerTest {
 	CategoryVo vo3 = new CategoryVo(null, "3번카테고리", null);
 	CategoryVo vo4 = new CategoryVo(null, "4번카테고리", null);
 	public List<CategoryVo> testData(){
-		sqlSession.delete("category.deleteAll");
+//		sqlSession.delete("category.deleteAll");
 		
 		//	Test용 데이터 생성(DB)
 		list.add(vo1);		

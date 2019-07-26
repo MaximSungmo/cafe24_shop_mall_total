@@ -2,34 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="category">
 
-
-	<resultMap type="categoryvo" id="category_ResultMap"> 
-		<id property="no" column="no" /> 
-		<result property="name" column="name" /> 
-		<result property="parent_no" column="parent_no" /> 
-		
-		<collection property="product_list" column="no" javaType="java.util.ArrayList" ofType="product_result_map" select="get_product_list"/>
-	</resultMap> 
-	
-	<resultMap type="com.cafe24.shop.vo.ProductVo" id="product_result_map"> 
-		<result property="no" column="p_no" /> 
-		<result property="name" column="p_name" /> 
-		<result property="description" column="p_desc" /> 
-		<result property="category_no" column="p_category_no"/>
-	</resultMap> 
-
-	<select id="selectTest" resultMap="category_ResultMap"> 
-		SELECT C.NO, C.NAME, C.PARENT_NO FROM CATEGORY C
-	</select>
-	
-	<select id="get_product_list" resultMap="product_result_map"> 
-		SELECT P.no as p_no, P.name as p_name, P.DESCRIPTION as p_desc, P.category_no as p_category_no FROM PRODUCT P where P.category_no= #{no}
-	</select>
-
-	
-	
-	
-	
 	<delete id="deleteAll">
 		<![CDATA[
 			delete from CATEGORY where no > 0

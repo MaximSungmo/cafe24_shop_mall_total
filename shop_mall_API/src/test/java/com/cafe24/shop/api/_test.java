@@ -87,7 +87,7 @@ public class _test {
 	}
 	@Test
 	public void test() {
-		product_list2=productDao.test();
+//		product_list2=productDao.test();
 		for(int i=0; i<product_list2.size(); i++) {
 			System.out.println(product_list2.get(i));
 		}

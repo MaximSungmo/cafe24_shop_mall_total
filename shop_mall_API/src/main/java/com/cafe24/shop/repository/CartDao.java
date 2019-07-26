@@ -15,20 +15,21 @@ import com.cafe24.shop.vo.ProductDetailVo;
 public class CartDao {
 	@Autowired
 	SqlSession sqlSession;
-
-	public List<CartVo> get_cart_test_data(Map<String, Long> map) {
-		CartVo vo = new CartVo(1L, 1L, 1L, 1L, "2019-07-16 00:00:00", "", "N");
-		CartVo vo2 = new CartVo(2L, 1L, 2L, 1L, "2019-07-16 00:00:00", "", "N");
-		CartVo vo3 = new CartVo(3L, 1L, 3L, 1L, "2019-07-16 00:00:00", "", "N");
-		List<CartVo> list = new ArrayList<CartVo>();
-		list.add(vo);
-		list.add(vo2);
-		list.add(vo3);
-		return list;		
-	}
 	
 	public Integer add_cart(Map<String, Long> map) {
-		return sqlSession.insert("cart.add_cart", map);
+		return sqlSession.insert("cart.insert_cart", map);
+	}
+
+	public Integer add_cart_list(List<CartVo> cartvo_list) {
+		return sqlSession.insert("cart.insert_cart_list", cartvo_list);
+	}
+
+	public List<CartVo> get_cart_list(Long customer_no) {
+		return sqlSession.selectList("cart.get_cart_list", customer_no);
+	}
+
+	public Integer update_cart_list(List<CartVo> cartvo_list) {
+		return sqlSession.update("cart.update_cart_list", cartvo_list);
 	}
 	
 }

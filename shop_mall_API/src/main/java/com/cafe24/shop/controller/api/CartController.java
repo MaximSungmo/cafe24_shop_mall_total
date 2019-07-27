@@ -39,9 +39,9 @@ public class CartController {
 
 	@ApiOperation(value = "카트 추가(단일)")
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "product_no", value = "product_no", dataType = "long", paramType = "path"),
+        @ApiImplicitParam(name = "product_detail_no", value = "product_detail_no", dataType = "long", paramType = "path"),
         @ApiImplicitParam(name = "count", value = "count", dataType = "long", paramType = "query"),
-        @ApiImplicitParam(name = "ProductDetailVo", value = "ProductDetailVo", dataType = "ProductDetailVo", paramType = "body"),
+        @ApiImplicitParam(name = "customer_no", value = "customer_no", dataType = "long", paramType = "path"),
     })
 	@ResponseBody
 	@RequestMapping(value = { "/{customer_no}/{product_detail_no}" }, method = RequestMethod.GET)

@@ -84,31 +84,32 @@ public class CartController {
 	
 	@ApiOperation(value = "카트 정보 업데이트")
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "product_no", value = "product_no", dataType = "long", paramType = "path"),
-        @ApiImplicitParam(name = "product_detail_no", value = "product_detail_no", dataType = "long", paramType = "path"),
+        @ApiImplicitParam(name = "customer_no", value = "customer_no", dataType = "long", paramType = "path"),
+        @ApiImplicitParam(name = "CartVo", value = "CartVo", dataType = "CartVo", paramType = "body"),
     })
 	@ResponseBody
 	@RequestMapping(value = { "/{customer_no}" }, method = RequestMethod.PUT)
-	public ResponseEntity<JSONResult> update_product_detail(
+	public ResponseEntity<JSONResult> update_cart_list(
 			@PathVariable(value="customer_no") Long customer_no,
 			@RequestBody List<CartVo> cartvo_list) {
 		
-		Integer updated_product_detail_no = cartService.update_cart_list(cartvo_list);
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(updated_product_detail_no));
+		Integer updated_cart_no = cartService.update_cart_list(cartvo_list);
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(updated_cart_no));
 	}
 	
-//	@ApiOperation(value = "상품 상세정보 삭제")
-//    @ApiImplicitParams({
-//        @ApiImplicitParam(name = "ProductDetailVo", value = "ProductDetailVo", dataType = "ProductDetailVo", paramType = "body"),
-//    })
-//	@ResponseBody
-//	@RequestMapping(value = { "/{product_no}/detail/{product_detail_no}" }, method = RequestMethod.DELETE)
-//	public ResponseEntity<JSONResult> updat1e_product_detail(
-//			@PathVariable(value="product_no") Long product_no,
-//			@PathVariable(value="product_no") Long product_detail_no) {
-//		Long deleted_product_detail_no = productService.delete_product_detail(product_no, product_detail_no);
-//		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(deleted_product_detail_no));
-//	}
+	@ApiOperation(value = "카트 정보 삭제")
+    @ApiImplicitParams({
+    	 @ApiImplicitParam(name = "customer_no", value = "customer_no", dataType = "long", paramType = "path"),
+         @ApiImplicitParam(name = "CartVo", value = "CartVo", dataType = "CartVo", paramType = "body"),
+    })
+	@ResponseBody
+	@RequestMapping(value = { "/{customer_no}" }, method = RequestMethod.DELETE)
+	public ResponseEntity<JSONResult> delete_cart_list(
+			@PathVariable(value="customer_no") Long customer_no,
+			@RequestBody List<CartVo> cartvo_list) {
+		Integer deleted_cart_no = cartService.delete_cart_list(cartvo_list);
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(deleted_cart_no));
+	}
 	
 	
 	

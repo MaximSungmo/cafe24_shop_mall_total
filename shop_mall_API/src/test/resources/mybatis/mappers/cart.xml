@@ -108,6 +108,17 @@
 	</update>
 	
 	
+	<delete id="delete_cart_list" parameterType="java.util.List">
+		<foreach item="item" index="index" collection="list" separator=";" open="" close=";">
+		<![CDATA[  
+				DELETE FROM CART 
+				WHERE 
+					no = #{item.no}
+		]]>
+		</foreach>
+	</delete>
+	
+	
 	<!-- get_cart_list, result map 포함하여 쿼리 끝 -->
 	
 </mapper>

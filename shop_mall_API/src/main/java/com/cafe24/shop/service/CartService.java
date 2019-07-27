@@ -60,5 +60,10 @@ public class CartService {
 		return cartDao.update_cart_list(cartvo_list);
 	}
 
+	public Integer delete_cart_list(List<CartVo> cartvo_list) {
+
+		return cartDao.delete_cart_list(cartvo_list);
+	}
+
 	
 }

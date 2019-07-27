@@ -266,7 +266,20 @@ public class CartControllerTest {
 //		.andExpect(jsonPath("$.data[2].productDetailVo.product_option").value(product_detail_list.get(2).getProduct_option()));		
 	}
 	
-	
+	@Test
+	public void delete_cart_list_success_test() throws Exception {
+		
+		ResultActions resultActions = 
+		mockMvc.perform(delete("/api/cart/"
+				+customer_list.get(0).getNo())
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(cart_list)));				
+		
+		resultActions
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result").value("success"));
+//		.andExpect(jsonPath("$.data").value(cart_list.size()));
+	}
 	
 	
 	

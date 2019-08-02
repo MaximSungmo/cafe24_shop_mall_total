@@ -1,17 +1,23 @@
 package com.cafe24.shop.vo;
 
+import javax.validation.constraints.NotNull;
+
 import io.swagger.annotations.ApiModel;
 
 @ApiModel(value = "ProductImageVo")
 public class ProductImageVo {
 
 	private Long no;
+	@NotNull
 	private Long product_no;
+	@NotNull
 	private String url;
 	private String register_dt;
 	private String use_fl;
 	private Long product_image_category_no;
 
+	private ProductImageCategoryVo product_image_category_vo;
+	
 	/**
 	 * 생성자 목록
 	 */
@@ -78,12 +84,19 @@ public class ProductImageVo {
 	public void setProduct_image_category_no(Long product_image_category_no) {
 		this.product_image_category_no = product_image_category_no;
 	}
+	
+	public ProductImageCategoryVo getProduct_image_category_vo() {
+		return product_image_category_vo;
+	}
+	public void setProduct_image_category_vo(ProductImageCategoryVo product_image_category_vo) {
+		this.product_image_category_vo = product_image_category_vo;
+	}
+
 	@Override
 	public String toString() {
 		return "ProductImageVo [no=" + no + ", product_no=" + product_no + ", url=" + url + ", register_dt="
-				+ register_dt + ", use_fl=" + use_fl + ", product_image_category_no=" + product_image_category_no + "]";
+				+ register_dt + ", use_fl=" + use_fl + ", product_image_category_no=" + product_image_category_no
+				+ ", product_image_category_vo=" + product_image_category_vo + "]";
 	}
-
-	
 	
 }

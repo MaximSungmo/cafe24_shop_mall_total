@@ -3,11 +3,14 @@ package com.cafe24.shop.repository;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.cafe24.shop.vo.ProductDetailVo;
+import com.cafe24.shop.vo.ProductImageVo;
 import com.cafe24.shop.vo.ProductVo;
 
 @Repository
@@ -56,8 +59,26 @@ public class ProductDao {
 	
 
 	public List<ProductVo> get_product_list_by_result_map(Long category_no) {
-		List<ProductVo> list_by_result_map = sqlSession.selectList("get_product_list_by_result_map", category_no);
+		List<ProductVo> list_by_result_map = sqlSession.selectList("product.get_product_list_by_result_map", category_no);
 		return list_by_result_map;
+	}
+
+	public Integer add_product_image_list(List<ProductImageVo> product_image_list) {
+		return sqlSession.insert("product.insert_product_image_list", product_image_list);
+			
+	}
+
+	public List<ProductImageVo> get_product_image_list(ProductImageVo product_image_vo) {
+		return sqlSession.selectList("product.get_product_image_list", product_image_vo);
+	}
+
+	public Integer update_product_image_list(List<ProductImageVo> checked_product_image_list) {
+		return sqlSession.update("product.update_product_image_list", checked_product_image_list);
+	}
+
+
+	public Integer delete_product_image(Long product_image_no) {
+		return sqlSession.delete("product.delete_product_image", product_image_no);
 	}
 
 	

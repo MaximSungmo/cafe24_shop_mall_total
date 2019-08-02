@@ -24,6 +24,7 @@ import com.cafe24.shop.dto.JSONResult;
 import com.cafe24.shop.service.CategoryService;
 import com.cafe24.shop.service.ProductService;
 import com.cafe24.shop.vo.ProductDetailVo;
+import com.cafe24.shop.vo.ProductImageVo;
 import com.cafe24.shop.vo.ProductVo;
 
 import io.swagger.annotations.ApiImplicitParam;
@@ -42,7 +43,7 @@ public class ProductController {
 
 	@ApiOperation(value = "상품 조회")
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "product_no", value = "product_no", dataType = "long", paramType = "path"),
+        @ApiImplicitParam(name = "category_no", value = "product_no", dataType = "long", paramType = "path"),
         @ApiImplicitParam(name = "kwd", value = "kwd", dataType = "string", paramType = "query"),
         @ApiImplicitParam(name = "get_count", value = "get_count", dataType = "long", paramType = "query"),
         @ApiImplicitParam(name = "last_product_no", value = "last_product_no", dataType = "long", paramType = "query"),
@@ -227,7 +228,7 @@ public class ProductController {
 	@RequestMapping(value = { "/{product_no}/detail/{product_detail_no}" }, method = RequestMethod.DELETE)
 	public ResponseEntity<JSONResult> delete_product_detail(
 			@PathVariable(value="product_no") Long product_no,
-			@PathVariable(value="product_no") Long product_detail_no) {
+			@PathVariable(value="product_detail_no") Long product_detail_no) {
 		
 		productService.delete_product_detail(product_no, product_detail_no);
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(product_detail_no));
@@ -246,6 +247,99 @@ public class ProductController {
 		productService.delete_product_detail_list(product_detail_list);	
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(product_detail_list));
 	}
+	
+	
+	@ApiOperation(value = "상품 이미지 리스트 추가")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "product_image_list", value = "product_image_list", dataType = "List", paramType = "body"),
+    })
+	@ResponseBody
+	@RequestMapping(value = { "/image" }, method = RequestMethod.POST)
+	public ResponseEntity<JSONResult> add_product_image_list(
+			@RequestBody List<ProductImageVo> product_image_list
+			//, BindingResult bindResult
+			) {		
+//		if (bindResult.hasErrors()) {
+//			List<ObjectError> list = bindResult.getAllErrors();
+//			for (ObjectError error : list) {
+//				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(error.getDefaultMessage()));
+//			}
+//		}
+		//입력 요청한 데이터와 실제 입력된 데이터의 결과 count가 같은 지 확인 
+		Integer insert_product_image_result = productService.add_product_image_list(product_image_list);	
+		if(insert_product_image_result>0) {
+			return ResponseEntity.status(HttpStatus.CREATED).body(JSONResult.success(product_image_list));
+		}else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("Server Error"));
+		}		
+	}	
+	
+	
+	@ApiOperation(value = "상품 이미지 리스트 가져오기")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "product_no", value = "product_no", dataType = "long", paramType = "path"),
+        @ApiImplicitParam(name = "product_image_category_no", value = "product_image_category_no", dataType = "long", paramType = "query"),
+    })
+	@ResponseBody
+	@RequestMapping(value = { "/{product_no}/image" }, method = RequestMethod.GET)
+	public ResponseEntity<JSONResult> get_product_image_list(
+			@PathVariable Long  product_no,
+			@RequestParam Long product_image_category_no
+			) {
+		ProductImageVo product_image_vo = new ProductImageVo();
+		product_image_vo.setProduct_no(product_no);
+		product_image_vo.setProduct_image_category_no(product_image_category_no);
+		
+		List<ProductImageVo> product_image_list = productService.get_product_image_list(product_image_vo);	
+		//리스트가 있다면 정상 처리 , 없다면 정상처리(데이터가 없음)
+		if(!product_image_list.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(product_image_list));
+		}else {
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("조건에 맞는 데이터가 없습니다."));
+		}		
+	}
+	
+	
+	@ApiOperation(value = "상품 이미지 리스트 업데이트")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "product_no", value = "product_no", dataType = "long", paramType = "path"),
+        @ApiImplicitParam(name = "product_image_list", value = "product_image_list", dataType = "list", paramType = "body"),
+    })
+	@ResponseBody
+	@RequestMapping(value = { "/{product_no}/image" }, method = RequestMethod.PUT)
+	public ResponseEntity<JSONResult> update_product_image_list(
+			@PathVariable Long product_no,
+			@RequestBody List<ProductImageVo> product_image_list
+			) {
+		Boolean update_result = productService.update_product_image_list(product_image_list, product_no);	
+		//update가 정상적으로 되었으면 true, 아니라면 false
+		if(update_result) {
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(update_result));
+		}else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.success("Server Error"));
+		}		
+	}
+	
+	@ApiOperation(value = "상품 이미지 삭제")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "product_no", value = "product_no", dataType = "long", paramType = "path"),
+        @ApiImplicitParam(name = "product_image_no", value = "product_image_no", dataType = "long", paramType = "path"),
+    })
+	@ResponseBody
+	@RequestMapping(value = { "/{product_no}/image/{product_image_no}" }, method = RequestMethod.DELETE)
+	public ResponseEntity<JSONResult> update_product_image_list(
+			@PathVariable Long product_no,
+			@PathVariable Long product_image_no
+			) {
+		Boolean delete_result = productService.delete_product_image(product_image_no);	
+		//update가 정상적으로 되었으면 true, 아니라면 false
+		if(delete_result) {
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(product_image_no));
+		}else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.success("Server Error"));
+		}		
+	}
+	
 	
 	
 }

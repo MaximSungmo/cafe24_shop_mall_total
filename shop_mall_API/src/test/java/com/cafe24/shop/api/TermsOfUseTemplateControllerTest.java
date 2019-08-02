@@ -23,11 +23,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.cafe24.shop.controller.api.TermsOfUseTemplateController;
 import com.cafe24.shop.vo.TermsOfUseVo;
 import com.google.gson.Gson;
+import static org.mockito.Mockito.mock;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
@@ -49,15 +51,15 @@ public class TermsOfUseTemplateControllerTest {
 	List<TermsOfUseVo> termsofuse_list;
 	TermsOfUseVo vo = new TermsOfUseVo(null, "약관동의서1","약관동의내용1", "Y", "Y", null, null);
 	TermsOfUseVo vo1 = new TermsOfUseVo(null, "약관동의서2","약관동의내용2", "Y", "Y", null, null);
-	
 	// 조회 및 업데이트를 위한 사전 데이터 삽입
 	public List<TermsOfUseVo> test_data(){
+		BindingResult result = mock(BindingResult.class);
 		termsofuse_list = new ArrayList<TermsOfUseVo>();
 		termsofuse_list.add(vo);
 		termsofuse_list.add(vo1);
 		
 		for(int i=0; i<termsofuse_list.size(); i++) {
-			termsOfUseTemplateController.add_terms_of_use_template(termsofuse_list.get(i));
+			termsOfUseTemplateController.add_terms_of_use_template(termsofuse_list.get(i), result);
 		}
 		return termsofuse_list;
 	}
@@ -82,7 +84,7 @@ public class TermsOfUseTemplateControllerTest {
 		mockMvc.perform(post("/api/terms")
 				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));				
 		resultActions
-		.andExpect(status().isOk())
+		.andExpect(status().isCreated())
 		.andExpect(jsonPath("$.result").value("success"))
 		.andExpect(jsonPath("$.data.title").value(vo.getTitle()))
 		.andExpect(jsonPath("$.data.content").value(vo.getContent()))		

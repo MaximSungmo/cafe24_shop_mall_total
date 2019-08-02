@@ -2,10 +2,14 @@ package com.cafe24.shop.controller.api;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,11 +40,24 @@ public class TermsOfUseTemplateController {
     })
 	@ResponseBody
 	@RequestMapping(value="", method = RequestMethod.POST)
-	public ResponseEntity<JSONResult> add_terms_of_use_template(@RequestBody TermsOfUseVo vo) {
-		termsOfUseVoService.insert_terms_of_use_template(vo);
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(vo));
-		
+	public ResponseEntity<JSONResult> add_terms_of_use_template(
+			@RequestBody @Valid TermsOfUseVo vo,
+			BindingResult bindResult) {
+		// ### @Valid 통과 불가할 시 error 전달
+		if(bindResult.hasErrors()) {
+			List<ObjectError> list = bindResult.getAllErrors();
+			for(ObjectError error : list) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(error.getDefaultMessage()));
+			}
+		}
+		Boolean insert_result = termsOfUseVoService.insert_terms_of_use_template(vo);
+		if(insert_result) {
+			return ResponseEntity.status(HttpStatus.CREATED).body(JSONResult.success(vo));
+		}else {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(JSONResult.fail("Server Error"));
+		}	
 	}	
+	
 	
 	@ApiOperation(value = "회원약관동의서 조회")
 	@ResponseBody
@@ -56,9 +73,23 @@ public class TermsOfUseTemplateController {
     })
 	@ResponseBody
 	@RequestMapping(value="", method = RequestMethod.PUT)
-	public ResponseEntity<JSONResult> update_terms_of_use(@RequestBody TermsOfUseVo vo) {
-		termsOfUseVoService.update_terms_of_use_template(vo);
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(vo));
+	public ResponseEntity<JSONResult> update_terms_of_use(@RequestBody @Valid TermsOfUseVo vo,
+			BindingResult bindResult) {
+		
+		if(bindResult.hasErrors()) {
+			List<ObjectError> list = bindResult.getAllErrors();
+			for(ObjectError error : list) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(error.getDefaultMessage()));
+			}
+		}
+		
+		Boolean update_result = termsOfUseVoService.update_terms_of_use_template(vo);
+		
+		if(update_result) {
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(vo));
+		}else {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(JSONResult.fail("Server Error"));
+		}	
 	}
 	
 	@ApiOperation(value = "회원약관동의서 삭제")

@@ -51,7 +51,7 @@ public class CategoryController {
 		Boolean check_available_parent_no = categoryService.get_category_by_no(vo.getParent_no());
 		if(vo.getParent_no()==null || check_available_parent_no) {
 			Boolean insert_result = categoryService.insert_category(vo);
-			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(insert_result));			
+			return ResponseEntity.status(HttpStatus.CREATED).body(JSONResult.success(insert_result));			
 		}else {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("상위 카테고리 정보 오류가 발생하였습니다."));
 		}

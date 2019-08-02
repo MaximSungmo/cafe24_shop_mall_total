@@ -97,7 +97,7 @@ public class CategoryControllerTest {
 				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));				
 	
 		resultActions
-		.andExpect(status().isOk())
+		.andExpect(status().isCreated())
 		.andExpect(jsonPath("$.result").value("success"))
 		.andExpect(jsonPath("$.data").value(true));	
 	}

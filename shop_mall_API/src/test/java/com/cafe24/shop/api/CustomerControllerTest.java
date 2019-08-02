@@ -146,7 +146,7 @@ public class CustomerControllerTest {
 		mockMvc.perform(post("/api/customer/")
 				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(join_vo)));				
 		resultActions
-		.andExpect(status().isOk()) 
+		.andExpect(status().isCreated()) 
 		.andExpect(jsonPath("$.result").value("success"))
 		.andExpect(jsonPath("$.data").value(true));
 	}
@@ -281,14 +281,14 @@ public class CustomerControllerTest {
 		mockMvc.perform(put("/api/customer/"+vo2.getNo())
 				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo2)));				
 		resultActions2
-//		.andExpect(status().isBadRequest())
+		.andExpect(status().isBadRequest())
 		.andExpect(jsonPath("$.result").value("fail"))
 		.andExpect(jsonPath("$.message").value("이름 형식이 맞지 않습니다."));	
 	}
 	
 	/**
 	 * delete_success_test
-	 * :업데이트 실패, 이름 형식 오류 , USE_FL Y->N
+	 * :USE_FL Y->N
 	 * @throws Exception
 	 */
 	@Test

@@ -55,12 +55,12 @@ public class CustomerController {
     })
 	@ResponseBody
 	@RequestMapping(value="/checkemail", method = RequestMethod.GET)
-	public JSONResult checkEmail(@RequestParam(value="email", required=true, defaultValue="") String email) {
+	public ResponseEntity<JSONResult> checkEmail(@RequestParam(value="email", required=true, defaultValue="") String email) {
 		boolean checked_email = customerService.exist_email(email);
 		if(checked_email) { 
-			return JSONResult.success(checked_email);
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(checked_email));
 		}else {
-			return JSONResult.fail("Available_email");
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("Available_email"));
 		}
 	}
 	
@@ -88,7 +88,7 @@ public class CustomerController {
 		// 데이터가 정상적으로 DB에 입력이 되면 true 값을 반환한다. 
 		Boolean insert_result = customerService.join(vo);
 		if(insert_result) {
-			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(insert_result));
+			return ResponseEntity.status(HttpStatus.CREATED).body(JSONResult.success(insert_result));
 		}else {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(JSONResult.fail("Server Error"));
 		}		
@@ -133,13 +133,17 @@ public class CustomerController {
 	 */
 	@ApiOperation(value = "회원정보 삭제")
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "customer_no", value = "customer_no", dataType = "string", paramType = "path"),
+        @ApiImplicitParam(name = "customer_no", value = "customer_no", dataType = "long", paramType = "path"),
     })
 	@ResponseBody
 	@RequestMapping(value="/{no}", method = RequestMethod.DELETE)
-	public JSONResult withdraw(@PathVariable Long no) {
+	public ResponseEntity<JSONResult> withdraw(@PathVariable Long no) {
 		Boolean delete_result = customerService.delete_customer(no);
-		return JSONResult.success(delete_result);
+		if(delete_result) {
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(delete_result));
+		}else {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(JSONResult.fail("delete-fail"));
+		}
 	}
 	
 	
@@ -150,7 +154,7 @@ public class CustomerController {
 	@ResponseBody
 	@RequestMapping(value="/login", method = RequestMethod.POST)
 	public ResponseEntity<JSONResult> login(@RequestBody CustomerVo vo) {
-		CustomerVo login_vo = customerService.login(vo);
+		CustomerVo customer_vo = customerService.login(vo);
 		
 		Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 		Set<ConstraintViolation<CustomerVo>> validatorResults =
@@ -164,7 +168,7 @@ public class CustomerController {
 			}
 		}
 		
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(login_vo));
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(customer_vo));
 	}
 	
 	

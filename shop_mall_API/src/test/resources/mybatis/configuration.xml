@@ -8,7 +8,9 @@
 		<typeAlias alias="productvo" type="com.cafe24.shop.vo.ProductVo" />
 		<typeAlias alias="productdetailvo" type="com.cafe24.shop.vo.ProductDetailVo" />
 		<typeAlias alias="productimagevo" type="com.cafe24.shop.vo.ProductImageVo" />
+		<typeAlias alias="productimagecategoryvo" type="com.cafe24.shop.vo.ProductImageCategoryVo" />
 		<typeAlias alias="cartvo" type="com.cafe24.shop.vo.CartVo" />
+		<typeAlias alias="brandvo" type="com.cafe24.shop.vo.BrandVo" />
 		
 	
 	
@@ -21,7 +23,7 @@
 		<mapper resource="mybatis/mappers/category.xml" />
 		<mapper resource="mybatis/mappers/product.xml" />
 		<mapper resource="mybatis/mappers/cart.xml" />
-		
+		<mapper resource="mybatis/mappers/brand.xml" />
 		
 		<mapper resource="mybatis/mappers/guestbook.xml" />
 		<mapper resource="mybatis/mappers/board.xml" />

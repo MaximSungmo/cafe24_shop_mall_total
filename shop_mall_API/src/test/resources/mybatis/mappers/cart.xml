@@ -107,6 +107,18 @@
 		</foreach>
 	</update>
 	
+	<update id="update_cart_list_by_order" parameterType="java.util.List">		
+		<foreach item="item" index="index" collection="list" separator=";" open="" close=";">
+		<![CDATA[  
+				UPDATE CART 
+		    	SET 
+			    	ORDERED_CART = #{item.ORDERED_CART}
+				WHERE 
+					customer_no = #{item.customer_no} AND product_detail_no = #{item.product_detail_no}
+		]]>
+		</foreach>
+	</update>
+	
 	
 	<delete id="delete_cart_list" parameterType="java.util.List">
 		<foreach item="item" index="index" collection="list" separator=";" open="" close=";">

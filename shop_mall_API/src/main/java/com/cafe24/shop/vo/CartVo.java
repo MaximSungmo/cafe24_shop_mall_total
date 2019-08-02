@@ -1,17 +1,19 @@
 package com.cafe24.shop.vo;
 
+import javax.validation.constraints.NotNull;
+
 import io.swagger.annotations.ApiModel;
 
 @ApiModel(value = "CartVo")
 public class CartVo {
 
 	private Long no;
+	@NotNull
 	private Long customer_no;
 	private CustomerVo customerVo;
-	
+	@NotNull
 	private Long product_detail_no;
 	private ProductDetailVo productDetailVo;
-	
 	private Long count;
 	private String register_dt;
 	private String delete_dt;

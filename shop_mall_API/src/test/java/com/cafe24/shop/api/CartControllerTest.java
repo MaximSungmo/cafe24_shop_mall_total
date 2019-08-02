@@ -209,26 +209,17 @@ public class CartControllerTest {
 		resultActions
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result").value("success"))
-//		.andExpect(jsonPath("$.data[0].no").value(cart_list.get(0).getNo()))
 		.andExpect(jsonPath("$.data[0].customer_no").value(cart_list.get(0).getCustomer_no()))
 		.andExpect(jsonPath("$.data[0].product_detail_no").value(cart_list.get(0).getProduct_detail_no()))
 		.andExpect(jsonPath("$.data[0].productDetailVo.no").value(product_detail_list.get(0).getNo()))
-//		.andExpect(jsonPath("$.data[0].productDetailVo.product_no").value(product_detail_list.get(0).getProduct_no()))
-//		.andExpect(jsonPath("$.data[0].productDetailVo.product_option").value(product_detail_list.get(0).getProduct_option()))
 		
-//		.andExpect(jsonPath("$.data[1].no").value(cart_list.get(1).getNo()))
 		.andExpect(jsonPath("$.data[1].customer_no").value(cart_list.get(1).getCustomer_no()))
 		.andExpect(jsonPath("$.data[1].product_detail_no").value(cart_list.get(1).getProduct_detail_no()))
 		.andExpect(jsonPath("$.data[1].productDetailVo.no").value(product_detail_list.get(1).getNo()))
-//		.andExpect(jsonPath("$.data[1].productDetailVo.product_no").value(product_detail_list.get(1).getProduct_no()))
-//		.andExpect(jsonPath("$.data[1].productDetailVo.product_option").value(product_detail_list.get(1).getProduct_option()))
 		
-//		.andExpect(jsonPath("$.data[2].no").value(cart_list.get(2).getNo()))
 		.andExpect(jsonPath("$.data[2].customer_no").value(cart_list.get(2).getCustomer_no()))
 		.andExpect(jsonPath("$.data[2].product_detail_no").value(cart_list.get(2).getProduct_detail_no()))
 		.andExpect(jsonPath("$.data[2].productDetailVo.no").value(product_detail_list.get(2).getNo()));
-//		.andExpect(jsonPath("$.data[2].productDetailVo.product_no").value(product_detail_list.get(2).getProduct_no()))
-//		.andExpect(jsonPath("$.data[2].productDetailVo.product_option").value(product_detail_list.get(2).getProduct_option()));		
 	}
 	
 	
@@ -244,26 +235,18 @@ public class CartControllerTest {
 		resultActions
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result").value("success"))
-//		.andExpect(jsonPath("$.data[0].no").value(cart_list.get(0).getNo()))
+
 		.andExpect(jsonPath("$.data[0].customer_no").value(cart_list.get(0).getCustomer_no()))
 		.andExpect(jsonPath("$.data[0].product_detail_no").value(cart_list.get(0).getProduct_detail_no()))
 		.andExpect(jsonPath("$.data[0].productDetailVo.no").value(product_detail_list.get(0).getNo()))
-//		.andExpect(jsonPath("$.data[0].productDetailVo.product_no").value(product_detail_list.get(0).getProduct_no()))
-//		.andExpect(jsonPath("$.data[0].productDetailVo.product_option").value(product_detail_list.get(0).getProduct_option()))
-		
-//		.andExpect(jsonPath("$.data[1].no").value(cart_list.get(1).getNo()))
+
 		.andExpect(jsonPath("$.data[1].customer_no").value(cart_list.get(1).getCustomer_no()))
 		.andExpect(jsonPath("$.data[1].product_detail_no").value(cart_list.get(1).getProduct_detail_no()))
 		.andExpect(jsonPath("$.data[1].productDetailVo.no").value(product_detail_list.get(1).getNo()))
-//		.andExpect(jsonPath("$.data[1].productDetailVo.product_no").value(product_detail_list.get(1).getProduct_no()))
-//		.andExpect(jsonPath("$.data[1].productDetailVo.product_option").value(product_detail_list.get(1).getProduct_option()))
-		
-//		.andExpect(jsonPath("$.data[2].no").value(cart_list.get(2).getNo()))
+
 		.andExpect(jsonPath("$.data[2].customer_no").value(cart_list.get(2).getCustomer_no()))
 		.andExpect(jsonPath("$.data[2].product_detail_no").value(cart_list.get(2).getProduct_detail_no()))
 		.andExpect(jsonPath("$.data[2].productDetailVo.no").value(product_detail_list.get(2).getNo()));
-//		.andExpect(jsonPath("$.data[2].productDetailVo.product_no").value(product_detail_list.get(2).getProduct_no()))
-//		.andExpect(jsonPath("$.data[2].productDetailVo.product_option").value(product_detail_list.get(2).getProduct_option()));		
 	}
 	
 	@Test
@@ -278,7 +261,6 @@ public class CartControllerTest {
 		resultActions
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result").value("success"));
-//		.andExpect(jsonPath("$.data").value(cart_list.size()));
 	}
 	
 	

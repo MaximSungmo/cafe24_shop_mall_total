@@ -35,5 +35,9 @@ public class CartDao {
 	public Integer delete_cart_list(List<CartVo> cartvo_list) {
 		return sqlSession.delete("cart.delete_cart_list", cartvo_list);
 	}
+
+	public Integer update_cart_list_by_order(List<CartVo> cartvo_list) {
+		return sqlSession.update("cart.update_cart_list_by_order", cartvo_list);
+	}
 	
 }

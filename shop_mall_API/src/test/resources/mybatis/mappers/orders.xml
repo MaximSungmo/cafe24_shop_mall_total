@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="orders">
+
+	<insert id="insert_orders" parameterType="ordersvo">
+		<![CDATA[
+		INSERT INTO ORDER
+		VALUES
+		(
+			null
+			, #{price}
+			, #{address}
+			, #{receiver_nm}
+			, #{phone_no}
+			, #{delevery_status}
+			, #{shipping_method}
+			, #{customer_request}
+			, #{customer_no}
+			, #{payment_no}
+		)		
+		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+	</insert>
+
+
+	<insert id="insert_orders_detail" parameterType="java.util.List">
+		<![CDATA[
+			INSERT INTO ORDER_DETAIL
+			VALUES
+		]]>
+		<foreach item="item" index="index" collection="list"
+			separator=", ">
+		<![CDATA[  
+		    (
+				null
+				, #{item.order_no}
+				, #{item.product_detail_no}
+				, #{item.product_option}
+				, #{item.product_image_no}
+				, #{item.product_image_url}
+				, #{item.category_no}
+				, #{item.brand_no}
+				, #{item.order_product_price}
+				, #{item.order_product_cnt}
+			)		
+		]]>
+		</foreach>
+	</insert>
+
+
+	
+
+
+
+</mapper>

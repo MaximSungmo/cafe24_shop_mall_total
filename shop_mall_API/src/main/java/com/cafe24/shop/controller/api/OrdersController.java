@@ -42,7 +42,7 @@ public class OrdersController {
 
     })
 	@ResponseBody
-	@RequestMapping(value = { "" }, method = RequestMethod.PUT)
+	@RequestMapping(value = { "" }, method = RequestMethod.POST)
 	public ResponseEntity<JSONResult> add_cart(
 			@RequestBody OrdersVo ordersvo
 			, @RequestBody List<OrdersDetailVo> orders_detail_list) {

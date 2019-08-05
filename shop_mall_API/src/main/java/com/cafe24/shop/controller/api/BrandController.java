@@ -92,7 +92,6 @@ public class BrandController {
 	@ResponseBody
 	@RequestMapping(value = { "/{brand_no}" }, method = RequestMethod.DELETE)
 	public ResponseEntity<JSONResult> delete_category(@RequestBody BrandVo vo) {
-//		 데이터가 정상적으로 DB에서 삭제가 되면 true 값을 반환한다. 
 		Boolean delete_result = brandService.delete_brand(vo);
 		if (delete_result) {
 			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(delete_result));

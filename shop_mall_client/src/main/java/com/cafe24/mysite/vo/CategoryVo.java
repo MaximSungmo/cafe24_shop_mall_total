@@ -12,6 +12,10 @@ public class CategoryVo {
 		this.parent_no = parent_no;
 	}
 	
+	public CategoryVo() {
+		super();
+	}
+
 	public Long getNo() {
 		return no;
 	}

@@ -2,25 +2,29 @@ package com.cafe24.mysite.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 
+import com.cafe24.mysite.dto.JSONResult;
+import com.cafe24.mysite.dto.JSONResult2;
 import com.cafe24.mysite.service.TestApiService;
-import com.cafe24.mysite.vo.TestVo;
+import com.cafe24.mysite.vo.CategoryVo;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
-import okhttp3.Response;
 
 
 @Controller
@@ -29,50 +33,97 @@ public class TestApiController {
 	@Autowired
 	TestApiService testApiService;
 	
+//	@Autowired
+//	RestTemplate restTemplate;
   
-	Response response;
-	@RequestMapping(value =  {"/api/scripttag"}, method = RequestMethod.GET)
-	public String main(Model model) throws Exception {
+//	Response response;
+//	@RequestMapping(value =  {"/api/scripttag"}, method = RequestMethod.GET)
+//	public String main(Model model) throws Exception {
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		map.put("name", "API 테스트");
+//		model.addAttribute("map", map);
+//		
+//		response = testApiService.getScriptTags();
+//		String str = response.body().string();
+//        model.addAttribute("script_no",str.split(":")[3].split(",")[0]);
+//		model.addAttribute("vo",str);		
+//
+//		return "test/script";
+//	}
+//	
+//	
+//	@RequestMapping(value =  {"/api/scripttag"}, method = RequestMethod.POST)
+//	public String insert_api(Model model, @ModelAttribute TestVo testvo) throws IOException {
+//		// 변수 받아서 입력하기 
+////		String display_locations= testvo.getDisplay_locations();
+////		String src = testvo.getSrc();
+//		String display_locations= "";
+//		String src = "";				
+//		
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		map.put("name", "API 테스트");
+//		model.addAttribute("map", map);
+//		Response response = testApiService.addScriptTag(src, display_locations);	     
+//        model.addAttribute("response",response.toString()+"post작업시 나오는 값");
+//		return "test/script";
+//	}
+//	
+//	@RequestMapping(value =  {"/api/scriptt/ag/{script_no}"}, method = RequestMethod.GET)
+//	public String insert_api(Model model, @PathVariable Long script_no ) throws IOException {		
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		map.put("name", "API 테스트");
+//		model.addAttribute("map", map);
+//		
+//		Response response = testApiService.deleteScriptTag(script_no);	     
+//        model.addAttribute("response",response.toString()+"delete작업시 나오는 값");
+//		return "test/script";
+//	}
+	ObjectMapper objectMapper = new ObjectMapper();
+	@ResponseBody
+	@RequestMapping(value =  {"/abc/api/test/wwww"}, method = RequestMethod.GET)
+	public String test11(Model model) throws IOException, ParseException {		
 		Map<String, Object> map = new HashMap<String, Object>();
+		
+		RestTemplate restTemplate = new RestTemplate();
+		
 		map.put("name", "API 테스트");
 		model.addAttribute("map", map);
+		ResponseEntity<String> result = restTemplate.getForEntity("http://localhost:8081/api/category", String.class);
+		String resultss = restTemplate.getForObject("http://localhost:8081/api/category", String.class);
 		
-		response = testApiService.getScriptTags();
-		String str = response.body().string();
-        model.addAttribute("script_no",str.split(":")[3].split(",")[0]);
-		model.addAttribute("vo",str);		
+		System.out.println(resultss+":::::::");
+		System.out.println(result);
+		System.out.println(resultss+":"+resultss.getClass());
+		
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse( resultss );
+		JSONObject jsonObj = (JSONObject) obj;
+		
+		System.out.println(jsonObj);
+		System.out.println(jsonObj.getClass());
+		
+		  Gson gson = new Gson();
+		  System.out.println(gson.fromJson(resultss, List.class));
+		  
+		  JSONArray jsonArray = new JSONArray();
 
-		return "test/script";
-	}
-	
-	
-	@RequestMapping(value =  {"/api/scripttag"}, method = RequestMethod.POST)
-	public String insert_api(Model model, @ModelAttribute TestVo testvo) throws IOException {
-		// 변수 받아서 입력하기 
-//		String display_locations= testvo.getDisplay_locations();
-//		String src = testvo.getSrc();
-		String display_locations= "";
-		String src = "";				
+//		List<Object> items = objectMapper.readValue(
+//				resultss.getData().toString(),
+//			    objectMapper.getTypeFactory().constructParametricType(List.class, CategoryVo.class));
+//		
+//		System.out.println(items);
+//		System.out.println(items.getClass());
 		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("name", "API 테스트");
-		model.addAttribute("map", map);
-		Response response = testApiService.addScriptTag(src, display_locations);	     
-        model.addAttribute("response",response.toString()+"post작업시 나오는 값");
-		return "test/script";
-	}
-	
-	@RequestMapping(value =  {"/api/scripttag/{script_no}"}, method = RequestMethod.GET)
-	public String insert_api(Model model, @PathVariable Long script_no ) throws IOException {		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("name", "API 테스트");
-		model.addAttribute("map", map);
+		return result.getBody();
 		
-		Response response = testApiService.deleteScriptTag(script_no);	     
-        model.addAttribute("response",response.toString()+"delete작업시 나오는 값");
-		return "test/script";
-	}
-		 
+		
+		}
+	
+
+	
+	
+	
+
 	
 	/**
 	 * HttpURLConnection 

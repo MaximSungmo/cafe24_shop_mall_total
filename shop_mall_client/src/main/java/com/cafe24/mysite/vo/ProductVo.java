@@ -1,9 +1,18 @@
 package com.cafe24.mysite.vo;
 
+import java.util.List;
+
+import javax.validation.constraints.NotNull;
+
+import io.swagger.annotations.ApiModel;
+
+@ApiModel(value = "ProductVo")
 public class ProductVo {
 
 	// 상품(product)테이블 정보
+	
 	private Long no;
+	@NotNull
 	private String name;
 	private String description;
 	private String status;
@@ -12,7 +21,12 @@ public class ProductVo {
 	private String register_dt;
 	private Long category_no;
 	private Long brand_no;
-
+	private CategoryVo categoryvo;
+	private ProductDetailVo productdetailvo;
+	
+	private List<ProductDetailVo> product_detail_list;
+	private List<ProductImageVo> product_image_list;
+	
 	
 	/**
 	 * 생성자 목록
@@ -108,10 +122,37 @@ public class ProductVo {
 	public void setBrand_no(Long brand_no) {
 		this.brand_no = brand_no;
 	}
+	public CategoryVo getCategoryvo() {
+		return categoryvo;
+	}
+	public void setCategoryvo(CategoryVo categoryvo) {
+		this.categoryvo = categoryvo;
+	}
+	public List<ProductDetailVo> getProduct_detail_list() {
+		return product_detail_list;
+	}
+	public void setProduct_detail_list(List<ProductDetailVo> product_detail_list) {
+		this.product_detail_list = product_detail_list;
+	}
+	public List<ProductImageVo> getProduct_image_list() {
+		return product_image_list;
+	}
+	public void setProduct_image_list(List<ProductImageVo> product_image_list) {
+		this.product_image_list = product_image_list;
+	}
+	public ProductDetailVo getProductdetailvo() {
+		return productdetailvo;
+	}
+	public void setProductdetailvo(ProductDetailVo productdetailvo) {
+		this.productdetailvo = productdetailvo;
+	}
 	@Override
 	public String toString() {
 		return "ProductVo [no=" + no + ", name=" + name + ", description=" + description + ", status=" + status
 				+ ", use_fl=" + use_fl + ", like_cnt=" + like_cnt + ", register_dt=" + register_dt + ", category_no="
-				+ category_no + ", brand_no=" + brand_no + "]";
+				+ category_no + ", brand_no=" + brand_no + ", categoryvo=" + categoryvo + ", productdetailvo="
+				+ productdetailvo + ", product_detail_list=" + product_detail_list + ", product_image_list="
+				+ product_image_list + "]";
 	}
+	
 }

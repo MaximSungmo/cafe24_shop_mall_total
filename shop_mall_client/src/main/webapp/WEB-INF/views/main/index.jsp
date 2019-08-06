@@ -3,33 +3,212 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>  
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-<title>mysite</title>
-<meta http-equiv="content-type" content="text/html; charset=utf-8">
-<link href="${pageContext.servletContext.contextPath }/assets/css/main.css" rel="stylesheet" type="text/css">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<title>Shop Homepage - Start Bootstrap Template</title>
+	<!-- Bootstrap core CSS -->
+	<link href="${pageContext.servletContext.contextPath }/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<!-- Custom styles for this template -->
+	<link href="${pageContext.servletContext.contextPath }/assets/css/shop-homepage.css" rel="stylesheet">
 </head>
 <body>
-	<div id="container">
-		<c:import url='/WEB-INF/views/includes/header.jsp' />
-		<div id="wrapper">
-			<div id="content">
-				<div id="site-introduction">
-					<img id="profile" style="width:160px" src="${pageContext.servletContext.contextPath }/images/profile/2019421113551892.png">
-					<h2>안대혁의  mysite에 오신 것을 환영합니다.</h2>
-					<p>
-						이 사이트는  웹 프로그램밍 실습과제 예제 사이트입니다.<br>
-						메뉴는  사이트 소개, 방명록, 게시판이 있구요. Python 수업 + 데이터베이스 수업 + 웹프로그래밍 수업 배운 거 있는거 없는 거 다 합쳐서
-						만들어 놓은 사이트 입니다.<br><br>
-						<a href="#">방명록</a>에 글 남기기<br>
-					</p>
+	<!-- Navigation -->
+	<c:import url='/WEB-INF/views/includes/navigation.jsp'>
+		<c:param name="active" value="shopping" />
+	</c:import>
+	<!-- /.Navigation -->
+	
+	<div class="container">
+		<div class="row">
+
+			<div class="col-lg-3">
+				<h1 class="my-4">PJMall</h1>
+				<div class="list-group">
+					<c:forEach items="${category_list }" var="vo" varStatus="status">
+						<a href="${pageContext.servletContext.contextPath }/category/${vo.no}" class="list-group-item">${vo.name}</a>
+					</c:forEach> 
+					
+					
 				</div>
 			</div>
+			<!-- /.col-lg-3 -->
+
+			<div class="col-lg-9">
+				<div id="carouselExampleIndicators" class="carousel slide my-4"
+					data-ride="carousel">
+					<ol class="carousel-indicators">
+						<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+						<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+						<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+					</ol>
+					<div class="carousel-inner" role="listbox">
+						<div class="carousel-item active">
+							<img class="d-block img-fluid" src="http://placehold.it/900x350"
+								alt="First slide">
+						</div>
+						<div class="carousel-item">
+							<img class="d-block img-fluid" src="http://placehold.it/900x350"
+								alt="Second slide">
+						</div>
+						<div class="carousel-item">
+							<img class="d-block img-fluid" src="http://placehold.it/900x350"
+								alt="Third slide">
+						</div>
+					</div>
+					<a class="carousel-control-prev" href="#carouselExampleIndicators"
+						role="button" data-slide="prev"> <span
+						class="carousel-control-prev-icon" aria-hidden="true"></span> <span
+						class="sr-only">Previous</span>
+					</a> <a class="carousel-control-next" href="#carouselExampleIndicators"
+						role="button" data-slide="next"> <span
+						class="carousel-control-next-icon" aria-hidden="true"></span> <span
+						class="sr-only">Next</span>
+					</a>
+				</div>
+
+				<div class="row">
+					<!-- 상품 1개 설명 -->
+					<c:forEach items="${product_list }" var="vo" varStatus="status">
+					<div class="col-lg-4 col-md-6 mb-4">
+						<div class="card h-100">
+							<a href="${pageContext.servletContext.contextPath}/product/${vo.no}/detail">
+								<!-- product 이미지 표시 -->
+								<c:forEach items="${vo.product_image_list}" var="product_image">
+									<img class="card-img-top" src="http://placehold.it/700x400" alt="${product_image.url }">
+								</c:forEach>
+							</a>
+							<div class="card-body">
+								<h4 class="card-title">
+									<a href="${pageContext.servletContext.contextPath}/product/${vo.no}/detail">${vo.name}</a>
+								</h4>
+								<h5>$24.99</h5>
+								<p class="card-text">
+									${vo.description}									
+									<c:forEach items="${vo.product_detail_list }" var="product_detail">
+									<br/>${product_detail.product_option}
+									</c:forEach>
+								</p>
+								
+							</div>
+							<div class="card-footer">
+								<small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+							</div>
+						</div>
+					</div>
+					</c:forEach> 
+					
+					
+					
+					<div class="col-lg-4 col-md-6 mb-4">
+						<div class="card h-100">
+							<a href="#"><img class="card-img-top"
+								src="http://placehold.it/700x400" alt=""></a>
+							<div class="card-body">
+								<h4 class="card-title">
+									<a href="#">Item Two</a>
+								</h4>
+								<h5>$24.99</h5>
+								<p class="card-text">Lorem ipsum dolor sit amet, consectetur
+									adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor
+									sit amet.</p>
+							</div>
+							<div class="card-footer">
+								<small class="text-muted">&#9733; &#9733; &#9733;
+									&#9733; &#9734;</small>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-6 mb-4">
+						<div class="card h-100">
+							<a href="#"><img class="card-img-top"
+								src="http://placehold.it/700x400" alt=""></a>
+							<div class="card-body">
+								<h4 class="card-title">
+									<a href="#">Item Three</a>
+								</h4>
+								<h5>$24.99</h5>
+								<p class="card-text">Lorem ipsum dolor sit amet, consectetur
+									adipisicing elit. Amet numquam aspernatur!</p>
+							</div>
+							<div class="card-footer">
+								<small class="text-muted">&#9733; &#9733; &#9733;
+									&#9733; &#9734;</small>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-6 mb-4">
+						<div class="card h-100">
+							<a href="#"><img class="card-img-top"
+								src="http://placehold.it/700x400" alt=""></a>
+							<div class="card-body">
+								<h4 class="card-title">
+									<a href="#">Item Four</a>
+								</h4>
+								<h5>$24.99</h5>
+								<p class="card-text">Lorem ipsum dolor sit amet, consectetur
+									adipisicing elit. Amet numquam aspernatur!</p>
+							</div>
+							<div class="card-footer">
+								<small class="text-muted">&#9733; &#9733; &#9733;
+									&#9733; &#9734;</small>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-6 mb-4">
+						<div class="card h-100">
+							<a href="#"><img class="card-img-top"
+								src="http://placehold.it/700x400" alt=""></a>
+							<div class="card-body">
+								<h4 class="card-title">
+									<a href="#">Item Five</a>
+								</h4>
+								<h5>$24.99</h5>
+								<p class="card-text">Lorem ipsum dolor sit amet, consectetur
+									adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor
+									sit amet.</p>
+							</div>
+							<div class="card-footer">
+								<small class="text-muted">&#9733; &#9733; &#9733;
+									&#9733; &#9734;</small>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-6 mb-4">
+						<div class="card h-100">
+							<a href="#"><img class="card-img-top"
+								src="http://placehold.it/700x400" alt=""></a>
+							<div class="card-body">
+								<h4 class="card-title">
+									<a href="#">Item Six</a>
+								</h4>
+								<h5>$24.99</h5>
+								<p class="card-text">Lorem ipsum dolor sit amet, consectetur
+									adipisicing elit. Amet numquam aspernatur!</p>
+							</div>
+							<div class="card-footer">
+								<small class="text-muted">&#9733; &#9733; &#9733;
+									&#9733; &#9734;</small>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<!-- /.row -->
+			</div>
+			<!-- /.col-lg-9 -->
+			
 		</div>
-		<c:import url='/WEB-INF/views/includes/navigation.jsp'>
-			<c:param name="menu" value="main" />
-		</c:import>
-		<c:import url='/WEB-INF/views/includes/footer.jsp' />
+		<!-- /.row -->
 	</div>
+	<!-- /.container -->
+
+	<!-- Footer -->
+	<c:import url='/WEB-INF/views/includes/footer.jsp' />
+	<!-- /.Footer -->
 </body>
+
 </html>

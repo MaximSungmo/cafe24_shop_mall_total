@@ -53,10 +53,10 @@ public class CustomerServiceTest {
 	/**
 	 * insert 성공 시 true, 실패 시 false
 	 */
-	@Test
-	public void join_test() {
-		assertThat(customerService.join(vo1), is(true));
-	}
+//	@Test
+//	public void join_test() {
+//		assertThat(customerService.join(vo1), is(true));
+//	}
 	
 	/**
 	 * update 성공 시 true, 실패 시 false

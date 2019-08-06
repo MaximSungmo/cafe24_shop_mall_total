@@ -4,10 +4,9 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
 
-import com.cafe24.mysite.validator.ValidGender;
-
+import io.swagger.annotations.ApiModel;
+@ApiModel(value = "CustomerVo")
 public class CustomerVo {
 	
 	private Long no;
@@ -26,10 +25,9 @@ public class CustomerVo {
 	@Pattern(regexp="^\\d{2,3}-\\d{3,4}-\\d{4}$", message="전화번호 형식이 올바르지 않습니다.")
 	private String phone;
 	
-	@ValidGender
 	private String gender;
 	private String use_fl = "Y";
-	private String auth_grade = "MEMBER";
+	private String auth_grade = "ROLE_USER";
 	private String recommender_id;
 	private Long terms_of_use_no;
 	private String agreement_fl;
@@ -195,6 +193,8 @@ public class CustomerVo {
 				+ ", recommender_id=" + recommender_id + ", terms_of_use_no=" + terms_of_use_no + ", agreement_fl="
 				+ agreement_fl + ", agreement_dt=" + agreement_dt + "]";
 	}
+
+	
 
 	
 	

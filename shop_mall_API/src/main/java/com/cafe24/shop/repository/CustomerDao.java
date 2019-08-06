@@ -1,5 +1,7 @@
 package com.cafe24.shop.repository;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -44,6 +46,11 @@ public class CustomerDao {
 		System.out.println(vo.getTerms_of_use_no()+"aaaaaaterms");
 		System.out.println(vo.getNo()+"aaaaaa custos");
 		return sqlSession.insert("customer.insert_checked_terms_of_use", vo)==1;
+	}
+
+	public List<CustomerVo> get_list() {
+		
+		return sqlSession.selectList("customer.get_list");
 	}
 
 }

@@ -79,17 +79,17 @@
 		]]>	
 	</select>  -->
 	<select id="get_product_list" parameterType="map" resultType="productvo">
-    <![CDATA[
-   	select no, name, description, status, use_fl, like_cnt, register_dt, category_no, brand_no 
-   	from PRODUCT		 
- 	
-	where 
-		(category_no = #{category_no} and #{category_no}<>0) 
-		and (name like CONCAT('%', #{kwd}, '%') and #{kwd}<>'')
-   	order by no asc
-    limit #{get_count} offset #{last_product_no}
-	]]>	
-</select>
+		<![CDATA[
+			select no, name, description, status, use_fl, like_cnt, register_dt, category_no, brand_no 
+			from PRODUCT		 
+			
+			where 
+			(category_no = #{category_no} and #{category_no}<>0) 
+			and (name like CONCAT('%', #{kwd}, '%') and #{kwd}<>'')
+			order by no asc
+			limit #{get_count} offset #{last_product_no}
+		]]>	
+	</select>
 	
 	<update id="update_product" parameterType="productvo">
 		<![CDATA[
@@ -241,10 +241,11 @@
 			LEFT JOIN PRODUCT_DETAIL pd on(p.no=pd.PRODUCT_NO)
 			LEFT JOIN PRODUCT_IMAGE pi on(p.no=pi.PRODUCT_NO)
 		]]>
-		<if test='value!=0'></if>
-		<![CDATA[
-			WHERE p.category_no=#{value}
-		]]>
+		<if test="value!=0">
+			<![CDATA[
+				WHERE p.category_no=#{value}
+			]]>
+		</if>
 	</select>	
 	<!-- 상품 - 상품디테일 - 상품 이미지 모두 가져오기 끝-->
 	
@@ -278,9 +279,7 @@
 	</delete>	
 	<!-- 실제 서비스 코드 (PRODUCT_DETAIL) 끝 -->
 	
-	<!-- 실제 서비스 코드 (PRODUCT_IMAGE) 시작 -->
-	
-	
+	<!-- 실제 서비스 코드 (PRODUCT_IMAGE) 시작 -->	
 	<insert id="insert_product_image_list" parameterType="java.util.List">
 		<![CDATA[
 			insert into PRODUCT_IMAGE 
@@ -327,7 +326,7 @@
 			select last_insert_id()
 		</selectKey>
 	</insert>
-	
+	 
 	<select id="get_product_image_list" resultMap="product_image_result_map" parameterType="productimagevo"> 
 		<![CDATA[
 			select 
@@ -349,6 +348,7 @@
 			and (pi.product_image_category_no = #{product_image_category_no} or #{product_image_category_no} is null);
 		]]>
 	</select>
+	
 	
 	<update id="update_product_image_list" parameterType="java.util.List">		
 		<foreach item="item" index="index" collection="list" separator=";" open="" close=";">

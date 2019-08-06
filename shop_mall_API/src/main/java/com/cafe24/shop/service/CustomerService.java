@@ -73,6 +73,9 @@ public class CustomerService {
 	public CustomerVo login(CustomerVo vo) {
 		return customerDao.login(vo);
 	}
+	public List<CustomerVo> get_list() {
+		return customerDao.get_list();
+	}
 	
 	
 	

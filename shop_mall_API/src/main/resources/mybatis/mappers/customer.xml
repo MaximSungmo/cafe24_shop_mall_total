@@ -2,6 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="customer">
 	
+	
+	<select id="get_list" resultType="customervo">
+		<![CDATA[	 
+			select 
+				no
+				, name
+				, email
+				, phone
+				, gender
+				, use_fl
+				, auth_grade
+				, recommender_id 
+			from CUSTOMER
+		]]>
+	</select>
+	
 	<!-- Join 기능 시 입력 -->
 	<insert id="insert" parameterType="customervo">
 		<![CDATA[

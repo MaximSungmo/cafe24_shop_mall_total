@@ -14,7 +14,6 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +26,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.cafe24.shop.dto.JSONResult;
 import com.cafe24.shop.service.CustomerService;
 import com.cafe24.shop.vo.CustomerVo;
-import com.cafe24.shop.vo.TermsOfUseVo;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -77,8 +75,11 @@ public class CustomerController {
 	@RequestMapping(value="", method = RequestMethod.POST)
 	public ResponseEntity<JSONResult> join(
 			@RequestBody @Valid CustomerVo vo, BindingResult bindResult) {
+		
+		System.out.println("======================"+vo);
 		// ### @Valid 통과 불가할 시 error 전달
 		if(bindResult.hasErrors()) {
+			System.out.println("======================error"+vo);
 			List<ObjectError> list = bindResult.getAllErrors();
 			for(ObjectError error : list) {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(error.getDefaultMessage()));
@@ -169,6 +170,19 @@ public class CustomerController {
 		}
 		
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(customer_vo));
+	}
+	
+	
+	@ApiOperation(value = "회원 목록 가져오기")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "CustomerVo", value = "CustomerVo", dataType = "CustomerVo", paramType = "body"),
+    })
+	@ResponseBody
+	@RequestMapping(value="/get", method = RequestMethod.GET)
+	public ResponseEntity<JSONResult> get_list() {
+		List<CustomerVo> customer_list = customerService.get_list();
+
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(customer_list));
 	}
 	
 	

@@ -2,7 +2,9 @@ package com.cafe24.shop.config;
 
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.context.annotation.Bean;
@@ -13,18 +15,14 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-
 @Configuration
-@ComponentScan(basePackages={"com.cafe24.shop"})
+@ComponentScan(basePackages={"com.cafe24.mysite"})
 public class WebConfig implements WebMvcConfigurer{
 	//
 	// Messaage Converter
@@ -57,18 +55,22 @@ public class WebConfig implements WebMvcConfigurer{
 	}
 	
 	
-	
-	@Bean
-	public Docket productApi() {
-		return new Docket(DocumentationType.SWAGGER_2).select()
-				.apis(RequestHandlerSelectors.basePackage("com.cafe24.shop.controller.api"))
-				.paths(PathSelectors.any()).build();
-	}
-	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/images/**").addResourceLocations("file:/mysite-uploads/");
-		
+	}
 	
+	
+	@Bean
+	public RestTemplate restTemplate() {
+		RestTemplate restTemplate = new RestTemplate();
+		List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();        
+
+		MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+		converter.setSupportedMediaTypes(Collections.singletonList(MediaType.APPLICATION_JSON));         
+		messageConverters.add(converter);  
+		restTemplate.setMessageConverters(messageConverters);  
+		return restTemplate;
+		
 	}
 }

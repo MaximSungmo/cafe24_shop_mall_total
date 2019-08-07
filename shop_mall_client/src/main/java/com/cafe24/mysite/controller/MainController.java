@@ -30,7 +30,6 @@ public class MainController {
 		JSONResult2<CategoryVo> category_list = (JSONResult2<CategoryVo>) map.get("category_list");
 		JSONResult2<ProductVo> product_list = (JSONResult2<ProductVo>) map.get("product_list");
 		
-		System.out.println(product_list);
 		// 카테고리 목록 가져오기 
 		model.addAttribute("category_list", category_list.getData());
 				

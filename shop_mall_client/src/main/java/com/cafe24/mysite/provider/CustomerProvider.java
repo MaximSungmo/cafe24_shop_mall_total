@@ -1,19 +1,12 @@
 package com.cafe24.mysite.provider;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import com.cafe24.mysite.dto.JSONResult;
 import com.cafe24.mysite.dto.JSONResult2;
 import com.cafe24.mysite.vo.CustomerVo;
 import com.cafe24.mysite.vo.TermsOfUseVo;
@@ -47,13 +40,14 @@ public class CustomerProvider {
 	}
 	
 	public CustomerVo get_by_email(String email) {
-		CustomerVo customer_list = restTemplate.postForObject(BASE_URL+"/api/customer/get_user?email="+email, email, CustomerVo.class);
-		return customer_list;
+		JSONResultCustomer_vo customer_vo = restTemplate.postForObject(BASE_URL+"/api/customer/get_user?email="+email, email, JSONResultCustomer_vo.class);
+		return customer_vo.getData();
 	}
 	
 	
 	public static class JSONResultTermsOfUse extends JSONResult2<List<TermsOfUseVo>> {}
 	public static class JSONResultCustomer extends JSONResult2<List<CustomerVo>> {}
 	public static class JSONResultJoin extends JSONResult2<Boolean> {}
+	public static class JSONResultCustomer_vo extends JSONResult2<CustomerVo> {}
 	
 }

@@ -3,6 +3,7 @@ package com.cafe24.mysite.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,8 @@ public class CustomerService {
 	
 	@Autowired
 	private CustomerProvider customerProvider;
-	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 //	String BASE_URL = "http://localhost:8081";
 
 //	@Autowired
@@ -30,6 +32,8 @@ public class CustomerService {
 	 * @return true, false 
 	 */
 	public JSONResult2<Boolean> join(CustomerVo customervo) {	
+		//BCrypt로 암호화하여 데이터 넣기
+		customervo.setPassword(passwordEncoder.encode(customervo.getPassword()));
 		return customerProvider.insert_customer(customervo);
 	}
 	

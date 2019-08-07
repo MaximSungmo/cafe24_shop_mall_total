@@ -67,7 +67,7 @@ public class CustomerController {
 	 * @param vo
 	 * @return 
 	 */
-	@ApiOperation(value = "회원가입")
+	@ApiOperation(value = "회원가입") 
     @ApiImplicitParams({
         @ApiImplicitParam(name = "CustomerVo", value = "CustomerVo", dataType = "CustomerVo", paramType = "body"),
     })
@@ -177,8 +177,7 @@ public class CustomerController {
 	@ResponseBody
 	@RequestMapping(value="/get_user", method = RequestMethod.POST)
 	public ResponseEntity<JSONResult> get_by_email(@RequestParam String email) {
-		CustomerVo customer_vo = customerService.get_by_email(email);
-				
+		CustomerVo customer_vo = customerService.get_by_email(email);	
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(customer_vo));
 	}
 	

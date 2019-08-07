@@ -33,7 +33,7 @@
             </c:if>
             <form method="post" action="${pageContext.servletContext.contextPath }/customer/auth" class="form-signin" name="loginForm">
                 <span id="reauth-email" class="reauth-email"></span>
-                <input type="email" id="inputEmail" class="form-control" placeholder="이메일" name="username" required autofocus>
+                <input type="email" id="inputEmail" class="form-control" placeholder="이메일" name="email" required autofocus>
                 <input type="password" id="inputPassword" class="form-control" placeholder="비밀번호" name="password" required>
                 
 

@@ -38,7 +38,8 @@ public class CustomerService {
 			vo.setAgreement_fl(vo.getTermsofusevolist().get(i).getUse_fl());
 			vo.setTerms_of_use_no(vo.getTermsofusevolist().get(i).getNo());
 			customerDao.insert_checked_terms_of_use(vo);
-		}
+		} 
+		
 		return result;
 	}
 	

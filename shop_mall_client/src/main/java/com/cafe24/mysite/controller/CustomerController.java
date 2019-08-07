@@ -50,7 +50,7 @@ public class CustomerController {
 			}
 			// Validation에 걸린 항목에 대하여 view에서 안내하기
 			model.addAllAttributes(bindResult.getModel());
-
+			
 			// 실패 시 입력했던 모든 정보는 보존될 수 있도록 함(재작성하지 않도록)
 			// 실패 시 약관동의서 재전송, 기본 입력 정보 유지 
 			model.addAttribute("terms_of_use_template_list", customervo.getTermsofusevolist());
@@ -58,6 +58,7 @@ public class CustomerController {
 		}
 		
 		// 회원정보로 join 요청 api 보내기 
+		customervo.setPassword(customervo.getPassword());
 		JSONResult2<Boolean> result = customerService.join(customervo);
 		//가입 성공 시 success, 실패 시 fail
 		if("fail".equals(result.getResult())) {
@@ -69,7 +70,7 @@ public class CustomerController {
 		// 회원 가입 성공 시 페이지 이동
 		model.addAttribute("result", result);
 		System.out.println(result);
-		return "redirect:/join_success";
+		return "redirect:/customer/join_success";
 	}
 	
 	// 회원가입 완료 후 success화면으로 이동 

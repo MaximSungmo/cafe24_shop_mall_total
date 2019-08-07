@@ -22,8 +22,8 @@ public class CustomerVo {
 	@Email(message="이메일 형식이 올바르지 않습니다.")
 	private String email;
 	
-	@Length(min=8, max=16, message="비밀번호는 특수문자/문자/숫자 최소 8~16자리 이내 입력 바랍니다.")
-	@Pattern(regexp="^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,16}$", message="비밀번호는 특수문자/문자/숫자 최소 8~16자리 이내 입력 바랍니다.")
+//	@Length(min=8, max=16, message="비밀번호는 특수문자/문자/숫자 최소 8~16자리 이내 입력 바랍니다.")
+//	@Pattern(regexp="^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,16}$", message="비밀번호는 특수문자/문자/숫자 최소 8~16자리 이내 입력 바랍니다.")
 	private String password;
 	
 	@Length(min=4, max=16, message="전화번호 형식이 올바르지 않습니다.")

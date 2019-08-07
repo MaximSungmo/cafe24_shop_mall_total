@@ -35,7 +35,6 @@ public class ResourceOwnerAuthenticationFilter extends UsernamePasswordAuthentic
 		if (postOnly && !request.getMethod().equals("POST")) {
 			throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
 		}
-
 		String username = obtainUsername(request);
 		String password = obtainPassword(request);
 

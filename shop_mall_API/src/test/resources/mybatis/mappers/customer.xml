@@ -31,7 +31,7 @@
 				, auth_grade
 				, recommender_id 
 			from CUSTOMER
-			where email=#{value}
+			where email=#{email}
 		]]>
 	</select>
 	

@@ -3,19 +3,34 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>  
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<title>상품 상세 정보</title>
+	<title>Shop Homepage - Start Bootstrap Template</title>
 	<!-- Bootstrap core CSS -->
 	<link href="${pageContext.servletContext.contextPath }/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<!-- Custom styles for this template -->
-	<link href="${pageContext.servletContext.contextPath }/assets/css/shop-item.css" rel="stylesheet">
+	<link href="${pageContext.servletContext.contextPath }/assets/css/shop-homepage.css" rel="stylesheet">
 </head>
-
+<script type="text/javascript"
+	src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
+<script type="text/javascript">
+       $(document).ready(function () {
+           // 콤보박스가 변경될 때 
+           $('#product_option_list').change(function () {
+               // 드롭다운리스트에서 선택된 값을 텍스트박스에 출력
+               var selectedText = // $("#lstFavorites option:selected").text();
+                   // $("option:selected").text();
+                   $(":selected").text();  // 드롭다운리스트가 하나밖에 없다면 이렇게 써도 됨
+               $('#product_price').val(selectedText);
+               $('#product_price').val(selectedText);
+               $('input[class=product_detail]').attr('value',enc);
+           });
+       });
+</script>
 <body>
 	<!-- Navigation -->
 	<c:import url='/WEB-INF/views/includes/navigation.jsp'>
@@ -43,23 +58,13 @@
 						<table>
 							<tr>
 								<td><input type="hidden" size="60" name="title"> 
-									<select name="category_no">
+									<select name="product_option_list" id="product_option_list">
 										<c:forEach items='${product_list[0].product_detail_list }' var='product_detail_vo' varStatus='status'>
 											<option  value="${product_detail_vo.product_no }">${product_detail_vo.product_option }</option>
 										</c:forEach>
 									</select>
-									<select name="category_no">
-										<c:forEach items='${product_list[0].product_detail_list }' var='product_detail_vo' varStatus='status'>
-											<option  value="${product_detail_vo.product_no }">${product_detail_vo.product_option }</option>
-										</c:forEach>
-									</select>
-								</td>
-								<td><input type="hidden" size="60" name="title"> 
-									<select name="category_no">
-										<c:forEach items='${product_list[0].product_detail_list }' var='product_detail_vo' varStatus='status'>
-											<option disabled="disabled" value="${product_detail_vo.product_no }">${product_detail_vo.product_option }</option>
-										</c:forEach>
-									</select>
+									<input type="text" id="product_price" class="product_detail" value="${product_list[0].product_detail_list[0].price }"/>
+									<input type="text" id="stock_cnt" class="product_detail" value=""/>
 								</td>
 							</tr>
 								

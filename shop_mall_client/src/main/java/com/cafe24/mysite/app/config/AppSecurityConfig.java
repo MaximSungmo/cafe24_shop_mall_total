@@ -59,10 +59,11 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
         	.formLogin()
         		.loginPage("/customer/login")
         		.loginProcessingUrl("/customer/auth")
-        		.failureUrl("/customer/login?result=fail")
-        		.successHandler(authenticationSuccessHandler())
         		.usernameParameter("email")
         		.passwordParameter("password")
+        		.failureUrl("/customer/login?result=fail")
+        		.successHandler(authenticationSuccessHandler())
+        		
         
         // LogoutConfigurer
         .and()

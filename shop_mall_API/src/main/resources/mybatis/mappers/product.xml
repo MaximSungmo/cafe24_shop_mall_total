@@ -247,6 +247,45 @@
 			]]>
 		</if>
 	</select>	
+	
+	<select id="get_product_by_product_no_result_map" resultMap="product_result_map" parameterType="long"> 
+		<![CDATA[
+			SELECT 
+			p.no
+			, p.NAME
+			, p.DESCRIPTION
+			, p.STATUS
+			, p.USE_FL
+			, p.LIKE_CNT
+			, p.REGISTER_DT
+			, p.CATEGORY_NO
+			, p.BRAND_NO 
+			
+			, pd.no as pd_no
+			, pd.PRODUCT_NO as pd_product_no
+			, pd.PRODUCT_OPTION
+			, pd.PRICE
+			, pd.STOCK_CD
+			, pd.STOCK_CNT
+			, pd.WAREHOUSE_NO
+			
+			, pi.no as pi_no
+			, pi.PRODUCT_NO as pi_product_no
+			, pi.URL as pi_url
+			, pi.REGISTER_DT as pi_register_dt
+			, pi.use_fl as pi_use_fl
+			, pi.PRODUCT_IMAGE_CATEGORY_NO
+			
+			FROM PRODUCT p
+			LEFT JOIN PRODUCT_DETAIL pd on(p.no=pd.PRODUCT_NO)
+			LEFT JOIN PRODUCT_IMAGE pi on(p.no=pi.PRODUCT_NO)
+		]]>
+		<if test="value!=0">
+			<![CDATA[
+				WHERE p.no=#{value}
+			]]>
+		</if>
+	</select>	
 	<!-- 상품 - 상품디테일 - 상품 이미지 모두 가져오기 끝-->
 	
 	

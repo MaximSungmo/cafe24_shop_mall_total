@@ -81,5 +81,9 @@ public class ProductDao {
 		return sqlSession.delete("product.delete_product_image", product_image_no);
 	}
 
+	public List<ProductVo> get_product_by_product_no_result_map(Long product_no) {
+		return sqlSession.selectList("get_product_by_product_no_result_map", product_no);
+	}
+
 	
 }

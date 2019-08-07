@@ -27,7 +27,7 @@ public class ProductService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("category_no", no);
 		map.put("kwd", kwd);
-		map.put("get_count", get_count);
+		map.put("get_count", get_count); 
 		map.put("last_product_no", last_product_no);
 		return productDao.get_product_list(map);
 	}
@@ -47,6 +47,10 @@ public class ProductService {
 
 	public List<ProductVo> get_product_list_by_result_map(Long category_no) {
 		return productDao.get_product_list_by_result_map(category_no);
+	}
+	
+	public List<ProductVo> get_product_by_product_no_result_map(Long product_no) {
+		return productDao.get_product_by_product_no_result_map(product_no);
 	}
 	/*
 	 * 상품 상세정보, product_detail 

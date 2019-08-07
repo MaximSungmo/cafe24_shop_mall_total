@@ -83,6 +83,24 @@ public class ProductController {
 		}
 	}
 	
+	
+	@ApiOperation(value = "상품 1개, 상품 상세 조회/화면에 모든 정보 가져오기")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "product_no", value = "product_no", dataType = "long", paramType = "path"),
+    })
+	@ResponseBody
+	@RequestMapping(value = {"/detail/all/{product_no}"}, method = RequestMethod.GET)
+	public ResponseEntity<JSONResult> get_product_list_by_result_map(
+			@PathVariable(value="product_no") Long product_no) {
+		List<ProductVo> product_vo = productService.get_product_by_product_no_result_map(product_no);
+		System.out.println(product_vo+"api서버에서의 결과");
+		if(product_vo!=null) {
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(product_vo));
+		}else {
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("조건에 맞는 정보가 없습니다."));
+		}
+	}
+		
 
 	/**
 	 * product insert, POST
@@ -105,7 +123,7 @@ public class ProductController {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(error.getDefaultMessage()));
 			}
 		}
-//		 데이터가 정상적으로 DB에 입력이 되면 true 값을 반환한다. 
+//		 데이터가 정상적으로 DB에 입력이 되면 true 값을 반환한다.  
 		Boolean insert_result = productService.add_product(vo);
 		if (insert_result) {
 			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(vo));

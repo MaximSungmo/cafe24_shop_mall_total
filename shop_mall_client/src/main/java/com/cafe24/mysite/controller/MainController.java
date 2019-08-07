@@ -1,13 +1,11 @@
 package com.cafe24.mysite.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.client.RestTemplate;
 
 import com.cafe24.mysite.dto.JSONResult2;
 import com.cafe24.mysite.service.MainService;
@@ -19,8 +17,7 @@ public class MainController {
 	//API BASE URL
 	String BASE_URL = "http://localhost:8081";
 	
-	@Autowired
-	RestTemplate restTemplate;
+	
 	@Autowired
 	MainService mainService;
 	
@@ -39,6 +36,12 @@ public class MainController {
 				
 		// 전체 상품 가져오기 
 		model.addAttribute("product_list", product_list.getData());
+		return "main/index";
+	}
+	
+	@RequestMapping( {"/test"} )
+	public String test(Model model) {
+
 		return "main/index";
 	}
 	

@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import com.cafe24.mysite.dto.JSONResult2;
 import com.cafe24.mysite.provider.CategoryProvider;
@@ -19,8 +18,6 @@ public class MainService {
 	// API BASE URL
 	String BASE_URL = "http://localhost:8081";
 
-	@Autowired
-	RestTemplate restTemplate;
 	
 	@Autowired
 	ProductProvider productProvider;

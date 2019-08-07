@@ -42,7 +42,6 @@ public class CustomerService {
 	 * 약관동의서(terms_of_use)
 	 */	
 	public JSONResult2<List<TermsOfUseVo>> get_terms_of_use_template() {
-//		JSONResultTermsOfUse terms_of_use_template_list= restTemplate.getForObject(BASE_URL + "/api/terms", JSONResultTermsOfUse.class);
 		JSONResult2<List<TermsOfUseVo>> terms_of_use_template_list = customerProvider.get_terms_of_use_template();
 		return terms_of_use_template_list;
 	}

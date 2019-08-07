@@ -1,7 +1,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
 <head>
@@ -56,7 +57,7 @@
 				<!-- DataTables Example -->
 				<div class="card mb-3">
 					<div class="card-header">
-						<i class="fas fa-table"></i> Data Table Example
+						<i class="fas fa-table"></i> 상품 목록
 					</div>
 					<div class="card-body">
 						<div class="table-responsive">
@@ -65,24 +66,37 @@
 								<thead>
 									<tr>
 										<th>No</th>
+										<th>상품명</th>
+										<th>상품설명</th>
+										<th>판매 상태</th>
+										<th>추천수</th>
+										<th>등록일자</th>
 										<th>카테고리명</th>
-										<th>상위 카테고리</th>
 									</tr>
 								</thead>
 								<tfoot>
 									<tr>
 										<th>No</th>
+										<th>상품명</th>
+										<th>상품설명</th>
+										<th>판매 상태</th>
+										<th>추천수</th>
+										<th>등록일자</th>
 										<th>카테고리명</th>
-										<th>상위 카테고리</th>
 									</tr>
 								</tfoot>
 								<tbody>
-									<c:forEach items="${category_list}" var="vo">								
-									<tr>
-										<td>${vo.no }</td>
-										<td>${vo.name }</td>
-										<td>${vo.parent_no }</td>				
-									</tr>
+									<c:forEach items="${product_list }" var="product_vo">
+										<tr>
+											<td>${product_vo.no }</td>
+											<td>${product_vo.name }</td>
+											<td>${product_vo.description }</td>
+											<td>${product_vo.use_fl }</td>
+											<td>${product_vo.like_cnt }</td>
+											<td>${product_vo.register_dt }</td>
+											<td>${product_vo.categoryvo.name}</td>
+											<input type="hidden" value="${product_vo.category_no}"/>
+										</tr>
 									</c:forEach>
 								</tbody>
 							</table>

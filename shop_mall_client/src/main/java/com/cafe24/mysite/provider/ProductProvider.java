@@ -33,10 +33,16 @@ public class ProductProvider {
 	}
 	
 	
+	
+
+	public JSONResult2<List<ProductVo>> get_product_list_by_categoryno(Long category_no) {
+		JSONResult2<List<ProductVo>> product_list= restTemplate.getForObject(BASE_URL+"/api/product/admin/"+category_no, JSONResultProduct.class);
+		return product_list;
+	}
+	
 	//DTOa
 	public static class JSONResultProduct extends JSONResult2<List<ProductVo>>{
 	}
-	
 
 		
 }

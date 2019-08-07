@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cart">
+
+
+	<insert id="insert_cart" parameterType="map">
+		<![CDATA[
+		INSERT INTO CART
+		VALUES
+		(
+			null
+			, #{customer_no}
+			, #{product_detail_no}
+			, #{count}
+			, now()	
+			, null
+			, "N"
+		)		
+		]]>		
+	</insert>
+		
+
+	<update id="insert_cart_list" parameterType="java.util.List">
+		<![CDATA[
+			INSERT INTO CART
+			VALUES
+		]]>
+		<foreach item="item" index="index" collection="list" separator=", " >
+		<![CDATA[  
+		    (
+				null
+				, #{item.customer_no}
+				, #{item.product_detail_no}
+				, #{item.count}
+				, now()	
+				, null
+				, "N"
+			)		
+		]]>
+		</foreach>
+		<selectKey keyProperty="no" resultType="long" order="AFTER">
+				select last_insert_id()
+		</selectKey>
+	</update>
+	
+	<!-- get_cart_list, result map 포함하여 쿼리 시작 -->
+	
+	<resultMap type="com.cafe24.shop.vo.CartVo" id="ok_cart_result_map"> 
+		<result property="no" column="no" /> 
+		<result property="customer_no" column="CUSTOMER_NO" /> 
+		<result property="product_detail_no" column="PRODUCT_DETAIL_NO" /> 
+		<result property="count" column="COUNT"/>
+		<result property="register_dt" column="REGISTER_DT"/>
+		<result property="delete_dt" column="DELETE_DT"/>
+		<result property="ordered_cart" column="ORDERED_CART"/>
+
+		<association property="productDetailVo" resultMap="product_detail_result_map"/> 
+	</resultMap> 	
+	
+	<resultMap type="com.cafe24.shop.vo.ProductDetailVo" id="product_detail_result_map"> 
+		<id property="no" column="pd_no" /> 
+		<result property="product_no" column="pd_PRODUCT_NO" /> 
+		<result property="product_option" column="pd_PRODUCT_OPTION" /> 
+		<result property="price" column="pd_PRICE" /> 
+		<result property="stock_cd" column="pd_STOCK_CD" /> 
+		<result property="stock_cnt" column="pd_STOCK_CNT" /> 
+		<result property="warehouse_no" column="pd_WAREHOUSE_NO" /> 
+	</resultMap> 
+	
+	<select id="get_cart_list" resultMap="ok_cart_result_map" parameterType="long">
+		<![CDATA[  
+			SELECT
+				c.no 
+				, c.CUSTOMER_NO
+				, c.PRODUCT_DETAIL_NO
+				, c.COUNT
+				, c.REGISTER_DT
+				, c.DELETE_DT
+				, c.`ORDERED CART` as ORDERED_CART
+				, pd.no as pd_no
+				, pd.PRODUCT_NO as pd_PRODUCT_NO
+				, PRODUCT_OPTION as pd_PRODUCT_OPTION
+				, pd.PRICE as pd_PRICE
+				, pd.STOCK_CD as pd_STOCK_CD
+				, pd.STOCK_CNT as pd_STOCK_CNT
+				, pd.WAREHOUSE_NO as pd_WAREHOUSE_NO
+			FROM CART as c
+			LEFT JOIN PRODUCT_DETAIL as pd on(c.PRODUCT_DETAIL_NO = pd.no)
+			
+			WHERE 
+				CUSTOMER_NO = #{c.CUSTOMER_NO}	
+		]]>		
+	</select>
+	
+	
+	<update id="update_cart_list" parameterType="java.util.List">		
+		<foreach item="item" index="index" collection="list" separator=";" open="" close=";">
+		<![CDATA[  
+				UPDATE CART 
+		    	SET 
+			    	COUNT = #{item.COUNT} 
+			    	, REGISTER_DT = #{item.REGISTER_DT}
+			    	, DELETE_DT =  #{item.DELETE_DT} 
+				WHERE 
+					no = #{item.no}
+		]]>
+		</foreach>
+	</update>
+	
+	<update id="update_cart_list_by_order" parameterType="java.util.List">		
+		<foreach item="item" index="index" collection="list" separator=";" open="" close=";">
+		<![CDATA[  
+				UPDATE CART 
+		    	SET 
+			    	ORDERED_CART = #{item.ORDERED_CART}
+				WHERE 
+					customer_no = #{item.customer_no} AND product_detail_no = #{item.product_detail_no}
+		]]>
+		</foreach>
+	</update>
+	
+	
+	<delete id="delete_cart_list" parameterType="java.util.List">
+		<foreach item="item" index="index" collection="list" separator=";" open="" close=";">
+		<![CDATA[  
+				DELETE FROM CART 
+				WHERE 
+					no = #{item.no}
+		]]>
+		</foreach>
+	</delete>
+	
+	
+	<!-- get_cart_list, result map 포함하여 쿼리 끝 -->
+	
+</mapper>

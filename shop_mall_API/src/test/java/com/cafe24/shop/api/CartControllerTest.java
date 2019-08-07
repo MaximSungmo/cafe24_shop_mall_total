@@ -1,6 +1,5 @@
 package com.cafe24.shop.api;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -136,16 +135,53 @@ public class CartControllerTest {
 	private MockMvc mockMvc;
 	@Autowired
 	private WebApplicationContext webApplicationContext;
+	
+//	@Autowired
+//    private FilterChainProxy springSecurityFilterChain;	
+	
+	private String accessToken;  //= "ec9d4b8c-2d03-4ba3-9968-13967318d7ac";
+        
+	
 	@Before
 	public void setup() throws Exception {
-		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
+		mockMvc = MockMvcBuilders
+				.webAppContextSetup(webApplicationContext)
+//				.addFilter(springSecurityFilterChain)
 	                  .alwaysDo(print())
 	                  .build();
+		// Access Token
+//        if(accessToken != null) {
+//        	return;
+//        }
+           	
+//		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+//        params.add("grant_type", "client_credentials");
+//        params.add("scope", "read");
+//        params.add("scope", "write");
+//        ResultActions result = mockMvc
+//        						.perform( post("/oauth/token")
+//            					.params(params)
+//            					.with(httpBasic("pjmall", "1234"))
+//            					.header("Authorization", "Basic " + new String(Base64.encode(("pjmall:1234").getBytes())))
+//            					.accept("application/json; charset=UTF-8")
+//            					.contentType(MediaType.APPLICATION_JSON))
+//        						.andDo(print())
+//        						.andExpect(status().isOk());            	
+
+//        String resultString = result.andReturn().getResponse().getContentAsString();
+//
+//        JacksonJsonParser jsonParser = new JacksonJsonParser();
+//        accessToken = jsonParser.parseMap(resultString).get("access_toke" + "n").toString();
+		
+		
 		termsofuse_list = test_data_terms();
 		customer_list = test_data_customer();
 		product_list = test_data_product();
 		product_detail_list = test_data_product_detail();
 		cart_list = test_data_cart();
+		
+        
+        
 	}
 	
 	
@@ -159,6 +195,7 @@ public class CartControllerTest {
 				+customer_list.get(0).getNo()+"/"
 				+product_detail_list.get(0).getNo()
 				+"?count=1")
+				.header("Authorization", "Bearer " + accessToken)
 				.contentType(MediaType.APPLICATION_JSON));				
 		
 		resultActions

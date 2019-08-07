@@ -79,17 +79,17 @@
 		]]>	
 	</select>  -->
 	<select id="get_product_list" parameterType="map" resultType="productvo">
-    <![CDATA[
-   	select no, name, description, status, use_fl, like_cnt, register_dt, category_no, brand_no 
-   	from PRODUCT		 
- 	
-	where 
-		(category_no = #{category_no} and #{category_no}<>0) 
-		and (name like CONCAT('%', #{kwd}, '%') and #{kwd}<>'')
-   	order by no asc
-    limit #{get_count} offset #{last_product_no}
-	]]>	
-</select>
+		<![CDATA[
+			select no, name, description, status, use_fl, like_cnt, register_dt, category_no, brand_no 
+			from PRODUCT		 
+			
+			where 
+			(category_no = #{category_no} and #{category_no}<>0) 
+			and (name like CONCAT('%', #{kwd}, '%') and #{kwd}<>'')
+			order by no asc
+			limit #{get_count} offset #{last_product_no}
+		]]>	
+	</select>
 	
 	<update id="update_product" parameterType="productvo">
 		<![CDATA[
@@ -166,7 +166,7 @@
 		<result property="register_dt" column="register_dt" />
 		<result property="category_no" column="category_no" />
 		<result property="brand_no" column="brand_no" />
-			
+		<association property="categoryvo" resultMap="category_result_map"/>			
 		<collection property="product_detail_list"  resultMap="product_detail_result_map"/> 
 		<collection property="product_image_list" resultMap="product_image_result_map"/>
 	</resultMap> 
@@ -197,6 +197,12 @@
 		<result property="register_dt" column="pic_register_dt" /> 
 		<result property="delete_dt" column="pic_delete_dt" /> 
 		<result property="use_fl" column="pic_use_fl" /> 
+	</resultMap>
+	
+	<resultMap type="com.cafe24.shop.vo.CategoryVo" id="category_result_map"> 
+		<id property="no" column="c_no" /> 
+		<result property="name" column="c_name" /> 
+		<result property="parent_no" column="c_parent_no" /> 
 	</resultMap>
 	
 	<!-- 
@@ -235,16 +241,58 @@
 			, pi.URL as pi_url
 			, pi.REGISTER_DT as pi_register_dt
 			, pi.use_fl as pi_use_fl
+			, pi.PRODUCT_IMAGE_CATEGORY_NO as pi_product_image_category_no
+			
+			, c.name as c_no
+			FROM PRODUCT p
+			LEFT JOIN PRODUCT_DETAIL pd on(p.no=pd.PRODUCT_NO)
+			LEFT JOIN PRODUCT_IMAGE pi on(p.no=pi.PRODUCT_NO)
+			LEFT JOIN CATEGORY c on(c.no=p.CATEGORY_NO)
+		]]>
+		<if test="value!=0">
+			<![CDATA[
+				WHERE p.CATEGORY_NO=#{value}
+			]]>
+		</if>
+	</select>	
+	
+	<select id="get_product_by_product_no_result_map" resultMap="product_result_map" parameterType="long"> 
+		<![CDATA[
+			SELECT 
+			p.no
+			, p.NAME
+			, p.DESCRIPTION
+			, p.STATUS
+			, p.USE_FL
+			, p.LIKE_CNT
+			, p.REGISTER_DT
+			, p.CATEGORY_NO
+			, p.BRAND_NO 
+			
+			, pd.no as pd_no
+			, pd.PRODUCT_NO as pd_product_no
+			, pd.PRODUCT_OPTION
+			, pd.PRICE
+			, pd.STOCK_CD
+			, pd.STOCK_CNT
+			, pd.WAREHOUSE_NO
+			
+			, pi.no as pi_no
+			, pi.PRODUCT_NO as pi_product_no
+			, pi.URL as pi_url
+			, pi.REGISTER_DT as pi_register_dt
+			, pi.use_fl as pi_use_fl
 			, pi.PRODUCT_IMAGE_CATEGORY_NO
 			
 			FROM PRODUCT p
 			LEFT JOIN PRODUCT_DETAIL pd on(p.no=pd.PRODUCT_NO)
 			LEFT JOIN PRODUCT_IMAGE pi on(p.no=pi.PRODUCT_NO)
 		]]>
-		<if test='value!=0'></if>
-		<![CDATA[
-			WHERE p.category_no=#{value}
-		]]>
+		<if test="value!=0">
+			<![CDATA[
+				WHERE p.no=#{value}
+			]]>
+		</if>
 	</select>	
 	<!-- 상품 - 상품디테일 - 상품 이미지 모두 가져오기 끝-->
 	
@@ -278,9 +326,7 @@
 	</delete>	
 	<!-- 실제 서비스 코드 (PRODUCT_DETAIL) 끝 -->
 	
-	<!-- 실제 서비스 코드 (PRODUCT_IMAGE) 시작 -->
-	
-	
+	<!-- 실제 서비스 코드 (PRODUCT_IMAGE) 시작 -->	
 	<insert id="insert_product_image_list" parameterType="java.util.List">
 		<![CDATA[
 			insert into PRODUCT_IMAGE 
@@ -327,7 +373,7 @@
 			select last_insert_id()
 		</selectKey>
 	</insert>
-	
+	 
 	<select id="get_product_image_list" resultMap="product_image_result_map" parameterType="productimagevo"> 
 		<![CDATA[
 			select 
@@ -349,6 +395,7 @@
 			and (pi.product_image_category_no = #{product_image_category_no} or #{product_image_category_no} is null);
 		]]>
 	</select>
+	
 	
 	<update id="update_product_image_list" parameterType="java.util.List">		
 		<foreach item="item" index="index" collection="list" separator=";" open="" close=";">

@@ -166,7 +166,7 @@
 		<result property="register_dt" column="register_dt" />
 		<result property="category_no" column="category_no" />
 		<result property="brand_no" column="brand_no" />
-			
+		<association property="categoryvo" resultMap="category_result_map"/>			
 		<collection property="product_detail_list"  resultMap="product_detail_result_map"/> 
 		<collection property="product_image_list" resultMap="product_image_result_map"/>
 	</resultMap> 
@@ -197,6 +197,12 @@
 		<result property="register_dt" column="pic_register_dt" /> 
 		<result property="delete_dt" column="pic_delete_dt" /> 
 		<result property="use_fl" column="pic_use_fl" /> 
+	</resultMap>
+	
+	<resultMap type="com.cafe24.shop.vo.CategoryVo" id="category_result_map"> 
+		<id property="no" column="c_no" /> 
+		<result property="name" column="c_name" /> 
+		<result property="parent_no" column="c_parent_no" /> 
 	</resultMap>
 	
 	<!-- 
@@ -235,15 +241,17 @@
 			, pi.URL as pi_url
 			, pi.REGISTER_DT as pi_register_dt
 			, pi.use_fl as pi_use_fl
-			, pi.PRODUCT_IMAGE_CATEGORY_NO
+			, pi.PRODUCT_IMAGE_CATEGORY_NO as pi_product_image_category_no
 			
+			, c.name as c_name
 			FROM PRODUCT p
 			LEFT JOIN PRODUCT_DETAIL pd on(p.no=pd.PRODUCT_NO)
 			LEFT JOIN PRODUCT_IMAGE pi on(p.no=pi.PRODUCT_NO)
+			LEFT JOIN CATEGORY c on(c.no=p.CATEGORY_NO)
 		]]>
 		<if test="value!=0">
 			<![CDATA[
-				WHERE p.category_no=#{value}
+				WHERE p.CATEGORY_NO=#{value}
 			]]>
 		</if>
 	</select>	

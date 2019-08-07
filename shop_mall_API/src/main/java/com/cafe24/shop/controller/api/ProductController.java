@@ -66,6 +66,23 @@ public class ProductController {
 		}
 	}
 	
+	
+	// 어드민에서 사용할 API 임시 작성
+	@ResponseBody
+	@RequestMapping(value = {"/admin","/admin/{no}"}, method = RequestMethod.GET)
+	public ResponseEntity<JSONResult> get_product_list(
+			@PathVariable Optional<Long> no, 
+			Model model) {
+		// category_no 넘어오지 않을 시 0으로 정보 보내어 조건 없이 모든 정보 가져옴
+		Long category_no = no.isPresent() ? no.get() : 0;
+		List<ProductVo> product_list = productService.get_product_list_by_result_map(category_no);
+		if(!product_list.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(product_list));
+		}else {
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("조건에 맞는 정보가 없습니다."));
+		}
+	}
+	
 	@ApiOperation(value = "상품 상세 조회/화면에 모든 정보 가져오기")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "product_no", value = "product_no", dataType = "long", paramType = "path"),

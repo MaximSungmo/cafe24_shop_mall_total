@@ -8,8 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cafe24.shop.repository.CustomerDao;
 import com.cafe24.shop.vo.CustomerVo;
-import com.cafe24.shop.vo.GuestbookVo;
-import com.cafe24.shop.vo.TermsOfUseVo;
 
 @Service
 public class CustomerService {
@@ -34,8 +32,14 @@ public class CustomerService {
 	 */
 	@Transactional
 	public Boolean join(CustomerVo vo) {
-		customerDao.insert_checked_terms_of_use(vo);
-		return customerDao.insert(vo);
+		Boolean result = customerDao.insert(vo);
+		System.out.println(vo.getNo()+"들어간 뒤 번호 확인");
+		for(int i =0; i<vo.getTermsofusevolist().size(); i++) {
+			vo.setAgreement_fl(vo.getTermsofusevolist().get(i).getUse_fl());
+			vo.setTerms_of_use_no(vo.getTermsofusevolist().get(i).getNo());
+			customerDao.insert_checked_terms_of_use(vo);
+		}
+		return result;
 	}
 	
 	/**
@@ -75,6 +79,10 @@ public class CustomerService {
 	}
 	public List<CustomerVo> get_list() {
 		return customerDao.get_list();
+	}
+	public CustomerVo get_by_email(String email) {
+		
+		return customerDao.get_by_email(email);
 	}
 	
 	

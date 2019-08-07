@@ -17,10 +17,11 @@ public class CustomerService {
 	
 	@Autowired
 	private CustomerProvider customerProvider;
-	String BASE_URL = "http://localhost:8081";
+	
+//	String BASE_URL = "http://localhost:8081";
 
-	@Autowired
-	private OAuth2RestTemplate restTemplate;
+//	@Autowired
+//	private OAuth2RestTemplate restTemplate;
 	
 	
 	/**
@@ -28,8 +29,8 @@ public class CustomerService {
 	 * @param customervo
 	 * @return true, false 
 	 */
-	public Boolean join(CustomerVo customervo) {	
-		return customerProvider.insert_customer(customervo)==1;
+	public JSONResult2<Boolean> join(CustomerVo customervo) {	
+		return customerProvider.insert_customer(customervo);
 	}
 	
 	
@@ -37,8 +38,8 @@ public class CustomerService {
 	 * 약관동의서(terms_of_use)
 	 */	
 	public JSONResult2<List<TermsOfUseVo>> get_terms_of_use_template() {
-		JSONResultTermsOfUse terms_of_use_template_list= restTemplate.getForObject(BASE_URL + "/api/terms", JSONResultTermsOfUse.class);
-//		JSONResult2<List<TermsOfUseVo>> terms_of_use_template_list = customerProvider.get_terms_of_use_template();
+//		JSONResultTermsOfUse terms_of_use_template_list= restTemplate.getForObject(BASE_URL + "/api/terms", JSONResultTermsOfUse.class);
+		JSONResult2<List<TermsOfUseVo>> terms_of_use_template_list = customerProvider.get_terms_of_use_template();
 		return terms_of_use_template_list;
 	}
 

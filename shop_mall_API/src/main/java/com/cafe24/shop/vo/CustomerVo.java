@@ -1,10 +1,12 @@
 package com.cafe24.shop.vo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import com.cafe24.shop.validator.ValidGender;
 
@@ -36,7 +38,8 @@ public class CustomerVo {
 	private Long terms_of_use_no;
 	private String agreement_fl;
 	private String agreement_dt;
-	
+	private List<TermsOfUseVo> termsofusevolist = new ArrayList<TermsOfUseVo>();
+
 	
 	/**
 	 * 생성자 목록 
@@ -196,6 +199,14 @@ public class CustomerVo {
 				+ phone + ", gender=" + gender + ", use_fl=" + use_fl + ", auth_grade=" + auth_grade
 				+ ", recommender_id=" + recommender_id + ", terms_of_use_no=" + terms_of_use_no + ", agreement_fl="
 				+ agreement_fl + ", agreement_dt=" + agreement_dt + "]";
+	}
+
+	public List<TermsOfUseVo> getTermsofusevolist() {
+		return termsofusevolist;
+	}
+
+	public void setTermsofusevolist(List<TermsOfUseVo> termsofusevolist) {
+		this.termsofusevolist = termsofusevolist;
 	}
 
 	

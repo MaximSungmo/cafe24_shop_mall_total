@@ -165,7 +165,7 @@ public class CustomerControllerTest {
 		mockMvc.perform(post("/api/customer/")
 				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo2)));				
 		resultActions2
-		.andExpect(status().isBadRequest())
+		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result").value("fail"))
 		.andExpect(jsonPath("$.message").value("이름 형식이 맞지 않습니다."));
 		
@@ -176,7 +176,7 @@ public class CustomerControllerTest {
 		mockMvc.perform(post("/api/customer/")
 				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo3)));				
 		resultActions3
-		.andExpect(status().isBadRequest())
+		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result").value("fail"))
 		.andExpect(jsonPath("$.message").value("이름은 2~8자리 사이로 입력해주세요."));
 		
@@ -188,7 +188,7 @@ public class CustomerControllerTest {
 		mockMvc.perform(post("/api/customer/")
 				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo4)));				
 		resultActions4
-		.andExpect(status().isBadRequest())
+		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result").value("fail"))
 		.andExpect(jsonPath("$.message").value("이메일 형식이 올바르지 않습니다."));
 		
@@ -200,7 +200,7 @@ public class CustomerControllerTest {
 		mockMvc.perform(post("/api/customer/")
 				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo5)));				
 		resultActions5
-		.andExpect(status().isBadRequest())
+		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result").value("fail"))
 		.andExpect(jsonPath("$.message").value("비밀번호는 특수문자/문자/숫자 최소 8~16자리 이내 입력 바랍니다."));
 
@@ -212,7 +212,7 @@ public class CustomerControllerTest {
 		mockMvc.perform(post("/api/customer/")
 				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo6)));				
 		resultActions6
-		.andExpect(status().isBadRequest())
+		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result").value("fail"))
 		.andExpect(jsonPath("$.message").value("비밀번호는 특수문자/문자/숫자 최소 8~16자리 이내 입력 바랍니다."));
 		
@@ -224,7 +224,7 @@ public class CustomerControllerTest {
 		mockMvc.perform(post("/api/customer/")
 				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo7)));				
 		resultActions7
-		.andExpect(status().isBadRequest())
+		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result").value("fail"))
 		.andExpect(jsonPath("$.message").value("전화번호 형식이 올바르지 않습니다."));
 		
@@ -235,7 +235,7 @@ public class CustomerControllerTest {
 		mockMvc.perform(post("/api/customer/")
 				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo8)));				
 		resultActions8
-		.andExpect(status().isBadRequest())
+		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result").value("fail"))
 		.andExpect(jsonPath("$.message").value("Invalid Gender"));
 	}
@@ -350,6 +350,19 @@ public class CustomerControllerTest {
 	}
 	
 	
+	@Test
+	public void get_by_email() throws Exception {	
+		// ## login_fail_test() 업데이트 성공테스트
+		// 패스워드 형식 오류 
+		String email = "ksm5@naver.com";
+		ResultActions resultActions = 
+		mockMvc.perform(post("/api/customer/get_user?email="+email)
+				.contentType(MediaType.APPLICATION_JSON));				
+		resultActions
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result").value("success"));
+			
+	}
 	
 	
 	

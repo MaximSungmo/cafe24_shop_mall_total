@@ -18,11 +18,28 @@
 		]]>
 	</select>
 	
+	<select id="get_by_email" resultType="customervo" parameterType="string">
+		<![CDATA[	 
+			select 
+				no
+				, name
+				, email
+				, password
+				, phone
+				, gender
+				, use_fl
+				, auth_grade
+				, recommender_id 
+			from CUSTOMER
+			where email=#{value}
+		]]>
+	</select>
+	
 	<!-- Join 기능 시 입력 -->
 	<insert id="insert" parameterType="customervo">
 		<![CDATA[
 			insert into CUSTOMER 
-		    values(null, #{name }, #{email }, #{password }, #{phone}, #{gender }, #{use_fl}, #{auth_grade}, #{recommender_id})	
+		    values(null, #{name }, #{email }, #{password }, #{phone}, #{gender }, "Y", #{auth_grade}, null)	
 		]]>
 		<selectKey keyProperty="no" resultType="long" order="AFTER">
 			<![CDATA[
@@ -30,7 +47,8 @@
 			]]>
 		</selectKey>
 	</insert>
-	<insert id="insert_checked_terms_of_use">
+	
+	<insert id="insert_checked_terms_of_use" parameterType="customervo">
 		<![CDATA[
 			insert into CUSTOMER_AND_TERMS_OF_USE
 			values(#{no}, #{terms_of_use_no}, #{agreement_fl}, now())

@@ -1,5 +1,8 @@
 package com.cafe24.mysite.vo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Email;
@@ -21,7 +24,6 @@ public class CustomerVo {
 	@Pattern(regexp="^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,16}$", message="비밀번호는 특수문자/문자/숫자 최소 8~16자리 이내 입력 바랍니다.")
 	private String password;
 	
-	@Length(min=4, max=16, message="전화번호 형식이 올바르지 않습니다.")
 	@Pattern(regexp="^\\d{2,3}-\\d{3,4}-\\d{4}$", message="전화번호 형식이 올바르지 않습니다.")
 	private String phone;
 	
@@ -32,6 +34,8 @@ public class CustomerVo {
 	private Long terms_of_use_no;
 	private String agreement_fl;
 	private String agreement_dt;
+	private List<TermsOfUseVo> termsofusevolist = new ArrayList<TermsOfUseVo>();
+
 	
 	
 	/**
@@ -191,7 +195,15 @@ public class CustomerVo {
 		return "CustomerVo [no=" + no + ", name=" + name + ", email=" + email + ", password=" + password + ", phone="
 				+ phone + ", gender=" + gender + ", use_fl=" + use_fl + ", auth_grade=" + auth_grade
 				+ ", recommender_id=" + recommender_id + ", terms_of_use_no=" + terms_of_use_no + ", agreement_fl="
-				+ agreement_fl + ", agreement_dt=" + agreement_dt + "]";
+				+ agreement_fl + ", agreement_dt=" + agreement_dt + ", termsofusevolist=" + termsofusevolist + "]";
+	}
+
+	public List<TermsOfUseVo> getTermsofusevolist() {
+		return termsofusevolist;
+	}
+
+	public void setTermsofusevolist(List<TermsOfUseVo> termsofusevolist) {
+		this.termsofusevolist = termsofusevolist;
 	}
 
 	

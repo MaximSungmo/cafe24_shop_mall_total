@@ -43,14 +43,16 @@ public class CustomerDao {
 	}
 
 	public Boolean insert_checked_terms_of_use(CustomerVo vo) {
-		System.out.println(vo.getTerms_of_use_no()+"aaaaaaterms");
-		System.out.println(vo.getNo()+"aaaaaa custos");
 		return sqlSession.insert("customer.insert_checked_terms_of_use", vo)==1;
 	}
 
 	public List<CustomerVo> get_list() {
 		
 		return sqlSession.selectList("customer.get_list");
+	}
+
+	public CustomerVo get_by_email(String email) {
+		return sqlSession.selectOne("customer.get_by_email", email);
 	}
 
 }

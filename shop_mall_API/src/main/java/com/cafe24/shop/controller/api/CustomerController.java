@@ -76,14 +76,12 @@ public class CustomerController {
 	public ResponseEntity<JSONResult> join(
 			@RequestBody @Valid CustomerVo vo, BindingResult bindResult) {
 		
-		System.out.println("======================"+vo);
-		// ### @Valid 통과 불가할 시 error 전달
+		// ### @Valid 통과 불가할 시 error 전달 
 		if(bindResult.hasErrors()) {
-			System.out.println("======================error"+vo);
 			List<ObjectError> list = bindResult.getAllErrors();
 			for(ObjectError error : list) {
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(error.getDefaultMessage()));
-			}
+				return ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail(error.getDefaultMessage()));
+			} 
 		}
 		System.out.println(vo);
 		// 데이터가 정상적으로 DB에 입력이 되면 true 값을 반환한다. 
@@ -169,6 +167,18 @@ public class CustomerController {
 			}
 		}
 		
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(customer_vo));
+	}
+	 
+	@ApiOperation(value = "로그인 정보 가져오기")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "CustomerVo", value = "CustomerVo", dataType = "CustomerVo", paramType = "body"),
+    })
+	@ResponseBody
+	@RequestMapping(value="/get_user", method = RequestMethod.POST)
+	public ResponseEntity<JSONResult> get_by_email(@RequestParam String email) {
+		CustomerVo customer_vo = customerService.get_by_email(email);
+				
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(customer_vo));
 	}
 	

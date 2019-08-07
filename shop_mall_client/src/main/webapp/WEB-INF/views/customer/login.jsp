@@ -26,19 +26,27 @@
  		<div class="card card-container">
         	<img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
             <p id="profile-name" class="profile-name-card"></p>
-            <form method="post" action="login" class="form-signin" name="loginForm">
+            <c:if test="${result=='fail'}">
+                	<p style="font-weight:bold; color:#f00; text-align:left; padding:0; margin:0">
+                		로그인에 실패하였습니다.<br/> 다시 시도하여 주세요.
+                	</p>
+            </c:if>
+            <form method="post" action="${pageContext.servletContext.contextPath }/customer/auth" class="form-signin" name="loginForm">
                 <span id="reauth-email" class="reauth-email"></span>
                 <input type="email" id="inputEmail" class="form-control" placeholder="이메일" name="username" required autofocus>
                 <input type="password" id="inputPassword" class="form-control" placeholder="비밀번호" name="password" required>
+                
+
                 <div id="remember" class="checkbox">
                     <label>
                         <input type="checkbox" value="remember-me"> 자동 로그인
                     </label>
                 </div>
                 <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">로그인</button>
+                
             </form><!-- /form -->
             <a href="javascript:loginForm.submit();" class="forgot-password">
-                비밀번호를 잊으셨습니까?
+               	 비밀번호를 잊으셨습니까?
             </a>
         </div>
         <!-- /.card-container -->

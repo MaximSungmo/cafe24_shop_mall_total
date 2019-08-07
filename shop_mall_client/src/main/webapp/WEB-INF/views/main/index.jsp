@@ -25,16 +25,8 @@
 	<div class="container">
 		<div class="row">
 
-			<div class="col-lg-3">
-				<h1 class="my-4">PJMall</h1>
-				<div class="list-group">
-					<c:forEach items="${category_list }" var="vo" varStatus="status">
-						<a href="${pageContext.servletContext.contextPath }/category/${vo.no}" class="list-group-item">${vo.name}</a>
-					</c:forEach> 
-					
-					
-				</div>
-			</div>
+			<c:import url='/WEB-INF/views/includes/sidebar.jsp'/>
+			
 			<!-- /.col-lg-3 -->
 
 			<div class="col-lg-9">

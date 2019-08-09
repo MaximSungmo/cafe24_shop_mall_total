@@ -116,9 +116,8 @@ public class AdminController {
 	// 상품 등록 요청
 	@RequestMapping(value={"/product/add"}, method = RequestMethod.POST)
 	public String product_add(@ModelAttribute("productvo") ProductVo productvo
-			, @RequestParam("multipartPhoto") MultipartFile multipartPhoto
+			, @ModelAttribute("multipartPhoto") List<MultipartFile> multipartPhoto
 			, Model model) {
-
 		adminService.add_product(productvo, multipartPhoto);
 		return "redirect:/admin/product/add";
 	}
@@ -131,10 +130,7 @@ public class AdminController {
 		return "test/multipart_test";
 	}
 	@RequestMapping(value="/test", method = RequestMethod.POST)
-	public String test(@RequestParam("files") List<MultipartFile> files) {
-		System.out.println(files);
-		System.out.println(files.size());
-		System.out.println(files.get(0).getOriginalFilename());
+	public String test(@ModelAttribute("files") List<MultipartFile> files) {
 		
 		return "test/multipart_test";
 	}

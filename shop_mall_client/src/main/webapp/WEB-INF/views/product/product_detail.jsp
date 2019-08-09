@@ -22,14 +22,23 @@
            // 콤보박스가 변경될 때 
            $('#product_option_list').change(function () {
                // 드롭다운리스트에서 선택된 값을 텍스트박스에 출력
-               var selectedText = // $("#lstFavorites option:selected").text();
-                   // $("option:selected").text();
-                   $(":selected").text();  // 드롭다운리스트가 하나밖에 없다면 이렇게 써도 됨
-               $('#product_price').val(selectedText);
-               $('#product_price').val(selectedText);
-               $('input[class=product_detail]').attr('value',enc);
+               var idx = $("#product_option_list option").index( $("#product_option_list option:selected") );
+               
+
+               var selectedText =  $("#product_option_list option:selected").text();
+               
+               
+               var hidden_text = $("#hidden_text").text();
+               $('#product_price').val($("#product_option_list option:selected").attr("data-price"));
+               $('#product_stock').val($("#product_option_list option:selected").attr("data-stock"));
+
            });
        });
+       
+       
+
+
+
 </script>
 <body>
 	<!-- Navigation -->
@@ -60,19 +69,22 @@
 								<td><input type="hidden" size="60" name="title"> 
 									<select name="product_option_list" id="product_option_list">
 										<c:forEach items='${product_list[0].product_detail_list }' var='product_detail_vo' varStatus='status'>
-											<option  value="${product_detail_vo.product_no }">${product_detail_vo.product_option }</option>
+											<option value="${product_detail_vo.no }" 
+												data-price="${product_list[0].product_detail_list[status.index].price }"
+												data-stock="${product_list[0].product_detail_list[status.index].stock_cnt }" >
+												
+												${product_detail_vo.product_option }
+											</option>
 										</c:forEach>
 									</select>
-									<input type="text" id="product_price" class="product_detail" value="${product_list[0].product_detail_list[0].price }"/>
-									<input type="text" id="stock_cnt" class="product_detail" value=""/>
+									<input type="text" id="product_price" class="product_detail" value="${product_list[0].product_detail_list[0].price }" disabled="disabled"/>
+									<input type="text" id="product_stock" class="product_detail" value="${product_list[0].product_detail_list[0].stock_cnt }" disabled="disabled"/>
 								</td>
 							</tr>
-								
 						</table>
 						
-						
 						<p class="card-text">
-						${product_list[0] }
+							${product_list[0] }
 						<br/>
 							${product_list[0].description }
 						</p>

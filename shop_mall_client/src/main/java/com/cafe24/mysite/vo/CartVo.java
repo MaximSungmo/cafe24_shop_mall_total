@@ -2,9 +2,6 @@ package com.cafe24.mysite.vo;
 
 import javax.validation.constraints.NotNull;
 
-import io.swagger.annotations.ApiModel;
-
-@ApiModel(value = "CartVo")
 public class CartVo {
 
 	private Long no;

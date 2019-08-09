@@ -2,13 +2,10 @@ package com.cafe24.mysite.vo;
 
 import java.util.List;
 
-import io.swagger.annotations.ApiModel;
-
 /**
  * @author bit
  *
  */
-@ApiModel(value = "BrandVo")
 public class BrandVo {
 
 	private Long no;

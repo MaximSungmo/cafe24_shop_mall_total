@@ -4,7 +4,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
+<html>
 <head>
 
 <meta charset="utf-8">
@@ -14,7 +14,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>SB Admin - Tables</title>
+<title>상품 조회</title>
 
 <!-- Custom fonts for this template-->
 <link

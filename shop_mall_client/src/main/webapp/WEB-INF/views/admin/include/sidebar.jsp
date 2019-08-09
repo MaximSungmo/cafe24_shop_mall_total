@@ -48,8 +48,7 @@
 		</a>
 		<div class="dropdown-menu" aria-labelledby="pagesDropdown">
 			<h6 class="dropdown-header">Category Screens:</h6>
-			<a class="dropdown-item" href="${pageContext.request.contextPath }/admin/category">카테고리 조회</a> 
-			<a class="dropdown-item" href="${pageContext.request.contextPath }/admin/category/add">카테고리 등록</a> 
+			<a class="dropdown-item" href="${pageContext.request.contextPath }/admin/category">카테고리 조회 및 등록</a> 
 			<a class="dropdown-item" href="${pageContext.request.contextPath }/admin/category/update">카테고리 수정 및 삭제</a>
 		</div>
 	</li>

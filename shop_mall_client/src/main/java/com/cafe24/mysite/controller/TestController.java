@@ -78,4 +78,10 @@ public class TestController {
     public String as() {
         return "test/multipart_test";
     }
+    
+    
+    @RequestMapping(value = "/gallery")
+    public String aas() {
+        return "gallery/index";
+    }
 }

@@ -11,7 +11,10 @@
 </head>
 <body>
 	<form name="fileForm" action="${pageContext.request.contextPath }/admin/test" method="post" enctype="multipart/form-data">
-        <input type="file" name="files[0]" />
+        <input type="file" name="files" />
+                <input type="file" name="files" />
+                        <input type="file" name="files" />
+        
         <input type="submit" value="전송" />
     </form>
 </body>

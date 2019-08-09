@@ -4,9 +4,6 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
-import io.swagger.annotations.ApiModel;
-
-@ApiModel(value = "CategoryVo")
 public class CategoryVo {
 
 	private Long no;

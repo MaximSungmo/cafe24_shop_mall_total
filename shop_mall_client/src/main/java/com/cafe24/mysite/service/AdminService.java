@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cafe24.mysite.dto.JSONResult2;
@@ -18,6 +19,8 @@ import com.cafe24.mysite.provider.CustomerProvider;
 import com.cafe24.mysite.provider.ProductProvider;
 import com.cafe24.mysite.vo.CategoryVo;
 import com.cafe24.mysite.vo.CustomerVo;
+import com.cafe24.mysite.vo.ProductDetailVo;
+import com.cafe24.mysite.vo.ProductImageVo;
 import com.cafe24.mysite.vo.ProductVo;
 
 @Service
@@ -52,21 +55,35 @@ public class AdminService {
 		return customerProvider.insert_category(categoryvo);
 	}
 	
-	public void add_product(ProductVo productvo, MultipartFile files) {
-		Long product_no = 0L;
-//		JSONResult2<Long> product_ = productProvider.add_product(productvo);
+	@Transactional
+	public void add_product(ProductVo productvo, List<MultipartFile> multipartPhoto) {
+		System.out.println(productvo);
+		// 상품 우선 등록하기 
+		JSONResult2<Long> product_no = productProvider.add_product(productvo);
+		System.out.println(product_no.getData());
 		
-		if(!files.isEmpty()) {
-			String url_list = restore(files);
-			productvo.getProduct_image_list().get(0).setProduct_no(product_no);
-			productvo.getProduct_image_list().get(0).setUrl(url_list);
+		// 상품 디테일 추가하기
+		List<ProductDetailVo> product_detail_list =  productvo.getProduct_detail_list();
+		for(ProductDetailVo product_detail_vo : product_detail_list) {
+			product_detail_vo.setProduct_no(product_no.getData());
+		}
+		System.out.println(product_detail_list);
+		JSONResult2<List<ProductDetailVo>> _product_detail_list = productProvider.add_product_detail(product_detail_list);
 
-//			for(int i=0; i<url_list.size(); i++) {
-//				productvo.getProduct_image_list().get(i).setProduct_no(product_no);
-//				productvo.getProduct_image_list().get(i).setUrl(url_list));
-//			}
+		// 상품 이미지 추가하기
+		if(!multipartPhoto.isEmpty()) {
+			List<String> url_list = restore(multipartPhoto);
+			List<ProductImageVo> product_image_list =  new ArrayList<ProductImageVo>();
+			int file_idx = 0;
+			for(int i=0; i<multipartPhoto.size(); i++) {
+				product_image_list.add(new ProductImageVo(product_no.getData(), url_list.get(file_idx),"Y",null));
+				file_idx += 1; 
+			}
+			JSONResult2<List<ProductImageVo>> _product_image_list = productProvider.add_product_image(product_image_list);
 		}
 	}
+		
+		
 	
 	
 //	if(logo_file.isEmpty()) {
@@ -86,32 +103,29 @@ public class AdminService {
 	 */
 	private static final String SAVE_PATH = "/mysite-uploads";
 
-	public String restore(MultipartFile image) {
+	public List<String> restore(List<MultipartFile> images) {
 		String url = null;
-//		List<String> url_list = new ArrayList<String>();
+		List<String> url_list = new ArrayList<String>();
 		try {
-//	        for(MultipartFile image : images) {
+	        for(MultipartFile image : images) {
 				// 파일 정보
 				String originFilename = image.getOriginalFilename();
-				System.out.println("오리지날 파일"+originFilename);
 				String extName = originFilename.substring(originFilename.lastIndexOf("."), originFilename.length());
-				Long size = image.getSize();
-	
 				// 서버에서 저장 할 파일 이름
 				String saveFileName = genSaveFileName(extName);
 	
 				writeFile(image, saveFileName);
 				url = saveFileName;
 				// 파일 저장 후 List로 URL 받기
-//				url_list.add(url);
-//	        }
+				url_list.add(url);
+	        }
 		} catch (IOException e) {
 			// 원래라면 RuntimeException 을 상속받은 예외가 처리되어야 하지만
 			// 편의상 RuntimeException을 던진다.
 			// throw new FileUploadException();
 			throw new RuntimeException(e);
 		}
-		return url;
+		return url_list;
 	}
 
 	// 현재 시간을 기준으로 파일 이름 생성

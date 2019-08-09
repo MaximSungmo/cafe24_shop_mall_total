@@ -140,10 +140,10 @@ public class ProductController {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(error.getDefaultMessage()));
 			}
 		}
-//		 데이터가 정상적으로 DB에 입력이 되면 true 값을 반환한다.  
+
 		Boolean insert_result = productService.add_product(vo);
 		if (insert_result) {
-			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(vo));
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(vo.getNo()));
 		} else {
 			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("정상적으로 정보가 등록되지 않았습니다."));
 		}

@@ -7,9 +7,6 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
-
-import io.swagger.annotations.ApiModel;
-@ApiModel(value = "CustomerVo")
 public class CustomerVo {
 	
 	private Long no;

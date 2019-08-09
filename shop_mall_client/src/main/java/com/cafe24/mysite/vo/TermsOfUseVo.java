@@ -1,8 +1,5 @@
 package com.cafe24.mysite.vo;
 
-import io.swagger.annotations.ApiModel;
-
-@ApiModel(value = "TermsOfUseVo")
 public class TermsOfUseVo {
 
 	private Long no;

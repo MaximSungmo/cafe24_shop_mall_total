@@ -8,6 +8,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.cafe24.mysite.dto.JSONResult;
 import com.cafe24.mysite.dto.JSONResult2;
+import com.cafe24.mysite.vo.CategoryVo;
 import com.cafe24.mysite.vo.CustomerVo;
 import com.cafe24.mysite.vo.TermsOfUseVo;
 
@@ -45,9 +46,17 @@ public class CustomerProvider {
 	}
 	
 	
+	// 카테고리 넣기
+	public JSONResult2<Boolean> insert_category(CategoryVo categoryvo) {
+		return restTemplate.postForObject(BASE_URL+"/api/category", categoryvo, JSONResultBoolean.class);
+	}
+	
 	public static class JSONResultTermsOfUse extends JSONResult2<List<TermsOfUseVo>> {}
 	public static class JSONResultCustomer extends JSONResult2<List<CustomerVo>> {}
 	public static class JSONResultJoin extends JSONResult2<Boolean> {}
 	public static class JSONResultCustomer_vo extends JSONResult2<CustomerVo> {}
+	public static class JSONResultBoolean extends JSONResult2<Boolean> {}
+
+	
 	
 }

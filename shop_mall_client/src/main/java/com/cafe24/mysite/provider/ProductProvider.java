@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
 
 import com.cafe24.mysite.dto.JSONResult2;
+import com.cafe24.mysite.vo.ProductDetailVo;
+import com.cafe24.mysite.vo.ProductImageVo;
 import com.cafe24.mysite.vo.ProductVo;
 
 @Repository
@@ -42,11 +44,23 @@ public class ProductProvider {
 	
 	//DTOa
 	public static class JSONResultProduct extends JSONResult2<List<ProductVo>>{}
+	public static class JSONResultProductDetail extends JSONResult2<List<ProductDetailVo>>{}
+	public static class JSONResultProductImage extends JSONResult2<List<ProductImageVo>>{}
 	public static class JSONResultLong extends JSONResult2<Long>{}
 
 	public JSONResult2<Long> add_product(ProductVo productvo) {
 		JSONResult2<Long> no = restTemplate.postForObject(BASE_URL+"/api/product", productvo, JSONResultLong.class);
 		return no;
+	}
+
+	public JSONResult2<List<ProductDetailVo>> add_product_detail(List<ProductDetailVo> product_detail_list) {
+		JSONResult2<List<ProductDetailVo>> _product_detail_list = restTemplate.postForObject(BASE_URL+"/api/product/"+product_detail_list.get(0).getProduct_no()+"/detail", product_detail_list, JSONResultProductDetail.class);
+		return _product_detail_list;
+	}
+	
+	public JSONResult2<List<ProductImageVo>> add_product_image(List<ProductImageVo> product_image_list) {
+		JSONResult2<List<ProductImageVo>> _product_image_list = restTemplate.postForObject(BASE_URL+"/api/product/image", product_image_list, JSONResultProductImage.class);
+		return _product_image_list;
 	}
 
 		

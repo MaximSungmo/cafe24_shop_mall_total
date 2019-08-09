@@ -27,7 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			securityUser.setNo(customerVo.getNo());
 			securityUser.setName(customerVo.getName());
 			securityUser.setUsername(customerVo.getEmail());
-			securityUser.setPassword(customerVo.getPassword());
+			securityUser.setPassword(customerVo.getPassword()); 
 			securityUser.setAuthorities(Arrays.asList(new SimpleGrantedAuthority(customerVo.getAuth_grade())));
 		}
 		

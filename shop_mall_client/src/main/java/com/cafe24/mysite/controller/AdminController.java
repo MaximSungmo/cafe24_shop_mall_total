@@ -1,12 +1,16 @@
 package com.cafe24.mysite.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cafe24.mysite.dto.JSONResult2;
 import com.cafe24.mysite.service.AdminService;
@@ -53,11 +57,21 @@ public class AdminController {
 		return "admin/index";
 	}
 	
-	@RequestMapping({"/category"})
-	public String category_main(Model model) {		
+	/*
+	 * 카테고리 관련
+	 */
+	//카테고리 메인화면 
+	@RequestMapping(value={"/category"}, method = RequestMethod.GET)
+	public String category_main(@ModelAttribute("categoryvo") CategoryVo categoryvo, Model model) {		
 		JSONResult2<List<CategoryVo>> category_list = adminService.get_category();
 		model.addAttribute("category_list",category_list.getData());
 		return "admin/category-manage";
+	}
+	
+	@RequestMapping(value={"/category/add"}, method=RequestMethod.POST)
+	public String category_add(@ModelAttribute("categoryvo") CategoryVo categoryvo, Model model) {		
+		adminService.insert_category(categoryvo);
+		return "redirect:/admin/category";
 	}
 	
 	/*
@@ -74,7 +88,8 @@ public class AdminController {
 	/*
 	 * 상품 관련
 	 */
-	@RequestMapping({"/product"})
+	// 상품 관리 메인 (조회)
+	@RequestMapping(value={"/product"}, method=RequestMethod.GET)
 	public String product_main(
 			@RequestParam(value="category_no", required = false, defaultValue = "0") Long category_no
 			, Model model) {
@@ -83,7 +98,46 @@ public class AdminController {
 		return "admin/product-manage";
 	}
 	
+	// 상품 등록 화면으로 이동
+	@RequestMapping(value={"/product/add"}, method = RequestMethod.GET)
+	public String product_add_page(
+			@ModelAttribute("productvo") ProductVo productvo
+			, Model model) {
+		// 카테고리 가져와서 리스트 띄우기 
+		JSONResult2<List<CategoryVo>> category_list = adminService.get_category();
+		model.addAttribute("category_list",category_list.getData());
+		List<MultipartFile> multipartPhoto = new ArrayList<MultipartFile>();
+		model.addAttribute("multipartPhoto", multipartPhoto);
+		// 상품 옵션 가져오기
+		
+		return "admin/product-add";
+	}
 	
+	// 상품 등록 요청
+	@RequestMapping(value={"/product/add"}, method = RequestMethod.POST)
+	public String product_add(@ModelAttribute("productvo") ProductVo productvo
+			, @RequestParam("multipartPhoto") MultipartFile multipartPhoto
+			, Model model) {
+
+		adminService.add_product(productvo, multipartPhoto);
+		return "redirect:/admin/product/add";
+	}
+	
+	
+	
+	@RequestMapping(value="/test", method = RequestMethod.GET)
+	public String test() {
+		
+		return "test/multipart_test";
+	}
+	@RequestMapping(value="/test", method = RequestMethod.POST)
+	public String test(@RequestParam("files") List<MultipartFile> files) {
+		System.out.println(files);
+		System.out.println(files.size());
+		System.out.println(files.get(0).getOriginalFilename());
+		
+		return "test/multipart_test";
+	}
 	
 	
 	
@@ -96,5 +150,4 @@ public class AdminController {
 	}
 	
 	
-
 }

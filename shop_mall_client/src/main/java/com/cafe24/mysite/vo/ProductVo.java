@@ -1,12 +1,12 @@
 package com.cafe24.mysite.vo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
-import io.swagger.annotations.ApiModel;
+import org.springframework.web.multipart.MultipartFile;
 
-@ApiModel(value = "ProductVo")
 public class ProductVo {
 
 	// 상품(product)테이블 정보
@@ -23,7 +23,6 @@ public class ProductVo {
 	private Long brand_no;
 	private CategoryVo categoryvo;
 	private ProductDetailVo productdetailvo;
-	
 	private List<ProductDetailVo> product_detail_list;
 	private List<ProductImageVo> product_image_list;
 	
@@ -154,5 +153,6 @@ public class ProductVo {
 				+ productdetailvo + ", product_detail_list=" + product_detail_list + ", product_image_list="
 				+ product_image_list + "]";
 	}
+	
 	
 }

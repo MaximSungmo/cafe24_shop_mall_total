@@ -41,7 +41,12 @@ public class ProductProvider {
 	}
 	
 	//DTOa
-	public static class JSONResultProduct extends JSONResult2<List<ProductVo>>{
+	public static class JSONResultProduct extends JSONResult2<List<ProductVo>>{}
+	public static class JSONResultLong extends JSONResult2<Long>{}
+
+	public JSONResult2<Long> add_product(ProductVo productvo) {
+		JSONResult2<Long> no = restTemplate.postForObject(BASE_URL+"/api/product", productvo, JSONResultLong.class);
+		return no;
 	}
 
 		

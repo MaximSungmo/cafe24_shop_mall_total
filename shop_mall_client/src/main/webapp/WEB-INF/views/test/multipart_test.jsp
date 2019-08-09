@@ -10,9 +10,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form name="fileForm" action="requestupload2" method="post" enctype="multipart/form-data">
-        <input multiple="multiple" type="file" name="file" />
-        <input type="text" name="src" />
+	<form name="fileForm" action="${pageContext.request.contextPath }/admin/test" method="post" enctype="multipart/form-data">
+        <input type="file" name="files[0]" />
         <input type="submit" value="전송" />
     </form>
 </body>

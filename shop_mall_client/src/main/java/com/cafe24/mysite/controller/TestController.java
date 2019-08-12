@@ -18,16 +18,12 @@ public class TestController {
 	@RequestMapping(value = "/requestupload1")
     public String requestupload1(MultipartHttpServletRequest mtfRequest) {
         String src = mtfRequest.getParameter("src");
-        System.out.println("src value : " + src);
         MultipartFile mf = mtfRequest.getFile("file");
 
         String path = "C:\\image\\";
 
         String originFileName = mf.getOriginalFilename(); // 원본 파일 명
         long fileSize = mf.getSize(); // 파일 사이즈
-
-        System.out.println("originFileName : " + originFileName);
-        System.out.println("fileSize : " + fileSize);
 
         String safeFile = path + System.currentTimeMillis() + originFileName;
 
@@ -48,7 +44,6 @@ public class TestController {
     public String requestupload2(MultipartHttpServletRequest mtfRequest) {
         List<MultipartFile> fileList = mtfRequest.getFiles("file");
         String src = mtfRequest.getParameter("src");
-        System.out.println("src value : " + src);
 
         String path = "C:image";
 

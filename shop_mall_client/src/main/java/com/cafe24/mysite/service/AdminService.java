@@ -57,17 +57,14 @@ public class AdminService {
 	
 	@Transactional
 	public void add_product(ProductVo productvo, List<MultipartFile> multipartPhoto) {
-		System.out.println(productvo);
 		// 상품 우선 등록하기 
 		JSONResult2<Long> product_no = productProvider.add_product(productvo);
-		System.out.println(product_no.getData());
 		
 		// 상품 디테일 추가하기
 		List<ProductDetailVo> product_detail_list =  productvo.getProduct_detail_list();
 		for(ProductDetailVo product_detail_vo : product_detail_list) {
 			product_detail_vo.setProduct_no(product_no.getData());
 		}
-		System.out.println(product_detail_list);
 		JSONResult2<List<ProductDetailVo>> _product_detail_list = productProvider.add_product_detail(product_detail_list);
 
 		// 상품 이미지 추가하기

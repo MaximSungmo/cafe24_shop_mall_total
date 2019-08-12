@@ -40,15 +40,12 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
         http
         	.authorizeRequests()
         		// 인증이 되었을 경우
-        		.antMatchers("/user/update", "/user/logout").authenticated()
-        		.antMatchers("/board/write", "/board/modify", "/board/modify/**").authenticated()
-        		.antMatchers("/admin").authenticated()
-        		.antMatchers("/customer").authenticated()
+        		.antMatchers("/admin", "/customer/logout").authenticated()
 
         		// ADMIN 권한
         		// .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
         		// .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN");
-//        		 .antMatchers("/admin", "/admin/**").hasRole("ADMIN")
+        		 .antMatchers("/admin", "/admin/**").hasRole("ADMIN")
 
 
         		// 모두 허용

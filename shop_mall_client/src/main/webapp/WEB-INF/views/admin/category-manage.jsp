@@ -137,8 +137,6 @@
 	<!-- Demo scripts for this page-->
 	<script
 		src="${pageContext.request.contextPath }/assets/startbootstrap-sb-admin-gh-pages/js/demo/datatables-demo.js"></script>
-	<script
-		src="${pageContext.request.contextPath }/assets/startbootstrap-sb-admin-gh-pages/js/demo/chart-area-demo.js"></script>
 
 </body>
 

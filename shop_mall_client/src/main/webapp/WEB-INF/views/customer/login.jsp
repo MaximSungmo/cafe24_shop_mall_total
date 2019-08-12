@@ -14,7 +14,14 @@
 	<link href="${pageContext.servletContext.contextPath }/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<!-- Custom styles for this template -->
 	<link href="${pageContext.servletContext.contextPath }/assets/css/shop-login.css" rel="stylesheet">
+	
+	
+
+<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8"></script>
+	
+	
 </head>
+
 <body>
 	<!-- Navigation -->
 	<c:import url='/WEB-INF/views/includes/navigation.jsp'>
@@ -36,7 +43,27 @@
                 <input type="email" id="inputEmail" class="form-control" placeholder="이메일" name="email" required autofocus>
                 <input type="password" id="inputPassword" class="form-control" placeholder="비밀번호" name="password" required>
                 
+                
+				<!-- 네이버아이디로로그인 버튼 노출 영역 -->
+				<div id="naverIdLogin"></div>
+				<!-- //네이버아이디로로그인 버튼 노출 영역 -->
+				
+				<!-- 네이버아디디로로그인 초기화 Script -->
+				<script type="text/javascript">
+					var naverLogin = new naver.LoginWithNaverId(
+						{
+							clientId: "LJUphYN28JQqObTwLTuY",
+							callbackUrl: "http://localhost:8089/customer/loginPostNaver",
+							isPopup: false, /* 팝업을 통한 연동처리 여부 */
+							loginButton: {color: "green", type: 3, height: 60} /* 로그인 버튼의 타입을 지정 */
+						}
+					);
 
+					/* 설정정보를 초기화하고 연동을 준비 */
+					naverLogin.init();
+
+				</script>
+				
                 <div id="remember" class="checkbox">
                     <label>
                         <input type="checkbox" value="remember-me"> 자동 로그인
@@ -56,5 +83,7 @@
 	<!-- Footer -->
 	<c:import url='/WEB-INF/views/includes/footer.jsp' />
 	<!-- /.Footer -->
+	
+	
 </body>
 </html>

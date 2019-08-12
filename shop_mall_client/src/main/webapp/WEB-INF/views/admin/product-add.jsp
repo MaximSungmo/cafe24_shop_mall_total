@@ -144,13 +144,19 @@ $(document).ready(function() {
 		   	}
 		   	allPossibleCases(option_list_array).forEach(function(item, index, array1){
 		       	 $('#real_option_list').append(
-		       			'<div class="col-md-8">'+
+		       			'<div class="col-md-6">'+
 		       			'<div class="form-label-group product_option_group">'+
 		       			'<input type="text" id="product_option['+index+']" name="product_detail_list['+index+'].product_option" class="form-control" placeholder="option_naming" value='+item+'>'+
 		       			'<label for="product_option['+index+']">옵션</label>'+
 		       			'</div>'+
 		       			'</div>'+
-		       			'<div class="col-md-4">'+
+		       			'<div class="col-md-3">'+
+		       			'<div class="form-label-group product_option_group">'+
+		       			'<input type="text" id="price['+index+']" name="product_detail_list['+index+'].price" class="form-control" placeholder="0">'+
+		       			'<label for="price['+index+']">0</label>'+
+		       			'</div>'+
+		       			'</div>'+
+		       			'<div class="col-md-3">'+
 		       			'<div class="form-label-group">'+
 		       			'<input type="text" id="stock_cnt['+index+']" name="product_detail_list['+index+'].stock_cnt" class="form-control" placeholder="option_list" >'+
 		       			'<label for="stock_cnt['+index+']">재고</label>'+
@@ -182,7 +188,6 @@ $(document).ready(function() {
 										<label for="name">상품명</label>
 									</div>
 								</div>
-
 								<!--  카테고리 목록 보여주기  -->
 								<div class="form-group">
 									<div class="form-label-group">

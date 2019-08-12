@@ -13,7 +13,6 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav ml-auto">
-				
 
 				<c:choose>
 					<c:when test='${param.active == "login" }'>
@@ -81,9 +80,9 @@
 						<li class="nav-item">
 							<a class="nav-link" href="${pageContext.servletContext.contextPath }/cs">고객센터</a>
 						</li>
-					</c:otherwise>		
+					</c:otherwise>	
+						
 				</c:choose>
-				
 				
 					<li class="nav-item">
 						<a class="nav-link" href="${pageContext.servletContext.contextPath }/admin">관리자 페이지</a>
@@ -92,6 +91,8 @@
 					<li class="nav-item">
 						<a class="nav-link" href="${pageContext.servletContext.contextPath }/customer/logout">로그아웃</a>
 					</li>
+					<sec:authentication property="principal.No" var="user_no" />
+           			<input type="hidden" id="user_no" value="${user_no }">
 				</sec:authorize>
 			</ul>
 		</div>

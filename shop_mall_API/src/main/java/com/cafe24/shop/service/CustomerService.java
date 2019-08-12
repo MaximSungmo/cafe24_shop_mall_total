@@ -33,7 +33,6 @@ public class CustomerService {
 	@Transactional
 	public Boolean join(CustomerVo vo) {
 		Boolean result = customerDao.insert(vo);
-		System.out.println(vo.getNo()+"들어간 뒤 번호 확인");
 		for(int i =0; i<vo.getTermsofusevolist().size(); i++) {
 			vo.setAgreement_fl(vo.getTermsofusevolist().get(i).getUse_fl());
 			vo.setTerms_of_use_no(vo.getTermsofusevolist().get(i).getNo());

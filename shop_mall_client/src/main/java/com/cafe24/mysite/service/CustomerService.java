@@ -25,6 +25,9 @@ public class CustomerService {
 //	@Autowired
 //	private OAuth2RestTemplate restTemplate;
 	
+	//네이버 
+	//LJUphYN28JQqObTwLTuY
+	//fDgi8Ycloj  sect
 	
 	/**
 	 * Join(insert) Customer information into DB
@@ -51,5 +54,7 @@ public class CustomerService {
 		
 		return null;
 	}
+	
+	
 	
 }

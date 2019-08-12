@@ -26,12 +26,12 @@ public class MainService {
 	CategoryProvider categoryProvider;
 	
 
-	public Map<String, JSONResult2<?>> main_page() {
+	public Map<String, JSONResult2<?>> main_page(Long category_no) {
 		
 		// 카테고리 목록 가져오기
 		JSONResult2<List<CategoryVo>> category_list = categoryProvider.get_category_list();
 		// 전체 상품 가져오기
-		Long no = 0L;
+		Long no = category_no;
 		JSONResult2<List<ProductVo>> product_list = productProvider.get_product_list(no);
 		
 		Map<String, JSONResult2<?>> map = new HashMap<String, JSONResult2<?>>();

@@ -1,10 +1,16 @@
 package com.cafe24.mysite.controller;
 
+import java.util.Enumeration;
 import java.util.Map;
+import java.util.Optional;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cafe24.mysite.dto.JSONResult2;
@@ -22,11 +28,13 @@ public class MainController {
 	MainService mainService;
 	
 	
-	@RequestMapping( {"/", "/main"} )
-	public String main(Model model) {
-
+	@RequestMapping( {"/{no}", "/"} )
+	public String main(
+			@PathVariable Optional<Long> no,
+			Model model) {
 		
-		Map<String, JSONResult2<?>> map = mainService.main_page();
+		Long category_no = no.isPresent()? no.get():0L;
+		Map<String, JSONResult2<?>> map = mainService.main_page(category_no);
 		JSONResult2<CategoryVo> category_list = (JSONResult2<CategoryVo>) map.get("category_list");
 		JSONResult2<ProductVo> product_list = (JSONResult2<ProductVo>) map.get("product_list");
 		

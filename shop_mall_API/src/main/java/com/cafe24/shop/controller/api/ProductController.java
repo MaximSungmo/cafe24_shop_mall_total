@@ -110,7 +110,6 @@ public class ProductController {
 	public ResponseEntity<JSONResult> get_product_list_by_result_map(
 			@PathVariable(value="product_no") Long product_no) {
 		List<ProductVo> product_vo = productService.get_product_by_product_no_result_map(product_no);
-		System.out.println(product_vo+"api서버에서의 결과");
 		if(product_vo!=null) {
 			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(product_vo));
 		}else {

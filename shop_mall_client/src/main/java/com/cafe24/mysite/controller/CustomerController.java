@@ -2,6 +2,8 @@ package com.cafe24.mysite.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +71,6 @@ public class CustomerController {
 		}
 		// 회원 가입 성공 시 페이지 이동
 		model.addAttribute("result", result);
-		System.out.println(result);
 		return "redirect:/customer/join_success";
 	}
 	
@@ -87,7 +88,14 @@ public class CustomerController {
 	}
 	
 	
-	
+	@RequestMapping(value="loginPostNaver", method=RequestMethod.GET)
+	public String loginPOSTNaver(HttpServletRequest request) {
+		
+		String storedState = (String) request.getSession().getAttribute("state");	
+		
+		System.out.println(storedState+"::::");
+		return "customer/loginPostNaver";
+	}
 	
 
 	

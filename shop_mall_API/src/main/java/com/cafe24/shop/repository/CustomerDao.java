@@ -52,7 +52,6 @@ public class CustomerDao {
 	}
  
 	public CustomerVo get_by_email(String email) {
-		System.out.println("들어간다 나는 email"+email);
 		return sqlSession.selectOne("customer.get_by_email", email);
 	}
 

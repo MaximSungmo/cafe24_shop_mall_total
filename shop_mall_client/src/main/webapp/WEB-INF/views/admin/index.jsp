@@ -14,7 +14,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>SB Admin - Dashboard</title>
+<title>관리자 페이지</title>
 
 <!-- Custom fonts for this template-->
 <link

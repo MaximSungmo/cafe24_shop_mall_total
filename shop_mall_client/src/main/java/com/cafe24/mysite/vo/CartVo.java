@@ -1,5 +1,7 @@
 package com.cafe24.mysite.vo;
 
+import java.util.List;
+
 import javax.validation.constraints.NotNull;
 
 public class CartVo {
@@ -15,8 +17,17 @@ public class CartVo {
 	private String register_dt;
 	private String delete_dt;
 	private String ordered_cart;
+	private List<CartVo> cartvo_list;
 	
 	
+	public List<CartVo> getCartvo_list() {
+		return cartvo_list;
+	}
+
+	public void setCartvo_list(List<CartVo> cartvo_list) {
+		this.cartvo_list = cartvo_list;
+	}
+
 	/*
 	 * 생성자목록 
 	 */
@@ -119,7 +130,7 @@ public class CartVo {
 		return "CartVo [no=" + no + ", customer_no=" + customer_no + ", customerVo=" + customerVo
 				+ ", product_detail_no=" + product_detail_no + ", productDetailVo=" + productDetailVo + ", count="
 				+ count + ", register_dt=" + register_dt + ", delete_dt=" + delete_dt + ", ordered_cart=" + ordered_cart
-				+ "]";
+				+ ", cartvo_list=" + cartvo_list + "]";
 	}
 	
 	

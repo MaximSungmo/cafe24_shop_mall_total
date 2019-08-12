@@ -22,7 +22,6 @@ public class CustomerProvider {
 	public JSONResultJoin insert_customer(CustomerVo customervo) {
 		// Post로 회원가입 정보 입력하기		
 		
-		System.out.println(customervo);
 		JSONResultJoin result = restTemplate.postForObject(BASE_URL + "/api/customer", customervo, JSONResultJoin.class);
 		return result;
 	}

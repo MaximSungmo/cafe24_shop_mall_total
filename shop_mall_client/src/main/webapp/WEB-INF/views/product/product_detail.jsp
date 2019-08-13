@@ -57,15 +57,15 @@
 	   		    		'<td id="count" name="count">'+$("#count").val() +'</td>'+
 	   		    		'</tr>'
 	   		    );
-	   		 	$("#count").val('');
+	   		 	
 	   		 	
 	   		    
 	   		 	$("#hidden_cart_list").append(
-	   		    	'<input type="hidden" id="cartvo_list.customer_no['+cart_idx+']" name="cartvo_list['+cart_idx+'].customer_no" value='+1+'>'+
 	   		    	'<input type="hidden" value='+$("#product_option_list option:selected").val()+' name="cartvo_list['+cart_idx+'].product_detail_no" id="product_detail_no['+cart_idx+']"/>'+
-	   		    	'<input type="hidden" value='+$("#count").val() +' name="cartvo_list['+cart_idx+'].count" id="count['+cart_idx+']" value='+$("#count").val()+'/>'
+	   		    	'<input type="hidden" value='+$("#count").val()+'  name="cartvo_list['+cart_idx+'].count" id="count['+cart_idx+']"/>'
 	   		    );
-	   		 	
+	   		 	$("#count").val('');
+
 	   		});
            
            
@@ -144,7 +144,7 @@
 						<!-- 장바구니 주문하기  -->
 						<form:form modelAttribute="cartvo" action="${pageContext.servletContext.contextPath }/product/cart/${customer_no}" method="post">
 						<div id="cart-lists-div">
-							<table>
+							<table class="table table-hover">
 								<thead>
 									<tr>
 										<td>상품명</td>
@@ -160,10 +160,10 @@
 							</table>
 						</div>
 						<div id="hidden_cart_list">
-
+							<input type="hidden" name="cartvo_list.customer_no" value="${customer_no }"/>
 						</div>
 						
-		                <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">주문하기</button>
+		                <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">장바구니에 담기</button>
 						</form:form>
 						</sec:authorize>
 						<!-- 상품 상세 설명  -->

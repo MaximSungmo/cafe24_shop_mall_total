@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
 
 import com.cafe24.mysite.dto.JSONResult2;
+import com.cafe24.mysite.vo.CartVo;
 import com.cafe24.mysite.vo.ProductDetailVo;
 import com.cafe24.mysite.vo.ProductImageVo;
 import com.cafe24.mysite.vo.ProductVo;
@@ -42,11 +43,6 @@ public class ProductProvider {
 		return product_list;
 	}
 	
-	//DTOa
-	public static class JSONResultProduct extends JSONResult2<List<ProductVo>>{}
-	public static class JSONResultProductDetail extends JSONResult2<List<ProductDetailVo>>{}
-	public static class JSONResultProductImage extends JSONResult2<List<ProductImageVo>>{}
-	public static class JSONResultLong extends JSONResult2<Long>{}
 
 	public JSONResult2<Long> add_product(ProductVo productvo) {
 		JSONResult2<Long> no = restTemplate.postForObject(BASE_URL+"/api/product", productvo, JSONResultLong.class);
@@ -63,5 +59,23 @@ public class ProductProvider {
 		return _product_image_list;
 	}
 
-		
+	public JSONResult2<Integer> insert_cart_list(Long customer_no, CartVo cartvo) {
+		JSONResult2<Integer> insert_cart_result_no = restTemplate.postForObject(BASE_URL+"/api/cart/"+customer_no, cartvo.getCartvo_list(), JSONResultInteger.class);
+		return insert_cart_result_no;
+	}
+
+	public JSONResult2<List<CartVo>> get_cart_list(Long customer_no) {
+		JSONResult2<List<CartVo>> cart_vo_list = restTemplate.getForObject(BASE_URL+"/api/cart/"+customer_no, JSONResultCart.class);
+		return cart_vo_list;
+	}
+	
+	
+	//DTOa
+	public static class JSONResultProduct extends JSONResult2<List<ProductVo>>{}
+	public static class JSONResultProductDetail extends JSONResult2<List<ProductDetailVo>>{}
+	public static class JSONResultProductImage extends JSONResult2<List<ProductImageVo>>{}
+	public static class JSONResultCart extends JSONResult2<List<CartVo>>{}
+	public static class JSONResultLong extends JSONResult2<Long>{}
+	public static class JSONResultInteger extends JSONResult2<Integer>{}
+	
 }

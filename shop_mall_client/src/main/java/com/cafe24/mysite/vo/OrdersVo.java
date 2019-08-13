@@ -17,13 +17,11 @@ public class OrdersVo {
 	
 	
 	public OrdersVo() {
-		super();
 	}
 
 	public OrdersVo(Long no, Long price, String address, String receiver_nm, String phone_no, String delevery_status,
 			String shipping_method, String customer_request, Long customer_no, Long payment_no, String payment_method,
 			String card_no) {
-		super();
 		this.no = no;
 		this.price = price;
 		this.address = address;
@@ -38,6 +36,21 @@ public class OrdersVo {
 		this.card_no = card_no;
 	}
 	
+	public OrdersVo(Long no, Long price, String address, String receiver_nm, String phone_no, String delevery_status,
+			String shipping_method, String customer_request, Long customer_no, Long payment_no, String payment_method) {
+		this.no = no;
+		this.price = price;
+		this.address = address;
+		this.receiver_nm = receiver_nm;
+		this.phone_no = phone_no;
+		this.delevery_status = delevery_status;
+		this.shipping_method = shipping_method;
+		this.customer_request = customer_request;
+		this.customer_no = customer_no;
+		this.payment_no = payment_no;
+		this.payment_method = payment_method;
+	}
+
 	public Long getNo() {
 		return no;
 	}

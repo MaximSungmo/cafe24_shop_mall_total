@@ -17,6 +17,9 @@
 	<link href="${pageContext.servletContext.contextPath }/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<!-- Custom styles for this template -->
 	<link href="${pageContext.servletContext.contextPath }/assets/css/shop-join.css" rel="stylesheet">
+	
+	  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	
 <script>
 $(function(){
 	$('#email').change(function(){

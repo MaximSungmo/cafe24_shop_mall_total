@@ -4,12 +4,16 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.annotation.MultipartConfig;
+import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import com.cafe24.mysite.vo.OrdersDetailVo;
 
 @Controller
 @RequestMapping("/test")
@@ -69,11 +73,17 @@ public class TestController {
         return "test/multipart_test";
     }
     
-    @RequestMapping(value = "/ab")
+    @RequestMapping(value = "/ab", method = RequestMethod.GET)
     public String as() {
         return "test/multipart_test";
     }
     
+    @RequestMapping(value = "/ab", method = RequestMethod.POST)
+    public String as(@ModelAttribute("orderdetailvo")  OrdersDetailVo orderdetailvo) {
+    	System.out.println(orderdetailvo);
+    	System.out.println("1==================================================");
+        return "test/multipart_test";
+    }
     
     @RequestMapping(value = "/gallery")
     public String aas() {

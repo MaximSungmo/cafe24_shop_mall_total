@@ -52,7 +52,7 @@ public class CustomerController {
 			}
 			// Validation에 걸린 항목에 대하여 view에서 안내하기
 			model.addAllAttributes(bindResult.getModel());
-			
+			System.out.println(customervo);
 			// 실패 시 입력했던 모든 정보는 보존될 수 있도록 함(재작성하지 않도록)
 			// 실패 시 약관동의서 재전송, 기본 입력 정보 유지 
 			model.addAttribute("terms_of_use_template_list", customervo.getTermsofusevolist());

@@ -93,6 +93,9 @@
 					</li>
 					<sec:authentication property="principal.No" var="user_no" />
            			<input type="hidden" id="user_no" value="${user_no }">
+           			<li class="nav-item">
+							<a class="nav-link" href="${pageContext.servletContext.contextPath }/product/cart/${user_no }">장바구니</a>
+					</li>           			
 				</sec:authorize>
 			</ul>
 		</div>

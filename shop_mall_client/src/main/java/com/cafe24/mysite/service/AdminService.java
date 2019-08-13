@@ -19,6 +19,7 @@ import com.cafe24.mysite.provider.CustomerProvider;
 import com.cafe24.mysite.provider.ProductProvider;
 import com.cafe24.mysite.vo.CategoryVo;
 import com.cafe24.mysite.vo.CustomerVo;
+import com.cafe24.mysite.vo.OrdersVo;
 import com.cafe24.mysite.vo.ProductDetailVo;
 import com.cafe24.mysite.vo.ProductImageVo;
 import com.cafe24.mysite.vo.ProductVo;
@@ -55,6 +56,14 @@ public class AdminService {
 		return customerProvider.insert_category(categoryvo);
 	}
 	
+	
+	// 주문 목록 가져오기 
+	public JSONResult2<List<OrdersVo>> get_order_list(Long customer_no, Long product_detail_no) {
+		return productProvider.get_order_list(customer_no, product_detail_no);
+	}
+		
+		
+	
 	@Transactional
 	public void add_product(ProductVo productvo, List<MultipartFile> multipartPhoto) {
 		// 상품 우선 등록하기 
@@ -79,20 +88,9 @@ public class AdminService {
 			JSONResult2<List<ProductImageVo>> _product_image_list = productProvider.add_product_image(product_image_list);
 		}
 	}
-		
-		
+
 	
-	
-//	if(logo_file.isEmpty()) {
-//		blogService.updateBlogTitle(blogvo);
-//	}else {
-//		String url = blogService.restore(logo_file);
-//		blogvo.setLogo(url);
-//		blogService.updateBlog(blogvo);
-//		model.addAttribute("blogvo", blogvo);
-//	}
-	
-	
+
 	
 	
 	/*
@@ -165,6 +163,8 @@ public class AdminService {
 		return result;
 	}
 
+
+	
 
 	
 	

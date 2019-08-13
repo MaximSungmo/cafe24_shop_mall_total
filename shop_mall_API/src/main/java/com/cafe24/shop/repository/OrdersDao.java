@@ -29,7 +29,7 @@ public class OrdersDao {
 	}
 
 	public List<OrdersVo> get_orders_by_admin(Map<String, Long> map) {
-		return sqlSession.selectList("orders.get_orders_by_admin", map);
+		return sqlSession.selectList("orders.get_order_list", map);
 	}
 	
 	

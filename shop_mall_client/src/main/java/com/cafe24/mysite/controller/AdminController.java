@@ -2,11 +2,13 @@ package com.cafe24.mysite.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +19,7 @@ import com.cafe24.mysite.service.AdminService;
 import com.cafe24.mysite.service.ProductService;
 import com.cafe24.mysite.vo.CategoryVo;
 import com.cafe24.mysite.vo.CustomerVo;
+import com.cafe24.mysite.vo.OrdersVo;
 import com.cafe24.mysite.vo.ProductVo;
 
 //@Auth(role=Auth.Role.ADMIN)
@@ -143,6 +146,22 @@ public class AdminController {
 	@RequestMapping({"/cart"})
 	public String cart_main(Model model) {		
 		return "admin/cart-manage";
+	}
+	
+	
+	/*
+	 * 주문 정보 가져오기(관리자)
+	 */
+	
+	@RequestMapping(value= {"/{customer_no}"}, method = RequestMethod.GET)
+	public String order_list(
+			@PathVariable Long customer_no
+			, Model model) {		
+		Long product_detail_no = 1L;
+		JSONResult2<List<OrdersVo>> orders_list = adminService.get_order_list(customer_no, product_detail_no);
+		model.addAttribute("order_list", orders_list.getData());
+		
+		return "admin/order-manage";
 	}
 	
 	

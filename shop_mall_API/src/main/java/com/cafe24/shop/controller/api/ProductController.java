@@ -57,7 +57,7 @@ public class ProductController {
 			@RequestParam(value="last_product_no", required=false, defaultValue= "0") Long last_product_no, 
 			Model model) {
 		
-		Long category_no = no.isPresent() ? no.get() : 0;
+		Long category_no = no.isPresent() ? no.get() : 0L;
 		List<ProductVo> product_list = productService.get(category_no, kwd, get_count, last_product_no);
 		if(!product_list.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(product_list));
@@ -74,7 +74,7 @@ public class ProductController {
 			@PathVariable Optional<Long> no, 
 			Model model) {
 		// category_no 넘어오지 않을 시 0으로 정보 보내어 조건 없이 모든 정보 가져옴
-		Long category_no = no.isPresent() ? no.get() : 0;
+		Long category_no = no.isPresent() ? no.get() : 0L;
 		List<ProductVo> product_list = productService.get_product_list_by_result_map(category_no);
 		if(!product_list.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(product_list));
@@ -91,7 +91,7 @@ public class ProductController {
 	@RequestMapping(value = {"/all/{no}"}, method = RequestMethod.GET)
 	public ResponseEntity<JSONResult> get_product_list_by_result_map(
 			@PathVariable(value="no") Optional<Long> no) {
-		Long category_no = no.isPresent() ? no.get() : 0;
+		Long category_no = no.isPresent() ? no.get() : 0L;
 		List<ProductVo> product_list = productService.get_product_list_by_result_map(category_no);
 		if(!product_list.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(product_list));

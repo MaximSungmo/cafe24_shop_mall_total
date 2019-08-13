@@ -87,6 +87,7 @@
 					<li class="nav-item">
 						<a class="nav-link" href="${pageContext.servletContext.contextPath }/admin">관리자 페이지</a>
 					</li>
+					
 				<sec:authorize access="isAuthenticated()">
 					<li class="nav-item">
 						<a class="nav-link" href="${pageContext.servletContext.contextPath }/customer/logout">로그아웃</a>
@@ -96,6 +97,7 @@
            			<li class="nav-item">
 							<a class="nav-link" href="${pageContext.servletContext.contextPath }/product/cart/${user_no }">장바구니</a>
 					</li>           			
+					
 				</sec:authorize>
 			</ul>
 		</div>

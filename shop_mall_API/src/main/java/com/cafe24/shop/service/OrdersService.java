@@ -29,6 +29,11 @@ public class OrdersService {
 		Boolean flag = false;
 		Long customer_no = ordersvo.getCustomer_no();
 		Boolean add_orders_result = (ordersDao.add_orders(ordersvo)==1);
+		
+		for(OrdersDetailVo orders_detail_vo : orders_detail_list) {
+			orders_detail_vo.setOrder_no(ordersvo.getNo());
+		}
+		
 		if(add_orders_result) {
 			ordersDao.add_orders_detail(orders_detail_list);
 			// 카트 업데이트 시키기 
@@ -40,7 +45,7 @@ public class OrdersService {
 				tempvo.setOrdered_cart("Y");
 				cartvo_list.add(tempvo);
 			}
-			cartDao.update_cart_list_by_order(cartvo_list);
+//			cartDao.update_cart_list_by_order(cartvo_list);
 			flag = true;
 		}else {
 			flag = false;

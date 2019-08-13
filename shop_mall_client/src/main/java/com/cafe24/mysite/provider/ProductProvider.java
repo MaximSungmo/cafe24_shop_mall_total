@@ -1,6 +1,8 @@
 package com.cafe24.mysite.provider;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
@@ -9,6 +11,8 @@ import org.springframework.web.client.RestTemplate;
 
 import com.cafe24.mysite.dto.JSONResult2;
 import com.cafe24.mysite.vo.CartVo;
+import com.cafe24.mysite.vo.OrdersDetailVo;
+import com.cafe24.mysite.vo.OrdersVo;
 import com.cafe24.mysite.vo.ProductDetailVo;
 import com.cafe24.mysite.vo.ProductImageVo;
 import com.cafe24.mysite.vo.ProductVo;
@@ -69,13 +73,32 @@ public class ProductProvider {
 		return cart_vo_list;
 	}
 	
+	public JSONResult2<Boolean> insert_order(OrdersVo ordersvo, List<OrdersDetailVo> order_detail_list) {
+		ordersvo.setOrders_detail_list(order_detail_list);
+		
+		JSONResult2<Boolean> cart_vo_list = restTemplate.postForObject(BASE_URL+"/api/orders", ordersvo ,JSONResultBoolean.class);
+		return cart_vo_list;
+	}
+	
+
+	public JSONResult2<List<OrdersVo>> get_order_list(Long customer_no, Long product_detail_no) {
+		JSONResult2<List<OrdersVo>> cart_vo_list = restTemplate.getForObject(BASE_URL+"/api/orders/"+customer_no+"/"+product_detail_no, JSONResultOrders.class);
+		return cart_vo_list;
+	}
+	
+	
 	
 	//DTOa
 	public static class JSONResultProduct extends JSONResult2<List<ProductVo>>{}
 	public static class JSONResultProductDetail extends JSONResult2<List<ProductDetailVo>>{}
 	public static class JSONResultProductImage extends JSONResult2<List<ProductImageVo>>{}
 	public static class JSONResultCart extends JSONResult2<List<CartVo>>{}
+	public static class JSONResultOrders extends JSONResult2<List<OrdersVo>>{}
 	public static class JSONResultLong extends JSONResult2<Long>{}
 	public static class JSONResultInteger extends JSONResult2<Integer>{}
+	public static class JSONResultBoolean extends JSONResult2<Boolean>{}
+	
+	
+	
 	
 }

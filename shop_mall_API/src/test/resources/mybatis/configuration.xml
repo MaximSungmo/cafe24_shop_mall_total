@@ -11,6 +11,7 @@
 		<typeAlias alias="productimagecategoryvo" type="com.cafe24.shop.vo.ProductImageCategoryVo" />
 		<typeAlias alias="cartvo" type="com.cafe24.shop.vo.CartVo" />
 		<typeAlias alias="brandvo" type="com.cafe24.shop.vo.BrandVo" />
+		<typeAlias alias="ordersvo" type="com.cafe24.shop.vo.OrdersVo" />
 		
 	
 	
@@ -24,6 +25,7 @@
 		<mapper resource="mybatis/mappers/product.xml" />
 		<mapper resource="mybatis/mappers/cart.xml" />
 		<mapper resource="mybatis/mappers/brand.xml" />
+		<mapper resource="mybatis/mappers/orders.xml" />
 		
 		<mapper resource="mybatis/mappers/guestbook.xml" />
 		<mapper resource="mybatis/mappers/board.xml" />

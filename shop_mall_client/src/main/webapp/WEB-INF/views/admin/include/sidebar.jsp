@@ -1,6 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!-- Sidebar -->
@@ -11,7 +12,8 @@
 			<span>Dashboard</span>
 		</a>
 	</li>
-	
+	<sec:authorize access="isAuthenticated()">
+	<sec:authentication property="principal.No" var="customer_no" />
 	<li class="nav-item dropdown"><a class="nav-link dropdown-toggle"
 		href="#" id="pagesDropdown" role="button" data-toggle="dropdown"
 		aria-haspopup="true" aria-expanded="false"> <i
@@ -71,5 +73,21 @@
 			<a class="dropdown-item" href="${pageContext.request.contextPath }/admin/customer/update">회원 수정</a>
 		</div>
 	</li>
+	
+	<li class="nav-item dropdown">
+		<a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+			<i class="fas fa-fw fa-folder"></i> 
+			<span>주문 관리</span>
+		</a>
+		<div class="dropdown-menu" aria-labelledby="pagesDropdown">
+			<h6 class="dropdown-header">Customer Screens:</h6>
+			<a class="dropdown-item" href="${pageContext.request.contextPath }/admin/${customer_no}">장바구니 조회</a> 
+			<a class="dropdown-item" href="${pageContext.request.contextPath }/admin/customer/update">회원 수정</a>
+		</div>
+	</li>
+
+	
+
+	</sec:authorize>
 
 </ul>

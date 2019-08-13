@@ -68,5 +68,7 @@
 					data-target="#logoutModal">Logout</a>
 			</div></li>
 	</ul>
+	
+	
 
 </nav>

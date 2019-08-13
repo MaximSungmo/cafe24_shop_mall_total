@@ -49,7 +49,7 @@
 					<sec:authorize access="isAuthenticated()">
 						<sec:authentication property="principal.No" var="customer_no" />
 					</sec:authorize>					
-					<form:form action="${pageContext.servletContext.contextPath }/product/order/${customer_no }/add">
+					<form:form action="${pageContext.servletContext.contextPath }/product/order/${customer_no }/add" >
 					
 						<input type="text" class="form-control" placeholder="수취인이름" name="receiver_nm">
                 		<input type="text" class="form-control" placeholder="수취인주소" name="address">	
@@ -73,10 +73,10 @@
 								
 							<c:forEach items="${cart_vo_list }" var="cart_vo" varStatus="status">
 								<tr>
-									<td><input type="hidden" name="order_detail_vo[${status.index }].product_detail_no" value="${cart_vo.productDetailVo.no }"/>${cart_vo.productDetailVo.no }</td>
-									<td><input type="hidden" name="order_detail_vo[${status.index }].product_option" value="${cart_vo.productDetailVo.product_option }"/>${cart_vo.productDetailVo.product_option }</td>
-									<td><input type="hidden" name="order_detail_vo[${status.index }].order_product_price" value="${cart_vo.productDetailVo.price }"/>${cart_vo.productDetailVo.price }</td>
-									<td><input type="hidden" name="order_detail_vo[${status.index }].order_product_cnt" value="${cart_vo.count }"/>${cart_vo.count }</td>
+									<td><input type="hidden" name="order_detail_list[${status.index }].product_detail_no" value="${cart_vo.productDetailVo.no }"/>${cart_vo.productDetailVo.no }</td>
+									<td><input type="hidden" name="order_detail_list[${status.index }].product_option" value="${cart_vo.productDetailVo.product_option }"/>${cart_vo.productDetailVo.product_option }</td>
+									<td><input type="hidden" name="order_detail_list[${status.index }].order_product_price" value="${cart_vo.productDetailVo.price }"/>${cart_vo.productDetailVo.price }</td>
+									<td><input type="hidden" name="order_detail_list[${status.index }].order_product_cnt" value="${cart_vo.count }"/>${cart_vo.count }</td>
 								</tr>
 							</c:forEach>
 								

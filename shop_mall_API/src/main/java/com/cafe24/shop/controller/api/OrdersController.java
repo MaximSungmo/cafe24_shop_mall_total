@@ -1,8 +1,6 @@
 package com.cafe24.shop.controller.api;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +23,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
-@Controller("ordersAPIController")
+@Controller()
 @RequestMapping("/api/orders")
 public class OrdersController {
 
@@ -44,8 +42,11 @@ public class OrdersController {
 	@ResponseBody
 	@RequestMapping(value = { "" }, method = RequestMethod.POST)
 	public ResponseEntity<JSONResult> add_cart(
-			@RequestBody OrdersVo ordersvo
-			, @RequestBody List<OrdersDetailVo> orders_detail_list) {
+			@RequestBody OrdersVo ordersvo) {
+		
+		List<OrdersDetailVo> orders_detail_list = ordersvo.getOrders_detail_list();
+//		OrdersVo ordersvo =(OrdersVo) map.get("ordersvo");
+//		List<OrdersDetailVo> orders_detail_list = (List<OrdersDetailVo>) map.get("orders_detail_list");
 		
 		Boolean inserted_orders_result=ordersService.add_orders(ordersvo, orders_detail_list);		
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(inserted_orders_result));

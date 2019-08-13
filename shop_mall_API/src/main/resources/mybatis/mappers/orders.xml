@@ -4,7 +4,7 @@
 
 	<insert id="insert_orders" parameterType="ordersvo">
 		<![CDATA[
-		INSERT INTO ORDER
+		INSERT INTO `ORDER`
 		VALUES
 		(
 			null
@@ -52,6 +52,60 @@
 
 	
 
-
+	<resultMap type="com.cafe24.shop.vo.OrdersVo" id="orders_result_map"> 
+		<id property="no" column="no" /> 
+		<result property="price" column="PRICE" /> 
+		<result property="address" column="ADDRESS" /> 
+		<result property="receiver_nm" column="RECEIVER_NM" /> 
+		<result property="phone_no" column="PHONE_NO"/>
+		<result property="delevery_status" column="DELEVERY_STATUS"/>
+		<result property="shipping_method" column="SHIPPING_METHOD"/>
+		<result property="customer_request" column="CUSTOMER_REQUEST"/>
+		<result property="customer_no" column="CUSTOMER_NO"/>
+		<result property="payment_no" column="PAYMENT_NO"/>
+		<collection property="orders_detail_list" resultMap="orders_detail_result_map"/> 
+	</resultMap> 	
+	
+	<resultMap type="com.cafe24.shop.vo.OrdersDetailVo" id="orders_detail_result_map"> 
+		<id property="no" column="od_no" /> 
+		<result property="order_no" column="od_order_no" /> 
+		<result property="product_detail_no" column="od_product_detail" /> 
+		<result property="prodcut_option" column="od_product_option" /> 
+		<result property="product_image_no" column="od_product_image_no" /> 
+		<result property="product_image_url" column="od_product_image_url" /> 
+		<result property="category_no" column="od_category_no" /> 
+		<result property="brand_no" column="od_brand_no" /> 
+		<result property="order_product_price" column="od_order_product_price" /> 
+		<result property="order_product_cnt" column="od_order_product_cnt" /> 
+	</resultMap> 
+	
+	
+	<select id="get_order_list" resultMap="orders_result_map" parameterType="long">
+		<![CDATA[  
+			select 
+				o.no
+				, PRICE
+				, ADDRESS
+				, RECEIVER_NM
+				, PHONE_NO
+				, DELEVERY_STATUS
+				, SHIPPING_METHOD
+				, CUSTOMER_REQUEST
+				, CUSTOMER_NO
+				, PAYMENT_NO
+				, od.`NO` as od_no
+				, od.ORDER_NO as od_order_no
+				, od.PRODUCT_DETAIL_NO as od_product_detail
+				, od.PRODUCT_OPTION as od_product_option
+				, od.PRODUCT_IMAGE_NO as od_product_image_no
+				, od.PRODUCT_IMAGE_URL as od_product_image_url
+				, od.CATEGORY_NO as od_category_no
+				, od.BRAND_NO as od_brand_no
+				, od.ORDER_PRODUCT_PRICE as od_order_product_price
+				, od.ORDER_PRODUCT_CNT as od_order_product_cnt 
+			from `ORDER` as o, ORDER_DETAIL as od
+			where o.`NO`=od.ORDER_NO and CUSTOMER_NO=#{customer_no};
+		]]>		
+	</select>
 
 </mapper>

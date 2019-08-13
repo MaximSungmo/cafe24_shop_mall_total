@@ -74,13 +74,13 @@ public class ProductController {
 			, Model model) {
 		
 		// 카트 정보 가져오기
-		JSONResult2<List<CartVo>> cart_vo_list = productService.get_cart_list(customer_no);
-		model.addAttribute("cart_vo_list", cart_vo_list.getData());
-			
+		List<CartVo> cart_vo_list = productService.get_cart_list(customer_no);
+		
+		model.addAttribute("cart_vo_list", cart_vo_list);
+		
 		// 카테고리 정보 가져오기 
 		JSONResult2<List<CategoryVo>> category_list = productService.get_category_list();
 		model.addAttribute("category_list", category_list.getData());
-
 		return "product/cart_list";
 	}
 	
@@ -104,8 +104,8 @@ public class ProductController {
 			, Model model) {
 		
 		// 카트 정보 가져오기
-		JSONResult2<List<CartVo>> cart_vo_list = productService.get_cart_list(customer_no);
-		model.addAttribute("cart_vo_list", cart_vo_list.getData());
+		List<CartVo> cart_vo_list = productService.get_cart_list(customer_no);
+		model.addAttribute("cart_vo_list", cart_vo_list);
 				
 		// 카테고리 정보 가져오기 
 		JSONResult2<List<CategoryVo>> category_list = productService.get_category_list();
@@ -113,24 +113,26 @@ public class ProductController {
 		
 		return "orders/order_list";
 	}
-	
-	
 
 	@RequestMapping(value= {"/order/{customer_no}/add"}, method=RequestMethod.POST)
 	public String order_add(@PathVariable Long customer_no
 			, @ModelAttribute OrdersVo ordersvo
-			, @ModelAttribute("order_detail_vo") ArrayList<OrdersDetailVo> order_detail_vo
+			, @ModelAttribute("order_detail_vo") OrdersDetailVo order_detail_vo
 			, Model model) {
+
+		JSONResult2<Boolean> result = productService.insert_order(ordersvo, order_detail_vo.getOrder_detail_list());
 		
-		System.out.println(ordersvo);
-		
-		System.out.println(order_detail_vo);				
 		// 카테고리 정보 가져오기 
 		JSONResult2<List<CategoryVo>> category_list = productService.get_category_list();
 		model.addAttribute("category_list", category_list.getData());
 		
+		System.out.println(ordersvo);
+		System.out.println(order_detail_vo);
+		System.out.println(result);
 		return "redirect:/";
 	}
+	
+
 	
 
 }

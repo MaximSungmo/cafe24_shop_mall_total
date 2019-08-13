@@ -243,7 +243,7 @@
 			, pi.use_fl as pi_use_fl
 			, pi.PRODUCT_IMAGE_CATEGORY_NO as pi_product_image_category_no
 			
-			, c.name as c_name
+			, c.name as c_no
 			FROM PRODUCT p
 			LEFT JOIN PRODUCT_DETAIL pd on(p.no=pd.PRODUCT_NO)
 			LEFT JOIN PRODUCT_IMAGE pi on(p.no=pi.PRODUCT_NO)

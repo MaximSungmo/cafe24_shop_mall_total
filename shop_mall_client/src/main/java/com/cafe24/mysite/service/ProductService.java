@@ -1,17 +1,21 @@
 package com.cafe24.mysite.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cafe24.mysite.dto.JSONResult2;
 import com.cafe24.mysite.provider.CategoryProvider;
 import com.cafe24.mysite.provider.ProductProvider;
 import com.cafe24.mysite.vo.CartVo;
 import com.cafe24.mysite.vo.CategoryVo;
+import com.cafe24.mysite.vo.OrdersDetailVo;
+import com.cafe24.mysite.vo.OrdersVo;
 import com.cafe24.mysite.vo.ProductVo;
 
 @Service
@@ -53,13 +57,31 @@ public class ProductService {
 		return map;
 		
 	}
-	public JSONResult2<List<CartVo>> get_cart_list(Long customer_no) {
-		return productProvider.get_cart_list(customer_no);
+	public List<CartVo> get_cart_list(Long customer_no) {
+		
+		JSONResult2<List<CartVo>> cart_vo_list = productProvider.get_cart_list(customer_no);
+		
+		List<CartVo> cart_list = new ArrayList<CartVo>();
+		for(CartVo cart_vo :cart_vo_list.getData()) {
+			if("N".equals(cart_vo.getOrdered_cart())) {
+				cart_list.add(cart_vo);
+			}
+		}
+		return cart_list;
 	}
 	
 	public JSONResult2<List<CategoryVo>> get_category_list(){
 		JSONResult2<List<CategoryVo>> category_list = categoryProvider.get_category_list();
 		return category_list;
+	}
+	
+	public JSONResult2<Boolean> insert_order(OrdersVo ordersvo, List<OrdersDetailVo> order_detail_list) {
+		JSONResult2<Boolean> insert_order = productProvider.insert_order(ordersvo, order_detail_list);
+		for(OrdersDetailVo orders_detail_vo : order_detail_list) {
+			orders_detail_vo.setOrder_no(ordersvo.getNo());
+		}
+		return insert_order;
+		
 	}
 	
 	

@@ -1,5 +1,7 @@
 package com.cafe24.shop.vo;
 
+import java.util.List;
+
 public class OrdersVo {
 
 	private Long no;
@@ -14,15 +16,13 @@ public class OrdersVo {
 	private Long payment_no;
 	private String payment_method;
 	private String card_no;
+	private List<OrdersDetailVo> orders_detail_list;
 	
 	
-	public OrdersVo() {
-		super();
-	}
-
+	
 	public OrdersVo(Long no, Long price, String address, String receiver_nm, String phone_no, String delevery_status,
 			String shipping_method, String customer_request, Long customer_no, Long payment_no, String payment_method,
-			String card_no) {
+			String card_no, List<OrdersDetailVo> orders_detail_list) {
 		super();
 		this.no = no;
 		this.price = price;
@@ -36,8 +36,16 @@ public class OrdersVo {
 		this.payment_no = payment_no;
 		this.payment_method = payment_method;
 		this.card_no = card_no;
+		this.orders_detail_list = orders_detail_list;
 	}
+
+	public OrdersVo() {
+		super();
+	}
+
 	
+	
+
 	public Long getNo() {
 		return no;
 	}
@@ -134,12 +142,21 @@ public class OrdersVo {
 		this.card_no = card_no;
 	}
 
+	public List<OrdersDetailVo> getOrders_detail_list() {
+		return orders_detail_list;
+	}
+
+	public void setOrders_detail_list(List<OrdersDetailVo> orders_detail_list) {
+		this.orders_detail_list = orders_detail_list;
+	}
+
 	@Override
 	public String toString() {
 		return "OrdersVo [no=" + no + ", price=" + price + ", address=" + address + ", receiver_nm=" + receiver_nm
 				+ ", phone_no=" + phone_no + ", delevery_status=" + delevery_status + ", shipping_method="
 				+ shipping_method + ", customer_request=" + customer_request + ", customer_no=" + customer_no
-				+ ", payment_no=" + payment_no + ", payment_method=" + payment_method + ", card_no=" + card_no + "]";
+				+ ", payment_no=" + payment_no + ", payment_method=" + payment_method + ", card_no=" + card_no
+				+ ", orders_detail_list=" + orders_detail_list + "]";
 	}
 	
 	

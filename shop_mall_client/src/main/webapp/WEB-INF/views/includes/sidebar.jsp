@@ -17,7 +17,6 @@
 					<a href="${pageContext.servletContext.contextPath }/${vo2.no}"
 					class="list-group-item">  >> ${vo2.name}</a>
 				</c:if>
-				
 			</c:forEach>
 			
 		</c:forEach>

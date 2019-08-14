@@ -47,6 +47,7 @@ callback 처리중입니다. 이 페이지에서는 callback을 처리하고 바
 					}
 					alert(status)
 					alert( naverLogin.user.getEmail())
+					
 					window.location.replace("http://" + window.location.hostname + ( (location.port==""||location.port==undefined)?"":":" + location.port) + "/");
 	
 				} else {

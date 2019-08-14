@@ -3,9 +3,8 @@ package com.cafe24.shop.controller.api;
 import java.util.List;
 import java.util.Optional;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +20,6 @@ import com.cafe24.shop.dto.JSONResult;
 import com.cafe24.shop.service.CartService;
 import com.cafe24.shop.service.CustomerService;
 import com.cafe24.shop.vo.CartVo;
-import com.cafe24.shop.vo.CustomerVo;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -36,7 +34,10 @@ public class CartController {
 	@Autowired
 	CustomerService customerService;
 	
-
+	
+	
+	private static final Logger logger= LoggerFactory.getLogger(CartController.class);
+	
 	@ApiOperation(value = "카트 추가(단일)")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "product_detail_no", value = "product_detail_no", dataType = "long", paramType = "path"),

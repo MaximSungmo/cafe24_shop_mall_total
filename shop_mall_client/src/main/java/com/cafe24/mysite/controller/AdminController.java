@@ -164,5 +164,18 @@ public class AdminController {
 		return "admin/order-manage";
 	}
 	
+	@RequestMapping(value= {"/{customer_no}/{order_no}"}, method = RequestMethod.GET)
+	public String order_list(
+			@PathVariable Long customer_no
+			, @PathVariable Long order_no
+			, Model model) {		
+		Long product_detail_no = 1L;
+		JSONResult2<List<OrdersVo>> orders_list = adminService.get_order_list(customer_no, product_detail_no);
+		model.addAttribute("order_list", orders_list.getData());
+		
+		model.addAttribute("order_no", order_no);
+		return "admin/order-detail";
+	}
+	
 	
 }

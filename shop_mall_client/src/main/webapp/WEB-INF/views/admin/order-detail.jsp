@@ -65,43 +65,39 @@
 								cellspacing="0">
 								<thead>
 									<tr>
-										<th>No</th>
-										<th>총금액</th>
-										<th>주소</th>
-										<th>수령자</th>
-										<th>핸드폰번호</th>
-										<th>배송상태</th>
-										<th>배송방법</th>
-										<th>요청사항</th>
-										<th>상세보기</th>
+										<th>order_no</th>
+										<th>product_detail_no</th>
+										<th>product_option</th>
+										<th>order_product_price</th>
+										<th>order_product_cnt</th>
+										<th>합계 금액</th>
+										
 									</tr>
 								</thead>
 								<tbody>
 									<c:forEach items="${order_list }" var="order_vo">
+										<c:if test="${order_vo.no == order_no }"> 
+										<c:forEach items="${order_vo.orders_detail_list }" var="order_detail_vo">
 										<tr>
-											<td>${order_vo.no }</td>
-											<td>${order_vo.price }</td>
-											<td>${order_vo.address }</td>
-											<td>${order_vo.receiver_nm }</td>
-											<td>${order_vo.phone_no }</td>
-											<td>${order_vo.delevery_status }</td>
-											<td>${order_vo.shipping_method }</td>
-											<td>${order_vo.customer_request }</td>
-											<td><input type="button" value="상세보기" onclick="location.href='${pageContext.request.contextPath }/admin/${order_vo.customer_no }/${order_vo.no }'"></td>
+											<td>${order_detail_vo.order_no}</td>
+											<td>${order_detail_vo.product_detail_no}</td>
+											<td>${order_detail_vo.product_option }</td>
+											<td>${order_detail_vo.order_product_price }</td>
+											<td>${order_detail_vo.order_product_cnt }</td>
+											<td>${order_detail_vo.order_product_price } * ${order_detail_vo.order_product_cnt }</td>
 										</tr>
+										</c:forEach>
+										</c:if>
 									</c:forEach>
 								</tbody>
 								<tfoot>
 									<tr>
-										<th>No</th>
-										<th>총금액</th>
-										<th>주소</th>
-										<th>수령자</th>
-										<th>핸드폰번호</th>
-										<th>배송상태</th>
-										<th>배송방법</th>
-										<th>요청사항</th>
-										<th>상세보기</th>
+										<th>order_no</th>
+										<th>product_detail_no</th>
+										<th>product_option</th>
+										<th>order_product_price</th>
+										<th>order_product_cnt</th>
+										<th>합계 금액</th>
 									</tr>
 								</tfoot>
 								

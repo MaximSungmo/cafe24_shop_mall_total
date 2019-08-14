@@ -70,7 +70,7 @@
 		<id property="no" column="od_no" /> 
 		<result property="order_no" column="od_order_no" /> 
 		<result property="product_detail_no" column="od_product_detail" /> 
-		<result property="prodcut_option" column="od_product_option" /> 
+		<result property="product_option" column="od_product_option" /> 
 		<result property="product_image_no" column="od_product_image_no" /> 
 		<result property="product_image_url" column="od_product_image_url" /> 
 		<result property="category_no" column="od_category_no" /> 

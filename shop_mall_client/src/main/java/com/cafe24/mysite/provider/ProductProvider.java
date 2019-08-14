@@ -27,7 +27,6 @@ public class ProductProvider {
 //	OAuth2RestTemplate restTemplate;
 	public JSONResultProduct get_product_list(Long no) {
 		// 전체 상품 가져오기 
-		RestTemplate restTemplate = new RestTemplate();
 		JSONResultProduct product_list = restTemplate.getForObject(BASE_URL+"/api/product/all/"+no, JSONResultProduct.class);		
 		return product_list;
 	}

@@ -9,7 +9,7 @@
     <association property="categoryvo" resultMap="category" />
   </resultMap>
 
-  <resultMap type="com.cafe24.shop.vo.CategoryVo" id="category">
+  <resultMap type="com.cafe24.shop.category.model.CategoryVo" id="category">
     <id property="no" column="c_no" />
     <result property="name" column="c_name" />
     <result property="parent_no" column="c_parent_no" />
@@ -171,7 +171,7 @@
     <collection property="product_image_list" resultMap="product_image_result_map"/>
   </resultMap>
 
-  <resultMap type="com.cafe24.shop.vo.ProductDetailVo" id="product_detail_result_map">
+  <resultMap type="com.cafe24.shop.product.model.ProductDetailVo" id="product_detail_result_map">
     <id property="no" column="pd_no" />
     <result property="product_no" column="pd_product_no" />
     <result property="product_option" column="product_option" />
@@ -181,7 +181,7 @@
     <result property="warehouse_no" column="warehouse_no" />
   </resultMap>
 
-  <resultMap type="com.cafe24.shop.vo.ProductImageVo" id="product_image_result_map">
+  <resultMap type="com.cafe24.shop.product.model.ProductImageVo" id="product_image_result_map">
     <id property="no" column="pi_no" />
     <result property="product_no" column="pi_product_no" />
     <result property="url" column="pi_url" />
@@ -191,7 +191,7 @@
     <association property="product_image_category_vo" resultMap="product_image_category_result_map"/>
   </resultMap>
 
-  <resultMap type="com.cafe24.shop.vo.ProductImageCategoryVo" id="product_image_category_result_map">
+  <resultMap type="com.cafe24.shop.product.model.ProductImageCategoryVo" id="product_image_category_result_map">
     <id property="no" column="pic_no" />
     <result property="name" column="pic_name" />
     <result property="register_dt" column="pic_register_dt" />
@@ -199,14 +199,14 @@
     <result property="use_fl" column="pic_use_fl" />
   </resultMap>
 
-  <resultMap type="com.cafe24.shop.vo.CategoryVo" id="category_result_map">
+  <resultMap type="com.cafe24.shop.category.model.CategoryVo" id="category_result_map">
     <id property="no" column="c_no" />
     <result property="name" column="c_name" />
     <result property="parent_no" column="c_parent_no" />
   </resultMap>
 
   <!--
-  <resultMap type="com.cafe24.shop.vo.ProductImageVo" id="product_image_result_map">
+  <resultMap type="com.cafe24.shop.product.model.ProductImageVo" id="product_image_result_map">
     <id property="no" column="pi_no" />
     <result property="product_no" column="pi_product_no" />
     <result property="url" column="pi_url" />

@@ -25,9 +25,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.cafe24.shop.controller.api.CustomerController;
-import com.cafe24.shop.vo.CustomerVo;
-import com.cafe24.shop.vo.TermsOfUseVo;
+import com.cafe24.shop.customer.controller.CustomerController;
+import com.cafe24.shop.customer.model.CustomerVo;
+import com.cafe24.shop.termsofuse.model.TermsOfUseVo;
 import com.google.gson.Gson;
 
 @RunWith(SpringRunner.class)

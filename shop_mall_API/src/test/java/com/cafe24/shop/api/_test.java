@@ -19,10 +19,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.cafe24.shop.repository.ProductDao;
-import com.cafe24.shop.vo.CategoryVo;
-import com.cafe24.shop.vo.ProductDetailVo;
-import com.cafe24.shop.vo.ProductVo;
+import com.cafe24.shop.product.repository.ProductDao;
+import com.cafe24.shop.category.model.CategoryVo;
+import com.cafe24.shop.product.model.ProductDetailVo;
+import com.cafe24.shop.product.model.ProductVo;
 
 @Ignore
 @RunWith(SpringRunner.class)

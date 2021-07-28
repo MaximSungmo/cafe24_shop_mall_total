@@ -10,8 +10,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -30,11 +28,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.cafe24.shop.vo.CategoryVo;
-import com.cafe24.shop.vo.ProductDetailVo;
-import com.cafe24.shop.vo.ProductImageCategoryVo;
-import com.cafe24.shop.vo.ProductImageVo;
-import com.cafe24.shop.vo.ProductVo;
+import com.cafe24.shop.category.model.CategoryVo;
+import com.cafe24.shop.product.model.ProductDetailVo;
+import com.cafe24.shop.product.model.ProductImageCategoryVo;
+import com.cafe24.shop.product.model.ProductImageVo;
+import com.cafe24.shop.product.model.ProductVo;
 import com.google.gson.Gson;
 
 @RunWith(SpringRunner.class)

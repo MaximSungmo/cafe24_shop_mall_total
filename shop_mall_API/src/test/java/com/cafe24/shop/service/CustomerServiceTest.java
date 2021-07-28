@@ -12,8 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.cafe24.shop.BootApp;
-import com.cafe24.shop.service.CustomerService;
-import com.cafe24.shop.vo.CustomerVo;
+import com.cafe24.shop.customer.service.CustomerService;
+import com.cafe24.shop.customer.model.CustomerVo;
 
 
 // ApplicationContext 생성 

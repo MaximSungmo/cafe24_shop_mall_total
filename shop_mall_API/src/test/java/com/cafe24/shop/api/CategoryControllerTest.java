@@ -13,7 +13,6 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.cafe24.shop.vo.CategoryVo;
+import com.cafe24.shop.category.model.CategoryVo;
 import com.google.gson.Gson;
 
 @RunWith(SpringRunner.class)

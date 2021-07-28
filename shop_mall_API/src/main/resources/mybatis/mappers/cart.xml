@@ -45,7 +45,7 @@
 	
 	<!-- get_cart_list, result map 포함하여 쿼리 시작 -->
 	
-	<resultMap type="com.cafe24.shop.vo.CartVo" id="ok_cart_result_map"> 
+	<resultMap type="com.cafe24.shop.cart.model.CartVo" id="ok_cart_result_map">
 		<result property="no" column="no" /> 
 		<result property="customer_no" column="CUSTOMER_NO" /> 
 		<result property="product_detail_no" column="PRODUCT_DETAIL_NO" /> 
@@ -57,7 +57,7 @@
 		<association property="productDetailVo" resultMap="product_detail_result_map"/> 
 	</resultMap> 	
 	
-	<resultMap type="com.cafe24.shop.vo.ProductDetailVo" id="product_detail_result_map"> 
+	<resultMap type="com.cafe24.shop.product.model.ProductDetailVo" id="product_detail_result_map">
 		<id property="no" column="pd_no" /> 
 		<result property="product_no" column="pd_PRODUCT_NO" /> 
 		<result property="product_option" column="pd_PRODUCT_OPTION" /> 

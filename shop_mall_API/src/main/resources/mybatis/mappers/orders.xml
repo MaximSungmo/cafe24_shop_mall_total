@@ -52,7 +52,7 @@
 
 	
 
-	<resultMap type="com.cafe24.shop.vo.OrdersVo" id="orders_result_map"> 
+	<resultMap type="com.cafe24.shop.order.model.OrdersVo" id="orders_result_map">
 		<id property="no" column="no" /> 
 		<result property="price" column="PRICE" /> 
 		<result property="address" column="ADDRESS" /> 
@@ -66,7 +66,7 @@
 		<collection property="orders_detail_list" resultMap="orders_detail_result_map"/> 
 	</resultMap> 	
 	
-	<resultMap type="com.cafe24.shop.vo.OrdersDetailVo" id="orders_detail_result_map"> 
+	<resultMap type="com.cafe24.shop.order.model.OrdersDetailVo" id="orders_detail_result_map">
 		<id property="no" column="od_no" /> 
 		<result property="order_no" column="od_order_no" /> 
 		<result property="product_detail_no" column="od_product_detail" /> 

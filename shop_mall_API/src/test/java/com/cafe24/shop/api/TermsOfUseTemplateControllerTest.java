@@ -26,8 +26,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.cafe24.shop.controller.api.TermsOfUseTemplateController;
-import com.cafe24.shop.vo.TermsOfUseVo;
+import com.cafe24.shop.termsofuse.controller.TermsOfUseTemplateController;
+import com.cafe24.shop.termsofuse.model.TermsOfUseVo;
 import com.google.gson.Gson;
 import static org.mockito.Mockito.mock;
 

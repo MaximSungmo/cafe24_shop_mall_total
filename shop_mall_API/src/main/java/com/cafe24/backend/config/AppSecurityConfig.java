@@ -18,7 +18,7 @@
 //import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 //import org.springframework.security.web.access.AccessDeniedHandler;
 //
-//import com.cafe24.shop.dto.JSONResult;
+//import com.cafe24.common.dto.JSONResult;
 //
 //
 //@Configuration
